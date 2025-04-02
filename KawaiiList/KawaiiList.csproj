@@ -9,12 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Fonts\" />
-    <Folder Include="Resources\Styles\" />
+    <None Remove="Resources\Images\key-icon.png" />
+    <None Remove="Resources\Images\user-icon.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\Fonts\" />
+    <Folder Include="Resources\Styles\" />
+  </ItemGroup>
+	
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Resource Include="Resources\Images\key-icon.png" />
+    <Resource Include="Resources\Images\user-icon.png" />
   </ItemGroup>
 
 </Project>
