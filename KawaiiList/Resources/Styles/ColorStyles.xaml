@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--// Цвета для кнопки закрытия на окнах авторизации //-->
+    <SolidColorBrush x:Key="CloseBtnNormalColor" Color="#DA34AE"/>
+    <SolidColorBrush x:Key="CloseBtnHoverColor" Color="#C62DAE"/>
+
+    <!--// Цвета для кнопки сворачивания окна на окнах авторизации //-->
+    <SolidColorBrush x:Key="MinimizeBtnNormalColor" Color="#28AEED"/>
+    <SolidColorBrush x:Key="MinimizeBtnHoverColor" Color="#278BEF"/>
+
+    <!--// Цвета для кнопки авторизации //-->
+    <SolidColorBrush x:Key="AutorithationBtnNormalColor" Color="#462AD8"/>
+    <SolidColorBrush x:Key="AutorithationBtnHoverColor" Color="#26AEED"/>
+    
+
+</ResourceDictionary>
