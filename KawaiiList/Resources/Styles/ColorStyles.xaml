@@ -3,7 +3,7 @@
 
     <!--// Цвета для кнопки закрытия на окнах авторизации //-->
     <SolidColorBrush x:Key="CloseBtnNormalColor" Color="#DA34AE"/>
-    <SolidColorBrush x:Key="CloseBtnHoverColor" Color="#C62DAE"/>
+    <SolidColorBrush x:Key="CloseBtnHoverColor" Color="#9c2489"/>
 
     <!--// Цвета для кнопки сворачивания окна на окнах авторизации //-->
     <SolidColorBrush x:Key="MinimizeBtnNormalColor" Color="#28AEED"/>
@@ -12,6 +12,14 @@
     <!--// Цвета для кнопки авторизации //-->
     <SolidColorBrush x:Key="AutorithationBtnNormalColor" Color="#462AD8"/>
     <SolidColorBrush x:Key="AutorithationBtnHoverColor" Color="#26AEED"/>
-    
+
+    <!--// Цвета для рамки окна приложения //-->
+    <Color x:Key="BorderWindowBlueColor">#462AD8</Color>
+    <Color x:Key="BorderPurplWindowPinkColor">#DA34AE</Color>
+    <Color x:Key="BorderWindowPurpleColor">#8A16C1</Color>
+
+    <!--// Цвета для фона окна //-->
+    <Color x:Key="BGGradientDarkBlueColor">#060531</Color>
+    <Color x:Key="BGGradientDarkLiteBlueColor">#1B1448</Color>
 
 </ResourceDictionary>

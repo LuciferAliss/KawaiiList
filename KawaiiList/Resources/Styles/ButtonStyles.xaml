@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!--// Базовый стиль для кнопок //-->
     <Style TargetType="Button" x:Key="BaseButtonStyle">
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Foreground" Value="White"/>
@@ -27,7 +28,7 @@
 
     </Style>
 
-    <!--// Стиль для кнопок закрытия окна //-->
+    <!--// Стиль для кнопи закрытия окна //-->
     <Style TargetType="Button" x:Key="CloseButtonControlPanelStyle" BasedOn="{StaticResource BaseButtonControlPanelStyle}">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Content" Value="×"/>
@@ -41,7 +42,7 @@
 
     </Style>
 
-    <!--// Стиль для кнопок сворачивания окна //-->
+    <!--// Стиль для кнопи сворачивания окна //-->
     <Style TargetType="Button" x:Key="MinimizeButtonControlPanelStyle" BasedOn="{StaticResource BaseButtonControlPanelStyle}">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Content" Value="–"/>
@@ -55,6 +56,7 @@
 
     </Style>
 
+    <!--// Стиль для кнопки авторизации //-->
     <Style TargetType="Button" x:Key="AutorithationButtonStyle" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="Background" Value="{StaticResource AutorithationBtnNormalColor}"/>
