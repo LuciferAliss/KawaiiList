@@ -10,12 +10,22 @@ namespace KawaiiList.View
             InitializeComponent();
         }
 
-        private void Window_MouseDoun(object sender, MouseButtonEventArgs e)
+        private void WindowMouseDoun(object sender, MouseButtonEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DragMove();
             }
+        }
+
+        private void MinimizeWindowClick(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void CloseWindowClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
