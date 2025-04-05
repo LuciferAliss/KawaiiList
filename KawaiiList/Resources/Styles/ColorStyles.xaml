@@ -21,5 +21,17 @@
     <!--// Цвета для фона окна //-->
     <Color x:Key="BGGradientDarkBlueColor">#060531</Color>
     <Color x:Key="BGGradientDarkLiteBlueColor">#1B1448</Color>
+    
+    <!--// Цвета для навигационной панели //-->
+    <Color x:Key="BGNavegateColor1">#0B094C</Color>
+    <Color x:Key="BGNavegateColor2">#211E7D</Color>
+
+    <!-- Цветовая схема -->
+    <SolidColorBrush x:Key="PrimaryColor" Color="#8B5CF6"/>
+    <SolidColorBrush x:Key="DarkBackground" Color="#1A1F2C"/>
+    <SolidColorBrush x:Key="AccentColor" Color="#F97316"/>
+    <SolidColorBrush x:Key="CardBackground" Color="#2D3748"/>
+    <SolidColorBrush x:Key="TextColor" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="SecondaryTextColor" Color="#CBD5E0"/>
 
 </ResourceDictionary>

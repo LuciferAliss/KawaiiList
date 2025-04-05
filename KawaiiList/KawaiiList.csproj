@@ -17,8 +17,6 @@
 
   <ItemGroup>
     <Folder Include="Resources\Fonts\" />
-    <Folder Include="Services\Security\" />
-    <Folder Include="Services\Data\" />
     <Folder Include="Services\Auth\" />
   </ItemGroup>
 	

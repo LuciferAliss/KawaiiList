@@ -5,8 +5,201 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KawaiiList"
         mc:Ignorable="d"
-        Title="HomePage" Height="450" Width="800">
-    <Grid>
+        xmlns:models="clr-namespace:KawaiiList.Models.Anilibria"
+        xmlns:viewModels="clr-namespace:KawaiiList.ViewModels.HomeVM"
+        d:DataContext="{d:DesignInstance viewModels:HomeViewModel}"
+        Title="HomePage" Height="720" Width="1280"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True">
 
-    </Grid>
+    <Border CornerRadius="12"
+        BorderThickness="3">
+
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="{StaticResource BorderWindowBlueColor}" Offset="0"/>
+                <GradientStop Color="{StaticResource BorderPurplWindowPinkColor}" Offset="0.75"/>
+                <GradientStop Color="{StaticResource BorderWindowPurpleColor}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Боковая панель -->
+            <Border Grid.Column="0"
+                    Background="#252A36"
+                    BorderThickness="0,0,0,0"
+                    CornerRadius="12,0,0,12">
+                <DockPanel>
+                    <!-- Заголовок сайдбара -->
+                    <TextBlock DockPanel.Dock="Top" Text="AnimeHub" FontSize="24" FontWeight="Bold" Foreground="{StaticResource PrimaryColor}" Margin="20,20,0,30"/>
+
+                    <!-- Навигационное меню -->
+                    <StackPanel>
+                        <Button Style="{StaticResource NavButtonStyle}" IsDefault="True">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M3,12L5,10L12,3L19,10L21,12L19,12L19,20L5,20L5,12L3,12Z" Fill="{StaticResource TextColor}" Width="16" Height="16" Stretch="Uniform" Margin="0,0,10,0"/>
+                                <TextBlock Text="Главная" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource NavButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M2,6L2,20L22,20L22,6L12,13L2,6ZM2,4L22,4L12,11L2,4Z" Fill="{StaticResource TextColor}" Width="16" Height="16" Stretch="Uniform" Margin="0,0,10,0"/>
+                                <TextBlock Text="Новинки" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource NavButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" Fill="{StaticResource TextColor}" Width="16" Height="16" Stretch="Uniform" Margin="0,0,10,0"/>
+                                <TextBlock Text="Популярное" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource NavButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z" Fill="{StaticResource TextColor}" Width="16" Height="16" Stretch="Uniform" Margin="0,0,10,0"/>
+                                <TextBlock Text="Недавние" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource NavButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" Fill="{StaticResource TextColor}" Width="16" Height="16" Stretch="Uniform" Margin="0,0,10,0"/>
+                                <TextBlock Text="Избранное" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock Text="Жанры" Margin="20,30,0,10" Foreground="{StaticResource SecondaryTextColor}" FontSize="14"/>
+
+                        <Button Style="{StaticResource NavButtonStyle}" Padding="20,5">
+                            <TextBlock Text="Сёнен" FontSize="12"/>
+                        </Button>
+                        <Button Style="{StaticResource NavButtonStyle}" Padding="20,5">
+                            <TextBlock Text="Исэкай" FontSize="12"/>
+                        </Button>
+                        <Button Style="{StaticResource NavButtonStyle}" Padding="20,5">
+                            <TextBlock Text="Романтика" FontSize="12"/>
+                        </Button>
+                        <Button Style="{StaticResource NavButtonStyle}" Padding="20,5">
+                            <TextBlock Text="Фэнтези" FontSize="12"/>
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- Основной контент -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Верхняя навигационная панель -->
+                <Border Grid.Row="0"
+                        Background="#2D3748"
+                        BorderBrush="#3a4156"
+                        BorderThickness="0,0,0,1"
+                        CornerRadius="0,12,0,0">
+                    <Grid Margin="20,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Поиск -->
+                        <Border Grid.Column="0" Background="#1A1F2C" CornerRadius="5" MaxWidth="400" HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Path Grid.Column="0" Data="M15.5,14L20.5,19L19,20.5L14,15.5V14.71L13.73,14.43C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.43,13.73L14.71,14H15.5M9.5,4.5A5,5 0 0,0 4.5,9.5A5,5 0 0,0 9.5,14.5A5,5 0 0,0 14.5,9.5A5,5 0 0,0 9.5,4.5Z" Fill="#CBD5E0" Width="16" Height="16" Margin="10,0,0,0"/>
+                                <TextBox Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="{StaticResource TextColor}" Margin="10,8" VerticalAlignment="Center" Text="Поиск аниме..."/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Профиль -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Width="40"
+                                Height="40"
+                                Background="{StaticResource PrimaryColor}"
+                                BorderThickness="0"
+                                
+                                Margin="10,0">
+                                <Path Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" Fill="White" Width="20" Height="20"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Основной контент страницы -->
+                <Border Grid.Row="1"
+                        Background="{StaticResource DarkBackground}"
+                        CornerRadius="0,0,12,0">
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="20">
+                            <!-- Рекомендуемое -->
+                            <TextBlock Text="Рекомендуемое" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextColor}" Margin="0,0,0,20"/>
+
+                            <WrapPanel>
+                                <!-- Пример карточки аниме -->
+                                <Border Style="{StaticResource AnimeCardStyle}" Width="200" Height="300">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="200"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0">
+                                            <Image Source="/Images/anime1.jpg" Stretch="UniformToFill"/>
+                                            <Border CornerRadius="0,0,4,4" Background="#80000000" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,10,0" Padding="5,2">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Path Data="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" Fill="{StaticResource PrimaryColor}" Width="12" Height="12" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="9.2" Foreground="{StaticResource PrimaryColor}" FontSize="12"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+
+                                        <StackPanel Grid.Row="1" Margin="10">
+                                            <TextBlock Text="Атака титанов" FontWeight="Bold" Foreground="{StaticResource TextColor}" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock Text="24 эп. • 2023" FontSize="12" Foreground="{StaticResource SecondaryTextColor}" Margin="0,5,0,5"/>
+
+                                            <WrapPanel>
+                                                <Border Background="#1A8B5CF6" CornerRadius="10" Padding="8,2" Margin="0,0,4,0">
+                                                    <TextBlock Text="Сёнен" FontSize="10" Foreground="{StaticResource PrimaryColor}"/>
+                                                </Border>
+                                                <Border Background="#1A8B5CF6" CornerRadius="10" Padding="8,2" Margin="0,0,4,0">
+                                                    <TextBlock Text="Фэнтези" FontSize="10" Foreground="{StaticResource PrimaryColor}"/>
+                                                </Border>
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Дополнительные карточки аниме будут добавлены здесь -->
+                            </WrapPanel>
+
+                            <!-- Популярное -->
+                            <TextBlock Text="Популярное" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextColor}" Margin="0,40,0,20"/>
+
+                            <WrapPanel>
+                                <!-- Карточки популярного аниме -->
+                            </WrapPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+        
+    
 </Window>

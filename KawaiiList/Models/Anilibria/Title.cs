@@ -29,7 +29,7 @@ namespace KawaiiList.Models.Anilibria
         public AnimePoster? Small { get; set; }
     }
 
-    public class AnimeType
+    public class SeasonAnime
     {
         public string? String { get; set; }
         public int? Year { get; set; }
@@ -41,7 +41,7 @@ namespace KawaiiList.Models.Anilibria
         public AnimeNames? Names { get; set; }
         public AnimePosters? Posters { get; set; }
         public List<string>? Genres { get; set; }
-        public AnimeType? Season { get; set; }
+        public SeasonAnime? Season { get; set; }
 
         public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
     }

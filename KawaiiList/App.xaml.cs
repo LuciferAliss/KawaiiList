@@ -21,7 +21,7 @@ public partial class App : Application
 
         ServiceProvider = services.BuildServiceProvider();
 
-        var mainWindow = ServiceProvider.GetRequiredService<LoginPage>();
+        var mainWindow = ServiceProvider.GetRequiredService<HomePage>();
         mainWindow.Show();
     }
 
