@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KawaiiList.ViewModels
+namespace KawaiiList.ViewModels.HomeVM
 {
-    class HomeViewModel
+    public interface IHomeViewModel
     {
     }
 }

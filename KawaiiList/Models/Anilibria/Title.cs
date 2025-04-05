@@ -1,6 +1,12 @@
-﻿namespace KawaiiList.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace KawaiiList.Models.Anilibria
 {
-    public class AnimeItem
+    public class AnimeNames
     {
         public string? Ru { get; set; }
     }
@@ -29,19 +35,14 @@
         public int? Year { get; set; }
     }
 
-    public class Anime
+    public class AnimeTitle
     {
         public int Id { get; set; }
-        public AnimeItem? Names { get; set; }
+        public AnimeNames? Names { get; set; }
         public AnimePosters? Posters { get; set; }
         public List<string>? Genres { get; set; }
         public AnimeType? Season { get; set; }
 
-        public string GenresText => string.Join(" ", Genres);
-    }
-
-    public class AnimeResponse
-    {
-        public List<Anime>? List { get; set; }
+        public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
     }
 }
