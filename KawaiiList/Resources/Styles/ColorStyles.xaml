@@ -29,6 +29,7 @@
     <!-- Цветовая схема -->
     <SolidColorBrush x:Key="PrimaryColor" Color="#8B5CF6"/>
     <SolidColorBrush x:Key="DarkBackground" Color="#1A1F2C"/>
+    <SolidColorBrush x:Key="NavigationBarBackground" Color="#2D3748"/>
     <SolidColorBrush x:Key="AccentColor" Color="#F97316"/>
     <SolidColorBrush x:Key="CardBackground" Color="#2D3748"/>
     <SolidColorBrush x:Key="TextColor" Color="#FFFFFF"/>
