@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KawaiiList.ViewModels.HomeVM
+namespace KawaiiList.ViewModels.MainVm
 {
-    public partial class HomeViewModel : ObservableObject, IHomeViewModel
+    public partial class MainViewModel : ObservableObject, IMainViewModel
     {
     }
 }

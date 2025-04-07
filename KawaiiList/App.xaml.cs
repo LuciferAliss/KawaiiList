@@ -1,7 +1,7 @@
 ﻿using KawaiiList.Service.API;
 using KawaiiList.Services.API;
 using KawaiiList.View;
-using KawaiiList.ViewModels.HomeVM;
+using KawaiiList.ViewModels.MainVm;
 using KawaiiList.ViewModels.LoginVm;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
@@ -21,7 +21,7 @@ public partial class App : Application
 
         ServiceProvider = services.BuildServiceProvider();
 
-        var mainWindow = ServiceProvider.GetRequiredService<HomePage>();
+        var mainWindow = ServiceProvider.GetRequiredService<MainPage>();
         mainWindow.Show();
     }
 
@@ -39,11 +39,11 @@ public partial class App : Application
         //services.AddScoped<IAuthService, AuthService>();
 
         // ViewModels
-        services.AddTransient<HomeViewModel>();
+        services.AddTransient<MainViewModel>();
         services.AddTransient<LoginViewModel>();
 
         // Windows
-        services.AddSingleton<HomePage>();
+        services.AddSingleton<MainPage>();
         services.AddTransient<LoginPage>();
     }
 }

@@ -1,4 +1,4 @@
-﻿<Window x:Class="KawaiiList.HomePage"
+﻿<Window x:Class="KawaiiList.MainPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:models="clr-namespace:KawaiiList.Models.Anilibria"
-        xmlns:viewModels="clr-namespace:KawaiiList.ViewModels.HomeVM"
-        d:DataContext="{d:DesignInstance viewModels:HomeViewModel}"
-        Title="HomePage" Height="720" Width="1280"
+        xmlns:viewModels="clr-namespace:KawaiiList.ViewModels.MainVm"
+        d:DataContext="{d:DesignInstance viewModels:MainViewModel}"
+        Title="MainPage" Height="720" Width="1280"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         Background="Transparent"
@@ -41,28 +41,34 @@
                     CornerRadius="12,0,0,12">
                 <DockPanel>
                     <!-- Заголовок сайдбара -->
-                    <StackPanel DockPanel.Dock="Top"
-                                Orientation="Horizontal"
-                                HorizontalAlignment="Center"
-                                Margin="0,14,0,17">
-                        <Image Source="/Resources/Images/Logo.png"
-                               Width="45"
-                               Height="50"/>
-                        <TextBlock Text="KawaiiList"
-                                   FontSize="32"
-                                   FontWeight="Bold"
-                                   VerticalAlignment="Center"
-                                   Padding="10,0,0,0"
-                                   Foreground="{StaticResource PrimaryColor}"/>        
-                    </StackPanel>
+                    <Border DockPanel.Dock="Top"
+                            Margin="0,30,0,0"
+                            Height="70"
+                            Background="{StaticResource NavigationBarBackground}">
+                        
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Image Source="/Resources/Images/Logo.png"
+                                   Width="52"
+                                   Height="57"/>
+                            <TextBlock Text="KawaiiList"
+                                       FontSize="35"
+                                       FontWeight="Bold"
+                                       VerticalAlignment="Center"
+                                       Padding="10,0,0,0"
+                                       Foreground="{StaticResource PrimaryColor}"/>
+                        </StackPanel>
+                    </Border>
+                    
                     
 
                     <!-- Навигационное меню -->
                     <StackPanel Margin="0,10,0,0">
                         <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
-                                HorizontalContentAlignment="Left"
-                                FontSize="20"
-                                Margin="0,5,0,5">      
+                                     IsChecked="True"
+                                     HorizontalContentAlignment="Left"
+                                     FontSize="20"
+                                     Margin="0,5,0,5">      
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Home"
                                                          Foreground="White"
@@ -181,18 +187,22 @@
             </Border>
 
             <!-- Основной контент -->
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1"
+                  Background="{StaticResource DarkBackground}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="30"/>
                     <RowDefinition Height="70"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
+                <!--// Панель управления //-->
                 <Border CornerRadius="0,12,0,0"
-                        Background="{StaticResource NavigationBarBackground}">
+                        Background="#252A36">
                     <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right">
 
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}">
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                Height="30"
+                                Width="60">
                             <materialDesign:PackIcon Kind="minus"
                                                      Foreground="White"
                                                      Height="20"
@@ -200,15 +210,19 @@
                                                      VerticalAlignment="Center"/>
                         </Button>
 
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}">
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                Height="30"
+                                Width="60">
                             <materialDesign:PackIcon Kind="cropsquare"
                                                      Foreground="White"
-                                                     Height="20"
-                                                     Width="20"
+                                                     Height="15"
+                                                     Width="15"
                                                      VerticalAlignment="Center"/>
                         </Button>
 
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                Height="30"
+                                Width="60"
                                 Margin="0,0,10,0">
                             <materialDesign:PackIcon Kind="close"
                                                      Foreground="White"
@@ -224,6 +238,7 @@
                 <!-- Верхняя навигационная панель -->
                 <Border Grid.Row="1"
                         Background="{StaticResource NavigationBarBackground}">
+                    
                     <Grid Margin="20,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -262,75 +277,30 @@
 
                         <!-- Профиль -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Width="40"
-                                Height="40"
-                                Background="{StaticResource PrimaryColor}"
-                                BorderThickness="0"
-                                
-                                Margin="10,0">
-                                <Path Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" Fill="White" Width="20" Height="20"/>
+                            <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}"
+                                       Text="LuciferAliss"
+                                       VerticalAlignment="Center"
+                                       FontSize="20"
+                                       FontFamily="Montserrat"
+                                       Foreground="{StaticResource TextColor}"
+                                       Margin="0,0,10,0"/>
+                            <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
+                                    Width="40"
+                                    Height="40">
+                                <materialDesign:PackIcon Kind="Account"
+                                                         Width="25"
+                                                         Height="25"/>
                             </Button>
                         </StackPanel>
                     </Grid>
                 </Border>
 
                 <!-- Основной контент страницы -->
-                <Border Grid.Row="2"
-                        Background="{StaticResource DarkBackground}"
-                        CornerRadius="0,0,12,0">
-                    <ScrollViewer Grid.Row="1"
-                                  VerticalScrollBarVisibility="Auto">
-                        <StackPanel Margin="20">
-                            <!-- Рекомендуемое -->
-                            <TextBlock Text="Рекомендуемое" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextColor}" Margin="0,0,0,20"/>
-
-                            <WrapPanel>
-                                <!-- Пример карточки аниме -->
-                                <Border Style="{StaticResource AnimeCardStyle}" Width="200" Height="300">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="200"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-
-                                        <Grid Grid.Row="0">
-                                            <Image Source="/Images/anime1.jpg" Stretch="UniformToFill"/>
-                                            <Border CornerRadius="0,0,4,4" Background="#80000000" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,10,0" Padding="5,2">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Path Data="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" Fill="{StaticResource PrimaryColor}" Width="12" Height="12" Margin="0,0,5,0"/>
-                                                    <TextBlock Text="9.2" Foreground="{StaticResource PrimaryColor}" FontSize="12"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </Grid>
-
-                                        <StackPanel Grid.Row="1" Margin="10">
-                                            <TextBlock Text="Атака титанов" FontWeight="Bold" Foreground="{StaticResource TextColor}" TextTrimming="CharacterEllipsis"/>
-                                            <TextBlock Text="24 эп. • 2023" FontSize="12" Foreground="{StaticResource SecondaryTextColor}" Margin="0,5,0,5"/>
-
-                                            <WrapPanel>
-                                                <Border Background="#1A8B5CF6" CornerRadius="10" Padding="8,2" Margin="0,0,4,0">
-                                                    <TextBlock Text="Сёнен" FontSize="10" Foreground="{StaticResource PrimaryColor}"/>
-                                                </Border>
-                                                <Border Background="#1A8B5CF6" CornerRadius="10" Padding="8,2" Margin="0,0,4,0">
-                                                    <TextBlock Text="Фэнтези" FontSize="10" Foreground="{StaticResource PrimaryColor}"/>
-                                                </Border>
-                                            </WrapPanel>
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-
-                                <!-- Дополнительные карточки аниме будут добавлены здесь -->
-                            </WrapPanel>
-
-                            <!-- Популярное -->
-                            <TextBlock Text="Популярное" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextColor}" Margin="0,40,0,20"/>
-
-                            <WrapPanel>
-                                <!-- Карточки популярного аниме -->
-                            </WrapPanel>
-                        </StackPanel>
-                    </ScrollViewer>
-                </Border>
+                <ContentControl Content=""
+                                Grid.Row="2"
+                                Margin="25">
+                    
+                </ContentControl>
             </Grid>
         </Grid>
     </Border>
