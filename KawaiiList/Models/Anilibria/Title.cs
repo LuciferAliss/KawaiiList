@@ -33,9 +33,15 @@ namespace KawaiiList.Models.Anilibria
         public int? Year { get; set; }
     }
 
-    public class TypeSeries
+    public class EpisodesInfo
     {
-        public int? Episodes { get; set; }
+        public int First { get; set; }
+        public int Last { get; set; }
+    }
+
+    public class PlayerAnime
+    {
+        public EpisodesInfo? Episodes { get; set; }
     }
 
     public class AnimeTitle
@@ -45,7 +51,7 @@ namespace KawaiiList.Models.Anilibria
         public AnimePosters? Posters { get; set; }
         public List<string>? Genres { get; set; }
         public SeasonAnime? Season { get; set; }
-        public TypeSeries? Type { get; set; }
+        public PlayerAnime? Player { get; set; }
 
         public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
     }

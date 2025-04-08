@@ -3,6 +3,7 @@ using KawaiiList.Models.Anilibria;
 using KawaiiList.Services.API;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace KawaiiList.ViewModels.MainVm
 
         private async Task LoadAnime()
         {
-            AnimeTitle = await _apiService.GetTitlesAsync(3);
+            AnimeTitle = await _apiService.GetTitlesAsync(15);
         }
     }
 }

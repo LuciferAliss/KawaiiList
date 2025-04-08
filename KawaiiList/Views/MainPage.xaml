@@ -306,7 +306,7 @@
                 <StackPanel Grid.Row="2"
                             Margin="25">
                     
-                    <TextBlock Text="Рекомендуемое"
+                    <TextBlock Text="Новинки"
                                Foreground="{StaticResource TextColor}"
                                FontSize="30"
                                Style="{StaticResource BaseTextBlockStyle}"/>
@@ -349,7 +349,7 @@
 
                                                     <TextBlock.Text>
                                                         <MultiBinding StringFormat="{}{0} эп. - {1}">
-                                                            <Binding Path="Type.Episodes" />
+                                                            <Binding Path="Player.Episodes.Last" />
                                                             <Binding Path="Season.Year" />
                                                         </MultiBinding>
                                                     </TextBlock.Text>
