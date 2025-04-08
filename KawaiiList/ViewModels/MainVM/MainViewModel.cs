@@ -16,8 +16,6 @@ namespace KawaiiList.ViewModels.MainVm
         [ObservableProperty]
         List<AnimeTitle>? _animeTitle;
 
-        [ObservableProperty]
-        AnimeTitle? _anime;
 
         public MainViewModel(IApiService apiService)
         {
@@ -28,7 +26,6 @@ namespace KawaiiList.ViewModels.MainVm
         private async Task LoadAnime()
         {
             AnimeTitle = await _apiService.GetTitlesAsync(3);
-            Anime = AnimeTitle[0];
         }
     }
 }
