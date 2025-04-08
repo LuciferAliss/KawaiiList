@@ -5,7 +5,7 @@ namespace KawaiiList;
 
 public partial class MainPage  : Window
 {
-    public MainPage(MainViewModel vm)
+    public MainPage(IMainViewModel vm)
     {
         InitializeComponent();
         DataContext = vm;

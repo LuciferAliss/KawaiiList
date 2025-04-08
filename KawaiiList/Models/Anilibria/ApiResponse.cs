@@ -8,7 +8,6 @@ namespace KawaiiList.Models.Anilibria
 {
     public class ApiResponse<T>
     {
-        public T? Data { get; set; }
-        public string? Error { get; set; }
+        public T? List { get; set; }
     }
 }

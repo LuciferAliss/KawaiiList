@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace KawaiiList.Service.API
 {
@@ -36,7 +38,36 @@ namespace KawaiiList.Service.API
 
                 var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<AnimeTitle>>>(cancellationToken: token);
 
-                return result?.Data ?? [];
+                return result?.List ?? [];
+            }
+            catch (OperationCanceledException)
+            {
+                return [];
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Console.WriteLine($"HTTP request error: {httpEx.Message}");
+                return [];
+            }
+            catch (JsonException jsonEx)
+            {
+                Console.WriteLine($"JSON processing error: {jsonEx.Message}");
+                return [];
+            }
+        }
+
+        public async Task<List<AnimeTitle>> GetTitlesAsync(int count)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"title/updates?limit={count}");
+
+                response.EnsureSuccessStatusCode();
+                
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<AnimeTitle>>>();
+
+                return result?.List ?? [];
             }
             catch (OperationCanceledException)
             {

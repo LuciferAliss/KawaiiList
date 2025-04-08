@@ -39,7 +39,7 @@ public partial class App : Application
         //services.AddScoped<IAuthService, AuthService>();
 
         // ViewModels
-        services.AddTransient<MainViewModel>();
+        services.AddTransient<IMainViewModel, MainViewModel>();
         services.AddTransient<LoginViewModel>();
 
         // Windows
