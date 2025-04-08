@@ -76,15 +76,16 @@
                                                          Width="20"
                                                          VerticalAlignment="Center"/>
                                 <TextBlock Text="Главная"
+                                           Style="{StaticResource BaseTextBlockStyle}"
                                            Foreground="White"
                                            Margin="4,0,0,0"/>
                             </StackPanel>
                         </RadioButton>
 
                         <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
-                                HorizontalContentAlignment="Left"
-                                FontSize="20"
-                                Margin="0,5,0,5">
+                                     HorizontalContentAlignment="Left"
+                                     FontSize="20"
+                                     Margin="0,5,0,5">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="NewBox"
                                                          Foreground="White"
@@ -92,15 +93,16 @@
                                                          Width="20"
                                                          VerticalAlignment="Center"/>
                                 <TextBlock Text="Новинки"
+                                           Style="{StaticResource BaseTextBlockStyle}"
                                            Foreground="White"
                                            Margin="4,0,0,0"/>
                             </StackPanel>
                         </RadioButton>
 
                         <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
-                                HorizontalContentAlignment="Left"
-                                FontSize="20"
-                                Margin="0,5,0,5">
+                                     HorizontalContentAlignment="Left"
+                                     FontSize="20"
+                                     Margin="0,5,0,5">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Star"
                                                          Foreground="White"
@@ -108,15 +110,16 @@
                                                          Width="20"
                                                          VerticalAlignment="Center"/>
                                 <TextBlock Text="Популярное"
+                                           Style="{StaticResource BaseTextBlockStyle}"
                                            Foreground="White"
                                            Margin="4,0,0,0"/>
                             </StackPanel>
                         </RadioButton>
 
                         <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
-                                HorizontalContentAlignment="Left"
-                                FontSize="20"
-                                Margin="0,5,0,5">
+                                     HorizontalContentAlignment="Left"
+                                     FontSize="20"
+                                     Margin="0,5,0,5">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Clock"
                                                          Foreground="White"
@@ -124,15 +127,16 @@
                                                          Width="20"
                                                          VerticalAlignment="Center"/>
                                 <TextBlock Text="Недавние"
+                                           Style="{StaticResource BaseTextBlockStyle}"
                                            Foreground="White"
                                            Margin="4,0,0,0"/>
                             </StackPanel>
                         </RadioButton>
 
                         <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
-                                HorizontalContentAlignment="Left"
-                                FontSize="20"
-                                Margin="0,5,0,5">
+                                     HorizontalContentAlignment="Left"
+                                     FontSize="20"
+                                     Margin="0,5,0,5">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Heart"
                                                          Foreground="White"
@@ -140,20 +144,21 @@
                                                          Width="20"
                                                          VerticalAlignment="Center"/>
                                 <TextBlock Text="Избранное"
+                                           Style="{StaticResource BaseTextBlockStyle}"
                                            Foreground="White"
                                            Margin="4,0,0,0"/>
                             </StackPanel>
                         </RadioButton>
 
                         <TextBlock Text="Мой аккаунт"
-                                   Margin="38,30,0,2"
+                                   Margin="42,30,0,2"
                                    Foreground="{StaticResource SecondaryTextColor}"
                                    FontSize="22"/>
 
                         <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
-                                HorizontalContentAlignment="Left"
-                                FontSize="20"
-                                Margin="0,5,0,5">
+                                     HorizontalContentAlignment="Left"
+                                     FontSize="20"
+                                     Margin="0,5,0,5">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="User"
                                                          Foreground="White"
@@ -161,15 +166,16 @@
                                                          Width="20"
                                                          VerticalAlignment="Center"/>
                                 <TextBlock Text="Избранное"
+                                           Style="{StaticResource BaseTextBlockStyle}"
                                            Foreground="White"
                                            Margin="4,0,0,0"/>
                             </StackPanel>
                         </RadioButton>
 
                         <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
-                                HorizontalContentAlignment="Left"
-                                FontSize="20"
-                                Margin="0,5,0,5">
+                                     HorizontalContentAlignment="Left"
+                                     FontSize="20"
+                                     Margin="0,5,0,5">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Settings"
                                                          Foreground="White"
@@ -177,6 +183,7 @@
                                                          Width="20"
                                                          VerticalAlignment="Center"/>
                                 <TextBlock Text="Настройки"
+                                           Style="{StaticResource BaseTextBlockStyle}"
                                            Foreground="White"
                                            Margin="4,0,0,0"/>
                             </StackPanel>
@@ -296,11 +303,23 @@
                 </Border>
 
                 <!-- Основной контент страницы -->
-                <ContentControl Content=""
-                                Grid.Row="2"
-                                Margin="25">
+                <StackPanel Grid.Row="2"
+                            Margin="25">
                     
-                </ContentControl>
+                    <TextBlock Text="Рекомендуемое"
+                               Foreground="{StaticResource TextColor}"
+                               FontSize="30"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <StackPanel Margin="0,15,0,0">
+
+                        <materialDesign:Card HorizontalAlignment="Left"
+                                             Width="180"
+                                             Height="300"/>
+
+                    </StackPanel>
+
+                </StackPanel>
             </Grid>
         </Grid>
     </Border>
