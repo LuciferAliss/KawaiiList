@@ -194,8 +194,7 @@
             </Border>
 
             <!-- Основной контент -->
-            <Grid Grid.Column="1"
-                  Background="{StaticResource DarkBackground}">
+            <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="70"/>
@@ -303,74 +302,78 @@
                 </Border>
 
                 <!-- Основной контент страницы -->
-                <StackPanel Grid.Row="2"
-                            Margin="25">
-                    
-                    <TextBlock Text="Новинки"
-                               Foreground="{StaticResource TextColor}"
-                               FontSize="30"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                <Border Grid.Row="2"
+                        Background="{StaticResource DarkBackground}"
+                        CornerRadius="0,0,12,0">
+                    <StackPanel Margin="25">
 
-                    <ListView ItemsSource="{Binding AnimeTitle}"
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                              SelectionMode="Single"
-                              Margin="0,15,0,0">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Viewbox Stretch="Uniform" MaxWidth="200">
-                                    <materialDesign:Card Width="210"
-                                                         Height="322">
-                                        <StackPanel>
-                                            <!-- Изображение (постер) -->
-                                            <Image Source="{Binding Posters.Original.Url}"
-                                                   Height="208"
-                                                   Stretch="UniformToFill"
-                                                   VerticalAlignment="Top"
-                                                   HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="Новинки"
+                                   Foreground="{StaticResource TextColor}"
+                                   FontSize="30"
+                                   Style="{StaticResource BaseTextBlockStyle}"/>
 
-                                            <!-- Текстовая информация -->
-                                            <StackPanel Margin="10,15">
-                                                <TextBlock Text="{Binding Names.Ru}"
-                                                           FontWeight="Bold"
-                                                           Foreground="{StaticResource TextColor}"
-                                                           TextWrapping="Wrap"
-                                                           TextTrimming="CharacterEllipsis"
-                                                           MaxHeight="20"
-                                                           FontSize="14"/>
+                        <ListView ItemsSource="{Binding AnimeTitle}"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  SelectionMode="Single"
+                                  Margin="0,15,0,0">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Viewbox Stretch="Uniform" MaxWidth="200">
+                                        <materialDesign:Card Width="210"
+                                                            Height="322">
+                                            <StackPanel>
+                                                <!-- Изображение (постер) -->
+                                                <Image Source="{Binding Posters.Original.Url}"
+                                                       Height="208"
+                                                       Stretch="UniformToFill"
+                                                       VerticalAlignment="Top"
+                                                       HorizontalAlignment="Stretch"/>
 
-                                                <TextBlock Foreground="{StaticResource SecondaryTextColor}"
-                                                           FontSize="13"
-                                                           Margin="0,5,0,0">
+                                                <!-- Текстовая информация -->
+                                                <StackPanel Margin="10,15">
+                                                    <TextBlock Text="{Binding Names.Ru}"
+                                                               FontWeight="Bold"
+                                                               Foreground="{StaticResource TextColor}"
+                                                               TextWrapping="Wrap"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               MaxHeight="20"
+                                                               FontSize="14"/>
 
-                                                    <TextBlock.Text>
-                                                        <MultiBinding StringFormat="{}{0} эп. - {1}">
-                                                            <Binding Path="Player.Episodes.Last" />
-                                                            <Binding Path="Season.Year" />
-                                                        </MultiBinding>
-                                                    </TextBlock.Text>
+                                                    <TextBlock Foreground="{StaticResource SecondaryTextColor}"
+                                                               FontSize="13"
+                                                               Margin="0,5,0,0">
 
-                                                </TextBlock>
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0} эп. - {1}">
+                                                                <Binding Path="Player.Episodes.Last" />
+                                                                <Binding Path="Season.Year" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
 
-                                                <WrapPanel Margin="0,15,0,0">
-                                                    <TextBlock Text="{Binding GenresText}" 
-                                                               FontSize="12"
-                                                               Margin="0,0,5,0"
-                                                               Foreground="{StaticResource PrimaryColor}"
-                                                               Style="{StaticResource BaseTextBlockStyle}"/>
-                                                </WrapPanel>
+                                                    </TextBlock>
+
+                                                    <WrapPanel Margin="0,15,0,0">
+                                                        <TextBlock Text="{Binding GenresText}" 
+                                                                   FontSize="12"
+                                                                   Margin="0,0,5,0"
+                                                                   Foreground="{StaticResource PrimaryColor}"
+                                                                   Style="{StaticResource BaseTextBlockStyle}"/>
+                                                    </WrapPanel>
+                                                </StackPanel>
                                             </StackPanel>
-                                        </StackPanel>
-                                    </materialDesign:Card>
-                                </Viewbox>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackPanel>
+                                        </materialDesign:Card>
+                                    </Viewbox>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </Border>
+                
             </Grid>
         </Grid>
     </Border>
