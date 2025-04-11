@@ -312,7 +312,7 @@
                                    FontSize="30"
                                    Style="{StaticResource BaseTextBlockStyle}"/>
 
-                        <ListView ItemsSource="{Binding AnimeTitle}"
+                        <!--<ListView ItemsSource="{Binding AnimeTitle}"
                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                   SelectionMode="Single"
                                   Margin="0,15,0,0">
@@ -327,14 +327,14 @@
                                         <materialDesign:Card Width="210"
                                                             Height="322">
                                             <StackPanel>
-                                                <!-- Изображение (постер) -->
+                                                --><!-- Изображение (постер) --><!--
                                                 <Image Source="{Binding Posters.Original.Url}"
                                                        Height="208"
                                                        Stretch="UniformToFill"
                                                        VerticalAlignment="Top"
                                                        HorizontalAlignment="Stretch"/>
 
-                                                <!-- Текстовая информация -->
+                                                --><!-- Текстовая информация --><!--
                                                 <StackPanel Margin="10,15">
                                                     <TextBlock Text="{Binding Names.Ru}"
                                                                FontWeight="Bold"
@@ -370,7 +370,9 @@
                                     </Viewbox>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
-                        </ListView>
+                        </ListView>-->
+
+                        <ContentControl Content="{Binding AnimeCarousel}" />
                     </StackPanel>
                 </Border>
                 

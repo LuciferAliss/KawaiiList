@@ -5,6 +5,9 @@ using KawaiiList.ViewModels.MainVm;
 using KawaiiList.ViewModels.LoginVm;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
+using KawaiiList.ViewModels.AnimeCarouselVM;
+using System.Windows.Controls;
+using KawaiiList.Views.Controls;
 
 namespace KawaiiList;
 
@@ -39,8 +42,12 @@ public partial class App : Application
         //services.AddScoped<IAuthService, AuthService>();
 
         // ViewModels
+        services.AddTransient<IAnimeCarouselViewModel, AnimeCarouselViewModel>();
         services.AddTransient<IMainViewModel, MainViewModel>();
         services.AddTransient<LoginViewModel>();
+
+        //Control
+        services.AddTransient<AnimeCarouselControl>();
 
         // Windows
         services.AddSingleton<MainPage>();

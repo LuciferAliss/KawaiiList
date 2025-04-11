@@ -1,30 +1,24 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using KawaiiList.Models.Anilibria;
 using KawaiiList.Services.API;
-using KawaiiList.Views.Controls;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
-namespace KawaiiList.ViewModels.MainVm
+namespace KawaiiList.ViewModels.AnimeCarouselVM
 {
-    public partial class MainViewModel : ObservableObject, IMainViewModel
+    public partial class AnimeCarouselViewModel : ObservableObject, IAnimeCarouselViewModel
     {
         private readonly IApiService _apiService;
 
         [ObservableProperty]
         List<AnimeTitle>? _animeTitle;
 
-        [ObservableProperty]
-        AnimeCarouselControl _animeCarousel;
 
-        public MainViewModel(IApiService apiService, AnimeCarouselControl animeCarousel)
+        public AnimeCarouselViewModel(IApiService apiService)
         {
-            AnimeCarousel = animeCarousel;
             _apiService = apiService;
             _ = LoadAnime();
         }
