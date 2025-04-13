@@ -35,6 +35,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageReference Include="System.Net.Http.Json" Version="9.0.3" />
+    <PackageReference Include="System.Reactive" Version="6.0.1" />
     <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="9.0.3" />
   </ItemGroup>
 	

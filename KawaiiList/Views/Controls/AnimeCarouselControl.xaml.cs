@@ -1,4 +1,5 @@
 ﻿using KawaiiList.ViewModels.AnimeCarouselVM;
+using System.Diagnostics;
 using System.Windows.Controls;
 
 namespace KawaiiList.Views.Controls
@@ -12,6 +13,11 @@ namespace KawaiiList.Views.Controls
         {
             InitializeComponent();
             DataContext = vm;
+        }
+
+        private void AnimeCarousel_Selected(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Debug.WriteLine("11");
         }
     }
 }

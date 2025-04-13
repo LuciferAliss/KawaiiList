@@ -13,7 +13,7 @@ namespace KawaiiList;
 
 public partial class App : Application
 {
-    public IServiceProvider ServiceProvider { get; private set; }
+    private IServiceProvider ServiceProvider { get; set; }
 
     protected override void OnStartup(StartupEventArgs e)
     {

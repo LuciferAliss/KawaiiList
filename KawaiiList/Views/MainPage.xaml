@@ -373,7 +373,8 @@
                         </ListView>-->
 
                         <ContentControl Content="{Binding AnimeCarousel}" 
-                                        Margin="0,10,0,0"/>
+                                        Margin="0,10,0,0"
+                                        HorizontalAlignment="Center"/>
 
                     </StackPanel>
                 </Border>
