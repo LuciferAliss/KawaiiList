@@ -190,7 +190,7 @@
                                    AutoRun="False"
                                    IndexPage="{Binding PageIndex, Mode=TwoWay}"
                                    ItemsSource="{Binding AnimeTitle, Mode=TwoWay}"
-                                   Width="920"
+                                   HorizontalAlignment="Stretch"
                                    Height="322"
                                    Margin="9,0,0,0"
                                    Grid.Column="1">
