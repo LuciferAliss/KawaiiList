@@ -4,8 +4,6 @@ using KawaiiList.Models.Anilibria;
 using KawaiiList.Services.API;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Reactive;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
@@ -16,6 +14,7 @@ namespace KawaiiList.ViewModels.AnimeCarouselVM
         private readonly IApiService _apiService;
         private IDisposable? _autoScrollSubscription;
         private IConnectableObservable<long>? _autoScrollObservable;
+        private bool _loadData = false;
 
         [ObservableProperty]
         ObservableCollection<AnimeTitle> _animeTitle;
@@ -33,17 +32,21 @@ namespace KawaiiList.ViewModels.AnimeCarouselVM
             _animeTitle = [];
             _apiService = apiService;
 
-            InitializeAutoScroll();
+            InitializeAutoScroll(3, 0);
             _ = LoadAnime();
         }
 
-        private void InitializeAutoScroll()
+        private void InitializeAutoScroll(int interval, int initialDelay)
         {
-            _autoScrollObservable = Observable.Interval(TimeSpan.FromSeconds(3)).StartWith(0L).Publish();
+            _autoScrollObservable = Observable.Timer(
+                    dueTime: TimeSpan.FromSeconds(initialDelay),
+                    period: TimeSpan.FromSeconds(interval))
+                .Publish();
 
             _autoScrollSubscription = _autoScrollObservable.Subscribe(_ =>
             {
                 PageIndex = (AnimeTitle?.Count - 4 > PageIndex) ? ++PageIndex : 0;
+                Debug.WriteLine($"Auto-scroll: {PageIndex}");
             });
         }
 
@@ -53,13 +56,20 @@ namespace KawaiiList.ViewModels.AnimeCarouselVM
             _autoScrollSubscription = null;
         }
 
+        private void StartAutoScroll()
+        {
+            StopAutoScroll();
+            InitializeAutoScroll(3, 3);
+            _autoScrollObservable?.Connect();
+        }
+
         private async Task LoadAnime()
         {
             List<AnimeTitle> data = await _apiService.GetTitlesAsync(15);
             AnimeTitle = [.. data];
 
-            ButtonVisible = "Visible";
             _autoScrollObservable?.Connect();
+            _loadData = true;
         }
 
         [RelayCommand]
@@ -68,12 +78,36 @@ namespace KawaiiList.ViewModels.AnimeCarouselVM
             PageIndex = AnimeTitle.Count - 4 > PageIndex ? ++PageIndex : 0;
             Debug.WriteLine(PageIndex);
         }
-        
+
         [RelayCommand]
         private void PagePrev()
         {
             PageIndex = PageIndex > 0 ? --PageIndex : PageIndex = AnimeTitle.Count - 4;
             Debug.WriteLine(PageIndex);
+        }
+
+        [RelayCommand]
+        private void MouseEnterCarousel()
+        {
+            if (!_loadData)
+            {
+                return;
+            }
+
+            ButtonVisible = "Visible";
+            StopAutoScroll();
+        }
+
+        [RelayCommand]
+        private void MouseLeaveCarousel()
+        {
+            if (!_loadData)
+            {
+                return;
+            }
+
+            ButtonVisible = "Hidden";
+            StartAutoScroll();
         }
     }
 }
