@@ -201,16 +201,17 @@
                                    IndexPage="{Binding PageIndex, Mode=TwoWay}"
                                    ItemsSource="{Binding AnimeTitle, Mode=TwoWay}"
                                    HorizontalAlignment="Stretch"
-                                   Height="322"
+                                   Height="280"
                                    Margin="9,0,0,0"
                                    Grid.Column="1">
 
             <hc:Carousel.ItemTemplate>
                 <DataTemplate>
                     <materialDesign:Card Width="210"
-                                         Height="300"
+                                         Height="280"
                                          Cursor="Hand"
-                                         Margin="0,0,20,0">
+                                         Margin="0,0,20,0"
+                                         Background="{StaticResource NavigationBarBackground}">
 
                         <materialDesign:Card.Style>
                             <Style TargetType="materialDesign:Card" BasedOn="{StaticResource MaterialDesignElevatedCard}">
@@ -231,19 +232,17 @@
                             </Style>
                         </materialDesign:Card.Style>
 
-                        <Grid>
-                            
-                            <StackPanel VerticalAlignment="Top">
-                                <!-- Изображение (постер) -->
-                                <Image Source="{Binding Posters.Original.Url}"
+                        <StackPanel VerticalAlignment="Top">
+                            <!-- Изображение (постер) -->
+                            <Image Source="{Binding Posters.Original.Url}"
                                        Height="208"
                                        Stretch="UniformToFill"
                                        VerticalAlignment="Top"
                                        HorizontalAlignment="Stretch"/>
 
-                                <!-- Текстовая информация -->
-                                <StackPanel Margin="10,15">
-                                    <TextBlock Text="{Binding Names.Ru}"
+                            <!-- Текстовая информация -->
+                            <StackPanel Margin="10,15">
+                                <TextBlock Text="{Binding Names.Ru}"
                                                FontWeight="Bold"
                                                Foreground="{StaticResource TextColor}"
                                                TextWrapping="Wrap"
@@ -251,39 +250,19 @@
                                                MaxHeight="20"
                                                FontSize="14"/>
 
-                                    <TextBlock Foreground="{StaticResource SecondaryTextColor}"
+                                <TextBlock Foreground="{StaticResource SecondaryTextColor}"
                                                FontSize="13"
                                                Margin="0,5,0,0">
 
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0} эп. - {1}">
-                                                <Binding Path="Player.Episodes.Last" />
-                                                <Binding Path="Season.Year" />
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </StackPanel>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} эп. - {1}">
+                                            <Binding Path="Player.Episodes.Last" />
+                                            <Binding Path="Season.Year" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
                             </StackPanel>
-
-                            <Button Content="Перейти"
-                                    HorizontalAlignment="Center"
-                                    Margin="0,0,0,60">
-
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                                        <Setter Property="Opacity" Value="0"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=materialDesign:Card}}"
-                                                         Value="True">
-                                                <Setter Property="Opacity" Value="1.0"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style> 
-                                
-                            </Button>
-                            
-                        </Grid>
+                        </StackPanel>
                         
                     </materialDesign:Card>
                 </DataTemplate>
@@ -304,7 +283,7 @@
                          HorizontalAlignment="Center"/>
 
         </Button>
-        
+
         <Button Grid.Column="1"
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
                 HorizontalAlignment="Right"
@@ -319,71 +298,6 @@
                                      HorizontalAlignment="Center"/>
 
         </Button>
-
-        <!--<hc:Carousel Style="{DynamicResource CarouselStyle1}"
-                     x:Name="AnimeCarousel"  
-                     AutoRun="True"
-                     PageIndex="{Binding PageIndex}"
-                     ItemsSource="{Binding AnimeTitle}"
-                     Width="920"
-                     Height="322"
-                     Margin="9,0,0,0"
-                     Grid.Column="1">
-
-            <hc:Carousel.ItemTemplate>
-                <DataTemplate>
-                    <materialDesign:Card Width="210"
-                                         Height="322"
-                                         Margin="0,0,20,0">
-                        <StackPanel>
-                            -->
-        <!-- Изображение (постер) -->
-        <!--
-                            <Image Source="{Binding Posters.Original.Url}"
-                                   Height="208"
-                                   Stretch="UniformToFill"
-                                   VerticalAlignment="Top"
-                                   HorizontalAlignment="Stretch"/>
-
-                            -->
-        <!-- Текстовая информация -->
-        <!--
-                            <StackPanel Margin="10,15">
-                                <TextBlock Text="{Binding Names.Ru}"
-                                           FontWeight="Bold"
-                                           Foreground="{StaticResource TextColor}"
-                                           TextWrapping="Wrap"
-                                           TextTrimming="CharacterEllipsis"
-                                           MaxHeight="20"
-                                           FontSize="14"/>
-
-                                <TextBlock Foreground="{StaticResource SecondaryTextColor}"
-                                           FontSize="13"
-                                           Margin="0,5,0,0">
-
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0} эп. - {1}">
-                                            <Binding Path="Player.Episodes.Last" />
-                                            <Binding Path="Season.Year" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-
-                                </TextBlock>
-
-                                <WrapPanel Margin="0,15,0,0">
-                                    <TextBlock Text="{Binding GenresText}" 
-                                               FontSize="12"
-                                               Margin="0,0,5,0"
-                                               Foreground="{StaticResource PrimaryColor}"
-                                               Style="{StaticResource BaseTextBlockStyle}"/>
-                                </WrapPanel>
-                            </StackPanel>
-                        </StackPanel>
-                    </materialDesign:Card>
-                </DataTemplate>
-            </hc:Carousel.ItemTemplate>
-        </hc:Carousel>-->
-
     </Grid>
 
 </UserControl>
