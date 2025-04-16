@@ -178,7 +178,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="Transparent">
+    <Grid Background="Transparent"
+          x:Name="AnimeCarousel">
 
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="MouseEnter">
@@ -196,7 +197,6 @@
         </Grid.ColumnDefinitions>
 
         <controls:ExtendedCarousel Style="{DynamicResource CarouselStyle1}"
-                                   x:Name="AnimeCarousel"  
                                    AutoRun="False"
                                    IndexPage="{Binding PageIndex, Mode=TwoWay}"
                                    ItemsSource="{Binding AnimeTitle, Mode=TwoWay}"
@@ -294,37 +294,81 @@
                 Grid.ColumnSpan="2">
 
             <materialDesign:PackIcon Kind="ChevronLeft"
-                         Width="56"
-                         Height="56"
-                         VerticalAlignment="Center"
-                         HorizontalAlignment="Center"/>
+                                     Width="56"
+                                     Height="56"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"/>
             
             <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
-                                        <Setter Property="Opacity" Value="1"/>
-                                        <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=controls:ExtendedCarousel}}"
-                                                         Value="True">
-                                                <Setter Property="Opacity" Value="0"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style> 
+                    <Setter Property="Opacity" Value="0"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=AnimeCarousel}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         From="0" To="1" 
+                                                         Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         From="1" To="0" 
+                                                         Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style> 
 
         </Button>
 
         <Button Grid.Column="1"
-                Style="{DynamicResource MaterialDesignFloatingActionButton}"
                 HorizontalAlignment="Right"
                 Command="{Binding PageNextCommand}"
-                Grid.ColumnSpan="2"
-                Visibility="{Binding ButtonVisible}">
+                Grid.ColumnSpan="2">
 
             <materialDesign:PackIcon Kind="ChevronRight"
                                      Width="56"
                                      Height="56"
                                      VerticalAlignment="Center"
                                      HorizontalAlignment="Center"/>
+
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+                    <Setter Property="Opacity" Value="0"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=AnimeCarousel}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             From="0" To="1" 
+                                             Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             From="1" To="0" 
+                                             Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
 
         </Button>
     </Grid>

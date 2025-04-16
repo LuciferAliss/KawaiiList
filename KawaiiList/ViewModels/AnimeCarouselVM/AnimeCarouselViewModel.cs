@@ -22,12 +22,8 @@ namespace KawaiiList.ViewModels.AnimeCarouselVM
         [ObservableProperty]
         int _pageIndex;
 
-        [ObservableProperty]
-        string _buttonVisible;
-
         public AnimeCarouselViewModel(IApiService apiService)
         {
-            ButtonVisible = "Hidden";
             PageIndex = -1;
             _animeTitle = [];
             _apiService = apiService;
@@ -94,7 +90,6 @@ namespace KawaiiList.ViewModels.AnimeCarouselVM
                 return;
             }
 
-            ButtonVisible = "Visible";
             StopAutoScroll();
         }
 
@@ -106,7 +101,6 @@ namespace KawaiiList.ViewModels.AnimeCarouselVM
                 return;
             }
 
-            ButtonVisible = "Hidden";
             StartAutoScroll();
         }
     }
