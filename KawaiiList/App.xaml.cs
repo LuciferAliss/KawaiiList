@@ -8,6 +8,7 @@ using System.Windows;
 using KawaiiList.ViewModels.AnimeCarouselVM;
 using System.Windows.Controls;
 using KawaiiList.Views.Controls;
+using KawaiiList.ViewModels.SearchVM;
 
 namespace KawaiiList;
 
@@ -43,11 +44,13 @@ public partial class App : Application
 
         // ViewModels
         services.AddTransient<IAnimeCarouselViewModel, AnimeCarouselViewModel>();
+        services.AddTransient<ISearchViewModel, SearchViewModel>();
         services.AddTransient<IMainViewModel, MainViewModel>();
         services.AddTransient<LoginViewModel>();
 
         //Control
         services.AddTransient<AnimeCarouselControl>();
+        services.AddTransient<SearchControl>();
 
         // Windows
         services.AddSingleton<MainPage>();

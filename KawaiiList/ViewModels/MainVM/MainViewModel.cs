@@ -22,9 +22,13 @@ namespace KawaiiList.ViewModels.MainVm
         [ObservableProperty]
         AnimeCarouselControl _animeCarousel;
 
-        public MainViewModel(IApiService apiService, AnimeCarouselControl animeCarousel)
+        [ObservableProperty]
+        SearchControl _search;
+
+        public MainViewModel(IApiService apiService, AnimeCarouselControl animeCarousel, SearchControl searchControl)
         {
             AnimeCarousel = animeCarousel;
+            Search = searchControl;
             _apiService = apiService;
             _ = LoadAnime();
         }

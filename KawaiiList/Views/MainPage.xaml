@@ -264,6 +264,8 @@
                                                  Margin="12,0,0,0"
                                                  Grid.Column="0"/>
 
+                        <ContentControl Content="{Binding Search}"/>
+
                         <!-- Профиль -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                             <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}"
