@@ -229,7 +229,7 @@
                 <Border Grid.Row="1"
                         Background="{StaticResource NavigationBarBackground}">
                     
-                    <Grid Margin="20,10">
+                    <Grid Margin="10,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
@@ -266,8 +266,10 @@
                                                  Grid.Column="0"/>-->
 
                         <ContentControl Content="{Binding Search}"
+                                        Grid.Column="0"
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"/>
+                                        VerticalAlignment="Center"
+                                        Margin="0,0,15,0"/>
 
                         <!-- Профиль -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">

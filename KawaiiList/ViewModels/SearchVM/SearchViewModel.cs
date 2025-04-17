@@ -18,6 +18,9 @@ namespace KawaiiList.ViewModels.SearchVM
         [ObservableProperty]
         List<AnimeTitle> _animeList = [];
 
+        [ObservableProperty]
+        string _watermark = "Поиск аниме...";
+
         public SearchViewModel(IApiService apiService)
         {
             SearchText = "";
