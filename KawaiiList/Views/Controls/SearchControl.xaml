@@ -23,7 +23,7 @@
         <hc:AutoCompleteTextBox Width="380"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
-                                ItemsSource="{Binding Items}"
+                                ItemsSource="{Binding AnimeList}"
                                 Text="{Binding SearchText}">
             <hc:AutoCompleteTextBox.ItemsPanel>
                 <ItemsPanelTemplate>
