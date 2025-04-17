@@ -13,7 +13,8 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        MouseDown="WindowMouseDoun">
 
     <Border CornerRadius="12"
             BorderThickness="3">
@@ -235,7 +236,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Поиск -->
-                        <TextBox Style="{DynamicResource MaterialDesignTextBox}"
+                        <!--<TextBox Style="{DynamicResource MaterialDesignTextBox}"
                                  Background="#1A1F2C"
                                  materialDesign:TextFieldAssist.TextFieldCornerRadius="5"
                                  materialDesign:TextFieldAssist.UnderlineCornerRadius="12"
@@ -262,9 +263,11 @@
                                                  HorizontalAlignment="Left"
                                                  VerticalAlignment="Center"
                                                  Margin="12,0,0,0"
-                                                 Grid.Column="0"/>
+                                                 Grid.Column="0"/>-->
 
-                        <ContentControl Content="{Binding Search}"/>
+                        <ContentControl Content="{Binding Search}"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"/>
 
                         <!-- Профиль -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">

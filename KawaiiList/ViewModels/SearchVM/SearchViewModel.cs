@@ -33,7 +33,7 @@ namespace KawaiiList.ViewModels.SearchVM
 
             AnimeList = [];
 
-            _ = Task.Run(async () =>
+            Task.Run(async () =>
             {
                 try
                 {
@@ -48,11 +48,6 @@ namespace KawaiiList.ViewModels.SearchVM
                 {
                 }
             });
-
-            if(AnimeList.Count > 0)
-            {
-                Console.WriteLine(AnimeList.Count);
-            }
         }
     }
 }

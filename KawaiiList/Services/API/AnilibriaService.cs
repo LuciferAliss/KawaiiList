@@ -32,7 +32,7 @@ namespace KawaiiList.Service.API
         {
             try
             {
-                var response = await httpClient.GetAsync($"title/search?query={Uri.EscapeDataString(query)}", token);
+                var response = await httpClient.GetAsync($"title/search?search={Uri.EscapeDataString(query)}", token);
 
                 response.EnsureSuccessStatusCode();
 

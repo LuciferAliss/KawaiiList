@@ -19,50 +19,83 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <StackPanel>
-        <hc:AutoCompleteTextBox Width="380"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                ItemsSource="{Binding AnimeList}"
-                                Text="{Binding SearchText}">
-            <hc:AutoCompleteTextBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel/>
-                </ItemsPanelTemplate>
-            </hc:AutoCompleteTextBox.ItemsPanel>
-            <hc:AutoCompleteTextBox.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="5" Padding="10" Background="#FFF5F5F5" CornerRadius="5">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
 
-                            <!-- Постер аниме -->
-                            <Image Grid.Column="0" Width="100" Height="150" Stretch="UniformToFill"
-                                   Source="{Binding Posters.Small.Url}" 
-                                   ToolTip="{Binding Names.Ru}"/>
+    <hc:AutoCompleteTextBox Width="800"
+                            Height="40"
+                            ItemsSource="{Binding AnimeList}"
+                            Text="{Binding SearchText}"
+                            Background="#1A1F2C"
+                            BorderThickness="1,1,1,1" 
+                            FontSize="20"
+                            FontFamily="Montserrat"
+                            FontStretch="Normal"
+                            ForceCursor="False"
+                            CaretBrush="{StaticResource TextColor}"
+                            Foreground="{StaticResource TextColor}"
+                            VirtualizingPanel.ScrollUnit="Pixel"
+                            HorizontalContentAlignment="Stretch">
 
-                            <!-- Информация об аниме -->
-                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                <TextBlock Text="{Binding Names.Ru}" FontWeight="Bold" FontSize="16"
-                                           TextWrapping="Wrap"/>
+        <hc:AutoCompleteTextBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <VirtualizingStackPanel Background="#1A1F2C"
+                                        Width="800"
+                                        MaxHeight="370"/>
+            </ItemsPanelTemplate>
+        </hc:AutoCompleteTextBox.ItemsPanel>
+        <hc:AutoCompleteTextBox.ItemTemplate>
+            <DataTemplate>
+                <Border Margin="5"
+                        Padding="10"
+                        Background="{StaticResource NavigationBarBackground}"
+                        CornerRadius="5"
+                        HorizontalAlignment="Center"
+                        Width="750">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+    
+                        <!-- Постер аниме -->
+                        <Image Grid.Column="0"
+                               Width="100"
+                               Height="150"
+                               Stretch="UniformToFill"
+                               Source="{Binding Posters.Original.Url}"/>
+    
+                        <!-- Информация об аниме -->
+                        <StackPanel Grid.Column="1"
+                                    Margin="10,0,0,0">
+                            <TextBlock Text="{Binding Names.Ru}"
+                                       FontWeight="Bold"
+                                       FontSize="26"
+                                       TextWrapping="Wrap"/>
 
-                                <TextBlock Text="{Binding Season.String}" FontSize="12"
-                                           Foreground="Gray" Margin="0,5,0,0"/>
+                            <TextBlock FontSize="16"
+                                       Foreground="LightGray"
+                                       Margin="0,5,0,0">
 
-                                <TextBlock Text="{Binding Season.Year}" FontSize="12"
-                                           Foreground="Gray"/>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} эп. - {1} {2}">
+                                        <Binding Path="Player.Episodes.Last" />
+                                        <Binding Path="Season.String" />
+                                        <Binding Path="Season.Year" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
 
-                                <TextBlock Text="{Binding GenresText}" FontSize="12" Margin="0,10,0,0"
-                                           TextWrapping="Wrap" Foreground="#FF555555"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </hc:AutoCompleteTextBox.ItemTemplate>
-        </hc:AutoCompleteTextBox>
-    </StackPanel>
+                            </TextBlock>
+
+                            <TextBlock Text="{Binding GenresText}"
+                                       FontSize="14"
+                                       Margin="0,10,0,0"
+                                       TextWrapping="Wrap"
+                                       Foreground="LightSlateGray"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </hc:AutoCompleteTextBox.ItemTemplate>
+    </hc:AutoCompleteTextBox>
+
     
 </UserControl>

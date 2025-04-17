@@ -254,24 +254,24 @@
                         <StackPanel VerticalAlignment="Top">
                             <!-- Изображение (постер) -->
                             <Image Source="{Binding Posters.Original.Url}"
-                                       Height="208"
-                                       Stretch="UniformToFill"
-                                       VerticalAlignment="Top"
-                                       HorizontalAlignment="Stretch"/>
+                                   Height="208"
+                                   Stretch="UniformToFill"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Stretch"/>
 
                             <!-- Текстовая информация -->
                             <StackPanel Margin="10,15">
                                 <TextBlock Text="{Binding Names.Ru}"
-                                               FontWeight="Bold"
-                                               Foreground="{StaticResource TextColor}"
-                                               TextWrapping="Wrap"
-                                               TextTrimming="CharacterEllipsis"
-                                               MaxHeight="20"
-                                               FontSize="14"/>
+                                           FontWeight="Bold"
+                                           Foreground="{StaticResource TextColor}"
+                                           TextWrapping="Wrap"
+                                           TextTrimming="CharacterEllipsis"
+                                           MaxHeight="20"
+                                           FontSize="14"/>
 
                                 <TextBlock Foreground="{StaticResource SecondaryTextColor}"
-                                               FontSize="13"
-                                               Margin="0,5,0,0">
+                                           FontSize="13"
+                                           Margin="0,5,0,0">
 
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0} эп. - {1}">
