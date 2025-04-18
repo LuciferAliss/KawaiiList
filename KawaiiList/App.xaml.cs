@@ -6,9 +6,9 @@ using KawaiiList.ViewModels.LoginVm;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using KawaiiList.ViewModels.AnimeCarouselVM;
-using System.Windows.Controls;
 using KawaiiList.Views.Controls;
 using KawaiiList.ViewModels.SearchVM;
+using KawaiiList.ViewModels.HomeVM;
 
 namespace KawaiiList;
 
@@ -46,11 +46,13 @@ public partial class App : Application
         services.AddTransient<IAnimeCarouselViewModel, AnimeCarouselViewModel>();
         services.AddTransient<ISearchViewModel, SearchViewModel>();
         services.AddTransient<IMainViewModel, MainViewModel>();
-        services.AddTransient<LoginViewModel>();
+        services.AddTransient<IHomeViewModel, HomeViewModel>();
+        services.AddTransient<ILoginViewModel, LoginViewModel>();
 
         //Control
         services.AddTransient<AnimeCarouselControl>();
         services.AddTransient<SearchControl>();
+        services.AddTransient<HomeControl>();
 
         // Windows
         services.AddSingleton<MainPage>();

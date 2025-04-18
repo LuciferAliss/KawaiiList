@@ -61,11 +61,27 @@ namespace KawaiiList.ViewModels.AnimeCarouselVM
 
         private async Task LoadAnime()
         {
-            List<AnimeTitle> data = await _apiService.GetTitlesAsync(15);
-            AnimeTitle = [.. data];
+            try
+            {
+                List<AnimeTitle> data = await _apiService.GetTitlesAsync(15);
 
-            _autoScrollObservable?.Connect();
-            _loadData = true;
+                if (data.Count == 0)
+                {
+                    await Task.Delay(1000);
+                    await LoadAnime();
+                    return;
+                }
+
+                AnimeTitle = [.. data];
+
+                _autoScrollObservable?.Connect();
+                _loadData = true;
+            }
+            catch (Exception)
+            {
+                await Task.Delay(1000);
+                await LoadAnime();
+            }
         }
 
         [RelayCommand]

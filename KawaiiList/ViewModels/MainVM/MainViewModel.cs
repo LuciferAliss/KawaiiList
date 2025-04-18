@@ -14,28 +14,16 @@ namespace KawaiiList.ViewModels.MainVm
 {
     public partial class MainViewModel : ObservableObject, IMainViewModel
     {
-        private readonly IApiService _apiService;
-
-        [ObservableProperty]
-        List<AnimeTitle>? _animeTitle;
-
-        [ObservableProperty]
-        AnimeCarouselControl _animeCarousel;
-
         [ObservableProperty]
         SearchControl _search;
 
-        public MainViewModel(IApiService apiService, AnimeCarouselControl animeCarousel, SearchControl searchControl)
-        {
-            AnimeCarousel = animeCarousel;
-            Search = searchControl;
-            _apiService = apiService;
-            _ = LoadAnime();
-        }
+        [ObservableProperty]
+        private HomeControl _homePage;
 
-        private async Task LoadAnime()
+        public MainViewModel(SearchControl searchControl, HomeControl homeControl)
         {
-            AnimeTitle = await _apiService.GetTitlesAsync(15);
+            Search = searchControl;
+            HomePage = homeControl;
         }
     }
 }

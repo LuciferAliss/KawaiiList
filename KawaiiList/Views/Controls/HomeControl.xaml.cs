@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KawaiiList.ViewModels.HomeVM;
+using System;
 using System.Windows.Controls;
 
 namespace KawaiiList.Views.Controls
@@ -6,11 +7,12 @@ namespace KawaiiList.Views.Controls
     /// <summary>
     /// Логика взаимодействия для HomePage.xaml
     /// </summary>
-    public partial class HomePage : UserControl
+    public partial class HomeControl : UserControl
     {
-        public HomePage()
+        public HomeControl(IHomeViewModel vm)
         {
             InitializeComponent();
+            DataContext = vm;
         }
     }
 }
