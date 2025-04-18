@@ -350,8 +350,8 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                             From="0" To="1" 
-                                             Duration="0:0:0.2"/>
+                                                         From="0" To="1" 
+                                                         Duration="0:0:0.2"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </DataTrigger.EnterActions>
@@ -359,8 +359,8 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                             From="1" To="0" 
-                                             Duration="0:0:0.2"/>
+                                                         From="1" To="0" 
+                                                         Duration="0:0:0.2"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </DataTrigger.ExitActions>
