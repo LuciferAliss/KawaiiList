@@ -3,6 +3,7 @@ using KawaiiList.Models.Anilibria;
 using KawaiiList.Services.API;
 using System.Diagnostics;
 using System.DirectoryServices;
+using System.Windows.Media;
 using System.Xml.Linq;
 
 namespace KawaiiList.ViewModels.SearchVM
@@ -13,13 +14,16 @@ namespace KawaiiList.ViewModels.SearchVM
         private CancellationTokenSource _cts = new();
 
         [ObservableProperty]
-        string _searchText;
+        private string _searchText;
 
         [ObservableProperty]
-        List<AnimeTitle> _animeList = [];
+        private List<AnimeTitle> _animeList = [];
 
         [ObservableProperty]
-        string _watermark = "Поиск аниме...";
+        private string _watermark = "Поиск аниме...";
+
+        [ObservableProperty]
+        private Brush _textColor = new SolidColorBrush(Colors.LightGray);
 
         public SearchViewModel(IApiService apiService)
         {
@@ -29,6 +33,15 @@ namespace KawaiiList.ViewModels.SearchVM
 
         partial void OnSearchTextChanged(string value)
         {
+            if (value == "")
+            {
+                TextColor = new SolidColorBrush(Colors.LightGray);
+            }
+            else
+            {
+                TextColor = new SolidColorBrush(Colors.White);
+            }
+
             _cts.Cancel();
             _cts.Dispose();
             _cts = new CancellationTokenSource();
