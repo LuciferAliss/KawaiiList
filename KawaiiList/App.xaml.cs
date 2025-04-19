@@ -9,6 +9,7 @@ using KawaiiList.ViewModels.AnimeCarouselVM;
 using KawaiiList.Views.Controls;
 using KawaiiList.ViewModels.SearchVM;
 using KawaiiList.ViewModels.HomeVM;
+using KawaiiList.ViewModels.AnimeInfoVM;
 
 namespace KawaiiList;
 
@@ -47,12 +48,14 @@ public partial class App : Application
         services.AddTransient<ISearchViewModel, SearchViewModel>();
         services.AddTransient<IMainViewModel, MainViewModel>();
         services.AddTransient<IHomeViewModel, HomeViewModel>();
+        services.AddTransient<IAnimeInfoViewModel, AnimeInfoViewModel>();
         services.AddTransient<ILoginViewModel, LoginViewModel>();
 
         //Control
         services.AddTransient<AnimeCarouselControl>();
         services.AddTransient<SearchControl>();
         services.AddTransient<HomeControl>();
+        services.AddTransient<AnimeInfoControl>();
 
         // Windows
         services.AddSingleton<MainPage>();

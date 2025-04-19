@@ -15,15 +15,19 @@ namespace KawaiiList.ViewModels.MainVm
     public partial class MainViewModel : ObservableObject, IMainViewModel
     {
         [ObservableProperty]
-        SearchControl _search;
+        private SearchControl _search;
 
         [ObservableProperty]
         private HomeControl _homePage;
 
-        public MainViewModel(SearchControl searchControl, HomeControl homeControl)
+        [ObservableProperty]
+        private AnimeInfoControl _animeInfo;
+
+        public MainViewModel(SearchControl searchControl, HomeControl homeControl, AnimeInfoControl animeInfo)
         {
             Search = searchControl;
             HomePage = homeControl;
+            AnimeInfo = animeInfo;
         }
     }
 }
