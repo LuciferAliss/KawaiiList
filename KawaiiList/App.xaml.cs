@@ -21,32 +21,22 @@ public partial class App : Application
         services.AddSingleton<AnimeStore>();
         services.AddHttpClient<AnilibriaService>();
 
-        services.AddTransient<AnimeCarouselViewModel>(s => new AnimeCarouselViewModel(s.GetRequiredService<AnilibriaService>()));
-        services.AddTransient<HomeViewModel>(s => new HomeViewModel(s.GetRequiredService<AnimeCarouselViewModel>()));
-        services.AddTransient<AnimeInfoViewModel>(s => new AnimeInfoViewModel(s.GetRequiredService<AnimeStore>()));
+        services.AddTransient<AnimeCarouselViewModel>();
+        services.AddTransient<HomeViewModel>();
+        services.AddTransient<AnimeInfoViewModel>();
 
         services.AddSingleton<NavigationBarViewModel>(s => new NavigationBarViewModel
         (
             CreateHomeNavigationService(s)
         ));
 
-        services.AddTransient<SearchViewModel>(s => new SearchViewModel
-        (
-            s.GetRequiredService<AnilibriaService>(),
-            s.GetRequiredService<AnimeStore>(),
-            CreateAnimeInfoNavigationService(s)
-        ));
+        services.AddTransient<SearchViewModel>(CreateSearchViewModel);
 
-        services.AddTransient<HaderViewModel>(s => new HaderViewModel(s.GetRequiredService<SearchViewModel>()));
+        services.AddTransient<HaderViewModel>();
 
         services.AddSingleton<INavigationService>(s => CreateHomeNavigationService(s));
 
-        services.AddSingleton<MainViewModel>(s => new MainViewModel
-        (
-            s.GetRequiredService<NavigationStore>(),
-            s.GetRequiredService<NavigationBarViewModel>(),
-            s.GetRequiredService<HaderViewModel>()
-        ));
+        services.AddSingleton<MainViewModel>();
 
         services.AddSingleton<MainWindow>(s => new MainWindow()
         {
@@ -64,6 +54,16 @@ public partial class App : Application
         MainWindow.Show();
 
         base.OnStartup(e);
+    }
+
+    private SearchViewModel CreateSearchViewModel(IServiceProvider service)
+    {
+        return new SearchViewModel
+        (
+            service.GetRequiredService<AnilibriaService>(),
+            service.GetRequiredService<AnimeStore>(),
+            CreateAnimeInfoNavigationService(service)
+        );
     }
 
     private INavigationService CreateAnimeInfoNavigationService(IServiceProvider service)
