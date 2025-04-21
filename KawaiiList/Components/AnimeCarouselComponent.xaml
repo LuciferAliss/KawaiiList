@@ -249,6 +249,13 @@
                             </Style>
                         </materialDesign:Card.Style>
 
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown">
+                                <i:InvokeCommandAction Command="{Binding DataContext.ItemSelectedCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                       CommandParameter="{Binding}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
                         <StackPanel VerticalAlignment="Top">
                             <!-- Изображение (постер) -->
                             <Image Source="{Binding Posters.Original.Url}"
@@ -289,7 +296,8 @@
         <Button HorizontalAlignment="Left"
                 Command="{Binding PagePrevCommand}"
                 Grid.Column="0"
-                Grid.ColumnSpan="2">
+                Grid.ColumnSpan="2"
+                Visibility="{Binding IsMouseVisible}">
 
             <materialDesign:PackIcon Kind="ChevronLeft"
                                      Width="56"
@@ -331,7 +339,8 @@
         <Button Grid.Column="1"
                 HorizontalAlignment="Right"
                 Command="{Binding PageNextCommand}"
-                Grid.ColumnSpan="2">
+                Grid.ColumnSpan="2"
+                Visibility="{Binding IsMouseVisible}">
 
             <materialDesign:PackIcon Kind="ChevronRight"
                                      Width="56"

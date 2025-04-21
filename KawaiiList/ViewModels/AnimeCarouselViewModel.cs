@@ -2,19 +2,24 @@
 using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Models.Anilibria;
 using KawaiiList.Services;
+using KawaiiList.Stores;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Windows;
+using System.Windows.Navigation;
 
 namespace KawaiiList.ViewModels
 {
-    public partial class AnimeCarouselViewModel : ObservableObject
+    public partial class AnimeCarouselViewModel : BaseViewModel
     {
         private readonly AnilibriaService _apiService;
         private IDisposable? _autoScrollSubscription;
         private IConnectableObservable<long>? _autoScrollObservable;
         private bool _loadData = false;
+        private readonly INavigationService _navigationService;
+        private readonly AnimeStore _animeStore;
 
         [ObservableProperty]
         ObservableCollection<AnimeTitle> _animeTitle;
@@ -22,11 +27,16 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         int _pageIndex;
 
-        public AnimeCarouselViewModel(AnilibriaService apiService)
+        [ObservableProperty]
+        private Visibility _isMouseVisible = Visibility.Hidden;
+
+        public AnimeCarouselViewModel(AnilibriaService apiService, AnimeStore animeStore, INavigationService navigationService)
         {
             PageIndex = -1;
             _animeTitle = [];
             _apiService = apiService;
+            _navigationService = navigationService;
+            _animeStore = animeStore;
 
             InitializeAutoScroll(3, 0);
             _ = LoadAnime();
@@ -76,6 +86,7 @@ namespace KawaiiList.ViewModels
 
                 _autoScrollObservable?.Connect();
                 _loadData = true;
+                IsMouseVisible = Visibility.Visible;
             }
             catch (Exception)
             {
@@ -118,6 +129,21 @@ namespace KawaiiList.ViewModels
             }
 
             StartAutoScroll();
+        }
+
+        [RelayCommand]
+        private void ItemSelected(AnimeTitle selectedAnime)
+        {
+            _animeStore.CurrentAnime = selectedAnime;
+            _navigationService.Navigate();
+        }
+
+        public override void Dispose()
+        {
+            StopAutoScroll();
+            _loadData = false;
+
+            base.Dispose();
         }
     }
 }

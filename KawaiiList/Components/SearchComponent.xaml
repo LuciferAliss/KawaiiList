@@ -101,6 +101,7 @@
                                                  hc:InfoElement.Placeholder="Поиск аниме..."   
                                                  Style="{StaticResource TextBoxExtend}"
                                                  CaretBrush="{TemplateBinding CaretBrush}"
+                                                 Background="#1A1F2C"
                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                  IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                                  Padding="{TemplateBinding Padding}"

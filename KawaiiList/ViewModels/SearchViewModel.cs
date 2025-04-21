@@ -7,10 +7,10 @@ using System.Windows.Media;
 
 namespace KawaiiList.ViewModels
 {
-    public partial class SearchViewModel : ObservableObject
+    public partial class SearchViewModel : BaseViewModel
     {
         private readonly AnilibriaService _apiService;
-        private readonly AnimeStore _animeStore1;
+        private readonly AnimeStore _animeStore;
         private readonly INavigationService _navigationService;
         private CancellationTokenSource _cts = new();
 
@@ -28,7 +28,7 @@ namespace KawaiiList.ViewModels
             SearchText = "";
             _apiService = apiService;
             _navigationService = navigationService;
-            _animeStore1 = animeStore;
+            _animeStore = animeStore;
         }
 
         partial void OnSearchTextChanged(string value)
@@ -69,7 +69,7 @@ namespace KawaiiList.ViewModels
         [RelayCommand]
         private void ItemSelected(AnimeTitle selectedAnime)
         {
-            _animeStore1.CurrentAnime = selectedAnime;
+            _animeStore.CurrentAnime = selectedAnime;
             _navigationService.Navigate();
         }
     }

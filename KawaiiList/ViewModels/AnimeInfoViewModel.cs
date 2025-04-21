@@ -4,7 +4,7 @@ using KawaiiList.Stores;
 
 namespace KawaiiList.ViewModels
 {
-    public partial class AnimeInfoViewModel : ObservableObject
+    public partial class AnimeInfoViewModel : BaseViewModel
     {
         private readonly AnimeStore _animeStore;
 

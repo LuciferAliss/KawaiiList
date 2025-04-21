@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace KawaiiList.ViewModels
 {
-    public partial class NavigationBarViewModel : ObservableObject
+    public partial class NavigationBarViewModel : BaseViewModel
     {
         public ICommand NavigateHomeCommand { get; }
 

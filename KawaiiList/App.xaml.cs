@@ -2,10 +2,7 @@
 using KawaiiList.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
-using KawaiiList.Views;
 using KawaiiList.Stores;
-using KawaiiList.Components;
-using KawaiiList.Models.Anilibria;
 
 namespace KawaiiList;
 
@@ -21,16 +18,15 @@ public partial class App : Application
         services.AddSingleton<AnimeStore>();
         services.AddHttpClient<AnilibriaService>();
 
-        services.AddTransient<AnimeCarouselViewModel>();
+        services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<HomeViewModel>();
         services.AddTransient<AnimeInfoViewModel>();
+        services.AddTransient<SearchViewModel>(CreateSearchViewModel);
 
         services.AddSingleton<NavigationBarViewModel>(s => new NavigationBarViewModel
         (
             CreateHomeNavigationService(s)
         ));
-
-        services.AddTransient<SearchViewModel>(CreateSearchViewModel);
 
         services.AddTransient<HaderViewModel>();
 
@@ -59,6 +55,16 @@ public partial class App : Application
     private SearchViewModel CreateSearchViewModel(IServiceProvider service)
     {
         return new SearchViewModel
+        (
+            service.GetRequiredService<AnilibriaService>(),
+            service.GetRequiredService<AnimeStore>(),
+            CreateAnimeInfoNavigationService(service)
+        );
+    }
+
+    private AnimeCarouselViewModel CreateAnimeCarouselViewModel(IServiceProvider service)
+    {
+        return new AnimeCarouselViewModel
         (
             service.GetRequiredService<AnilibriaService>(),
             service.GetRequiredService<AnimeStore>(),

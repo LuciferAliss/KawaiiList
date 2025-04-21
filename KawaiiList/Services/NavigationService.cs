@@ -1,10 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using KawaiiList.Stores;
+using KawaiiList.ViewModels;
 
 namespace KawaiiList.Services
 {
     public class NavigationService<TViewModel> : INavigationService 
-        where TViewModel : ObservableObject
+        where TViewModel : BaseViewModel
     {
         private readonly NavigationStore _navigationStore;
         private readonly Func<TViewModel>? _createViewModel;

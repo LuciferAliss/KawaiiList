@@ -2,7 +2,7 @@
 
 namespace KawaiiList.ViewModels
 {
-    public partial class HomeViewModel : ObservableObject
+    public partial class HomeViewModel : BaseViewModel
     {
         [ObservableProperty]
         private AnimeCarouselViewModel _animeCarousel;
@@ -10,6 +10,13 @@ namespace KawaiiList.ViewModels
         public HomeViewModel(AnimeCarouselViewModel animeCarousel)
         { 
             AnimeCarousel = animeCarousel;
+        }
+
+        public override void Dispose() 
+        {
+            AnimeCarousel.Dispose();
+
+            base.Dispose();
         }
     }
 }

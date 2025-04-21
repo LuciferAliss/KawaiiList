@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using KawaiiList.ViewModels;
 
 namespace KawaiiList.Stores
 {
@@ -6,12 +7,13 @@ namespace KawaiiList.Stores
     {
         public event Action CurrentViewModelChanged;
 
-        private ObservableObject _currentViewModel;
-        public ObservableObject CurrentViewModel
+        private BaseViewModel _currentViewModel;
+        public BaseViewModel CurrentViewModel
         {
             get => _currentViewModel;
             set
             {
+                _currentViewModel?.Dispose();
                 _currentViewModel = value;
                 OnCurrentViewModelChanged();
             }

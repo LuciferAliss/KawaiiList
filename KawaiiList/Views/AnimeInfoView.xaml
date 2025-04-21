@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:KawaiiList.Views"
       mc:Ignorable="d" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:viewModel="clr-namespace:KawaiiList.ViewModels">
 
     <Grid>
@@ -14,7 +15,41 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0">
-            <Image Source="{Binding Anime.Posters.Original.Url}"/>
+            <Border Height="308"
+                    BorderThickness="3"
+                    BorderBrush="LightGray"
+                    CornerRadius="4">
+                <Image Source="{Binding Anime.Posters.Original.Url}"/>
+            </Border>
+            
+            <DockPanel HorizontalAlignment="Stretch"
+                       Margin="0,15">
+                <Button>
+                    <materialDesign:PackIcon Kind="Bell"/>
+                </Button>
+                <Button Margin="10,0,0,0">
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="Play"
+                                                 Margin="0,3,4,0"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Left"/>
+                        <TextBlock Text="Начать просмотр"/>
+                        <TextBlock Text="{Binding Anime.Player.Episodes}"
+                                   Margin="3,0,0,0"/>
+                    </DockPanel>
+                    
+                </Button>
+            </DockPanel>
+
+            <ComboBox materialDesign:HintAssist.Hint="Выберите сезон"
+                      Foreground="LightGray">
+
+                
+                
+            </ComboBox>
+
+
+
         </StackPanel>
 
         <StackPanel Grid.Column="1">

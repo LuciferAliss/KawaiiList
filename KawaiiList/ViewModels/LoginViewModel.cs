@@ -2,7 +2,7 @@
 
 namespace KawaiiList.ViewModels
 {
-    public partial class LoginViewModel : ObservableObject
+    public partial class LoginViewModel : BaseViewModel
     {
 
     }

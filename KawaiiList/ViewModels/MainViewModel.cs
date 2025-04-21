@@ -3,7 +3,7 @@ using KawaiiList.Stores;
 
 namespace KawaiiList.ViewModels
 {
-    public partial class MainViewModel : ObservableObject
+    public partial class MainViewModel : BaseViewModel
     {
         private readonly NavigationStore _navigationStore;
 
