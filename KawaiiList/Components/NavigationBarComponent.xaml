@@ -1,0 +1,155 @@
+﻿<UserControl x:Class="KawaiiList.Components.NavigationBarComponent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KawaiiList.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d">
+
+    <StackPanel>
+        <Border Grid.Column="0"
+                Background="#252A36"
+                BorderThickness="0,0,0,0"
+                CornerRadius="12,0,0,12"
+                Width="250"
+                Height="720">
+            <DockPanel>
+                <!-- Заголовок сайдбара -->
+                <Border DockPanel.Dock="Top"
+                        Margin="0,30,0,0"
+                        Height="70"
+                        Background="{StaticResource NavigationBarBackground}">
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Image Source="/Resources/Images/Logo.png"
+                               Width="52"
+                               Height="57"/>
+                        <TextBlock Text="KawaiiList"
+                                   FontSize="35"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"
+                                   Padding="10,0,0,0"
+                                   Foreground="{StaticResource PrimaryColor}"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Навигационное меню -->
+                <StackPanel Margin="0,20,0,0">
+                    <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
+                                 Command="{Binding NavigateHomeCommand}"
+                                 IsChecked="True"
+                                 HorizontalContentAlignment="Left"
+                                 FontSize="20"
+                                 Margin="0,5,0,5">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Home"
+                                                     Foreground="White"
+                                                     Height="20"
+                                                     Width="20"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="Главная"
+                                       Style="{StaticResource BaseTextBlockStyle}"
+                                       Foreground="White"
+                                       Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
+                                 Command="{Binding NavigateAnimeInfoCommand}"
+                                 HorizontalContentAlignment="Left"
+                                 FontSize="20"
+                                 Margin="0,5,0,5">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="listbox"
+                                                     Foreground="White"
+                                                     Height="20"
+                                                     Width="20"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="Каталог"
+                                       Style="{StaticResource BaseTextBlockStyle}"
+                                       Foreground="White"
+                                       Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
+                                 HorizontalContentAlignment="Left"
+                                 FontSize="20"
+                                 Margin="0,5,0,5">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="timetable"
+                                                     Foreground="White"
+                                                     Height="20"
+                                                     Width="20"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="Расписание"
+                                       Style="{StaticResource BaseTextBlockStyle}"
+                                       Foreground="White"
+                                       Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <TextBlock Text="Мой аккаунт"
+                               Margin="42,30,0,2"
+                               Foreground="{StaticResource SecondaryTextColor}"
+                               FontSize="22"/>
+
+                    <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
+                                 HorizontalContentAlignment="Left"
+                                 FontSize="20"
+                                 Margin="0,5,0,5">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Clock"
+                                             Foreground="White"
+                                             Height="20"
+                                             Width="20"
+                                             VerticalAlignment="Center"/>
+                            <TextBlock Text="Недавние"
+                                       Style="{StaticResource BaseTextBlockStyle}"
+                                       Foreground="White"
+                                       Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
+                                 HorizontalContentAlignment="Left"
+                                 FontSize="20"
+                                 Margin="0,5,0,5">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Heart"
+                                                     Foreground="White"
+                                                     Height="20"
+                                                     Width="20"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="Избранное"
+                                       Style="{StaticResource BaseTextBlockStyle}"
+                                       Foreground="White"
+                                       Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
+                                 HorizontalContentAlignment="Left"
+                                 FontSize="20"
+                                 Margin="0,5,0,5">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Settings"
+                                                     Foreground="White"
+                                                     Height="20"
+                                                     Width="20"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="Настройки"
+                                       Style="{StaticResource BaseTextBlockStyle}"
+                                       Foreground="White"
+                                       Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                </StackPanel>
+            </DockPanel>
+        </Border>
+    </StackPanel>
+
+</UserControl>

@@ -1,15 +1,13 @@
-﻿using KawaiiList.ViewModels.LoginVm;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
-namespace KawaiiList.View
+namespace KawaiiList.Views
 {
     public partial class LoginPage : Window
     {
-        public LoginPage(LoginViewModel vm)
+        public LoginPage()
         {
             InitializeComponent();
-            DataContext = vm;
         }
 
         private void WindowMouseDoun(object sender, MouseButtonEventArgs e)

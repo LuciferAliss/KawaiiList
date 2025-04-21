@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KawaiiList.Models.Anilibria
+﻿namespace KawaiiList.Models.Anilibria
 {
     public class AnimeNames
     {
@@ -54,5 +48,10 @@ namespace KawaiiList.Models.Anilibria
         public PlayerAnime? Player { get; set; }
 
         public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
+
+        public override string ToString()
+        {
+            return "";
+        }
     }
 }
