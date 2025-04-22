@@ -46,6 +46,7 @@
         public List<string>? Genres { get; set; }
         public SeasonAnime? Season { get; set; }
         public PlayerAnime? Player { get; set; }
+        public string? Description { get; set; }
 
         public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
 
