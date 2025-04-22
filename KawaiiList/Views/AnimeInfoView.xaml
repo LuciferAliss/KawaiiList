@@ -6,14 +6,24 @@
       xmlns:local="clr-namespace:KawaiiList.Views"
       mc:Ignorable="d" 
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:hc="https://handyorg.github.io/handycontrol"
       xmlns:viewModel="clr-namespace:KawaiiList.ViewModels">
+
+    <!--<UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
+                <hc:Theme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>-->
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
+    
         <StackPanel Grid.Column="0">
             <Border Height="308"
                     BorderThickness="3"
@@ -21,40 +31,44 @@
                     CornerRadius="4">
                 <Image Source="{Binding Anime.Posters.Original.Url}"/>
             </Border>
+        
+            <Button Margin="0,15">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Play"
+                                             Margin="0,3,4,0"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Left"/>
+                    <TextBlock Text="Начать просмотр"/>
+                </DockPanel>
+                
+            </Button>
+
+            <Border Background="#FF673AB7"
+                    CornerRadius="3,3,14,14"
+                    Cursor="Hand"
+                    Padding="10,4,10,0">
+                <ComboBox materialDesign:HintAssist.Hint="Выберите сезон"
+                          Style="{StaticResource MaterialDesignComboBox}"
+                          Foreground="LightGray">
+                    <ComboBoxItem>Сезон 1</ComboBoxItem>
+                    <ComboBoxItem>Сезон 1</ComboBoxItem>
+                </ComboBox>
+            </Border>
+
+        </StackPanel>
+
             
-            <DockPanel HorizontalAlignment="Stretch"
-                       Margin="0,15">
-                <Button>
-                    <materialDesign:PackIcon Kind="Bell"/>
-                </Button>
-                <Button Margin="10,0,0,0">
-                    <DockPanel>
-                        <materialDesign:PackIcon Kind="Play"
-                                                 Margin="0,3,4,0"
-                                                 VerticalAlignment="Center"
-                                                 HorizontalAlignment="Left"/>
-                        <TextBlock Text="Начать просмотр"/>
-                        <TextBlock Text="{Binding Anime.Player.Episodes}"
-                                   Margin="3,0,0,0"/>
-                    </DockPanel>
-                    
-                </Button>
-            </DockPanel>
-
-            <ComboBox materialDesign:HintAssist.Hint="Выберите сезон"
-                      Foreground="LightGray">
-
-                
-                
-            </ComboBox>
-
-
-
-        </StackPanel>
-
-        <StackPanel Grid.Column="1">
-
-        </StackPanel>
+        <StackPanel Grid.Column="1"
+                    Margin="40,0,0,0">
+                <TextBlock Text="НАРУТО"
+                           FontSize="34"
+                           Style="{StaticResource BaseTextBlockStyle}"
+                           Foreground="{StaticResource TextColor}"/>
+            <TextBlock Text="NAruto"
+                       FontSize="20"
+                       Style="{StaticResource BaseTextBlockStyle}"
+                       Foreground="{StaticResource TextColor}"/>
+            </StackPanel>
 
     </Grid>
 

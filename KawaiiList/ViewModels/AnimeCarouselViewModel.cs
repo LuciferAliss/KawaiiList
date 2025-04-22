@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Windows;
-using System.Windows.Navigation;
 
 namespace KawaiiList.ViewModels
 {
