@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KawaiiList.Models.Anilibria;
+using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using System.Windows.Media;

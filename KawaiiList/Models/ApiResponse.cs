@@ -1,4 +1,4 @@
-﻿namespace KawaiiList.Models.Anilibria
+﻿namespace KawaiiList.Models
 {
     public class ApiResponse<T>
     {

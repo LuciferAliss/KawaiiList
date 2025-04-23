@@ -1,8 +1,9 @@
-﻿namespace KawaiiList.Models.Anilibria
+﻿namespace KawaiiList.Models
 {
     public class AnimeNames
     {
         public string? Ru { get; set; }
+        public string? En { get; set; }
     }
 
     public class AnimePoster

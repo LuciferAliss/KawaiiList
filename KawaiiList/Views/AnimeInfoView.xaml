@@ -67,8 +67,8 @@
                        Style="{StaticResource BaseTextBlockStyle}"
                        Foreground="{StaticResource TextColor}"/>
             
-            <TextBlock Text="NARUTO"
-                       FontWeight="Bold"
+            <TextBlock Text="{Binding Anime.Names.En}"
+                       FontWeight="Medium"
                        FontSize="20"
                        Style="{StaticResource BaseTextBlockStyle}"
                        Foreground="{StaticResource TextColor}"/>

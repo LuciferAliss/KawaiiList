@@ -17,6 +17,7 @@ public partial class App : Application
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<AnimeStore>();
         services.AddHttpClient<AnilibriaService>();
+        services.AddHttpClient<ShikimoriService>();
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<HomeViewModel>();

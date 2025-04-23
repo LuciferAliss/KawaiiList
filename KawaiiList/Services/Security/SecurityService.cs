@@ -29,7 +29,7 @@ namespace KawaiiList.Services.Security
             }
             catch
             {
-                return null;
+                return "";
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using KawaiiList.Models.Anilibria;
+﻿using KawaiiList.Models;
 
 namespace KawaiiList.Stores
 {
