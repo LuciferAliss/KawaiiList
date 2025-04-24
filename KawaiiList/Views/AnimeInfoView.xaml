@@ -19,7 +19,7 @@
         </ResourceDictionary>
     </UserControl.Resources>-->
 
-    <Grid>
+    <Grid Visibility="{Binding ContentVisibility}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>

@@ -3,6 +3,7 @@ using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using Newtonsoft.Json.Linq;
+using System.Windows;
 using System.Windows.Media;
 
 namespace KawaiiList.ViewModels
@@ -12,6 +13,9 @@ namespace KawaiiList.ViewModels
         private readonly AnimeStore _animeStore;
         private readonly ShikimoriService _shikimoriService;
         private CancellationTokenSource _cts = new();
+
+        [ObservableProperty]
+        private Visibility _contentVisibility = Visibility.Hidden;
 
         [ObservableProperty]
         private AnimeTitle _anime;
@@ -40,7 +44,7 @@ namespace KawaiiList.ViewModels
             {
                 try
                 {
-                    var result = await _shikimoriService.GetInfoAsync(Anime.Names?.Ru ?? "", token);
+                    var result = await _shikimoriService.GetInfoAsync(Anime.Names?.En ?? "", token);
 
                     if (token.IsCancellationRequested)
                         return;
@@ -51,9 +55,10 @@ namespace KawaiiList.ViewModels
                     }
 
                     AnimeInfo = result ?? new ShikimoriTitle();
+                    ContentVisibility = Visibility.Visible;
                 }
                 catch (OperationCanceledException)
-                {
+                {   
                 }
             });
         }
