@@ -47,16 +47,46 @@ namespace KawaiiList.Services
             }
         }
 
-        public async Task<List<AnimeTitle>> GetTitlesAsync(int count)
+        public async Task<List<AnimeTitle>> GetTitlesAsync(int count, CancellationToken token)
         {
             try
             {
-                var response = await httpClient.GetAsync($"title/updates?limit={count}");
+                var response = await httpClient.GetAsync($"title/updates?limit={count}", token);
 
                 response.EnsureSuccessStatusCode();
                 
                 string responseBody = await response.Content.ReadAsStringAsync();
-                var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<AnimeTitle>>>();
+                var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<AnimeTitle>>>(cancellationToken: token);
+
+                return result?.List ?? [];
+            }
+            catch (OperationCanceledException)
+            {
+                return [];
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Console.WriteLine($"HTTP request error: {httpEx.Message}");
+                return [];
+            }
+            catch (JsonException jsonEx)
+            {
+                Console.WriteLine($"JSON processing error: {jsonEx.Message}");
+                return [];
+            }
+        }
+
+
+        public async Task<List<AnimeTitle>> GetUpdatesAsync(int count, CancellationToken token)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"title/changes?limit={count}", token);
+
+                response.EnsureSuccessStatusCode();
+                
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<AnimeTitle>>>(cancellationToken: token);
 
                 return result?.List ?? [];
             }

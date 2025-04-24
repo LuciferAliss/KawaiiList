@@ -19,6 +19,7 @@ namespace KawaiiList.ViewModels
         private bool _loadData = false;
         private readonly INavigationService _navigationService;
         private readonly AnimeStore _animeStore;
+        private CancellationTokenSource _cts = new();
 
         [ObservableProperty]
         ObservableCollection<AnimeTitle> _animeTitle;
@@ -38,7 +39,7 @@ namespace KawaiiList.ViewModels
             _animeStore = animeStore;
 
             InitializeAutoScroll(3, 0);
-            _ = LoadAnime();
+            LoadAnime();
         }
 
         private void InitializeAutoScroll(int interval, int initialDelay)
@@ -68,30 +69,39 @@ namespace KawaiiList.ViewModels
             _autoScrollObservable?.Connect();
         }
 
-        private async Task LoadAnime()
+        private void LoadAnime()
         {
-            try
-            {
-                List<AnimeTitle> data = await _apiService.GetTitlesAsync(15);
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = new CancellationTokenSource();
+            var token = _cts.Token;
 
-                if (data.Count == 0)
+            Task.Run(async () =>
+            {
+                try
                 {
-                    await Task.Delay(1000);
-                    await LoadAnime();
-                    return;
+                    List<AnimeTitle> data = await _apiService.GetTitlesAsync(15, token);
+
+                    if (token.IsCancellationRequested)
+                        return;
+                    
+                    if (data.Count == 0)
+                    {
+                        await Task.Delay(1000);
+                        LoadAnime();
+                        return;
+                    }
+
+                    AnimeTitle = [.. data];
+
+                    _autoScrollObservable?.Connect();
+                    _loadData = true;
+                    IsMouseVisible = Visibility.Visible;
                 }
-
-                AnimeTitle = [.. data];
-
-                _autoScrollObservable?.Connect();
-                _loadData = true;
-                IsMouseVisible = Visibility.Visible;
-            }
-            catch (Exception)
-            {
-                await Task.Delay(1000);
-                await LoadAnime();
-            }
+                catch (OperationCanceledException)
+                {
+                }
+             });
         }
 
         [RelayCommand]

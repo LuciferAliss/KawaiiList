@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
+using Newtonsoft.Json.Linq;
+using System.Windows;
 using System.Windows.Media;
 
 namespace KawaiiList.ViewModels
@@ -36,12 +38,18 @@ namespace KawaiiList.ViewModels
             if (value == "")
             {
                 TextColor = new SolidColorBrush(Colors.LightGray);
+                return;
             }
             else
             {
                 TextColor = new SolidColorBrush(Colors.White);
             }
+            
+            LoadAnime(value);
+        }
 
+        private void LoadAnime(string value)
+        {
             _cts.Cancel();
             _cts.Dispose();
             _cts = new CancellationTokenSource();

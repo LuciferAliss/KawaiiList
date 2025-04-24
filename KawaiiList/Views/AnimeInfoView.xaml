@@ -61,7 +61,7 @@
         <StackPanel Grid.Column="1"
                     Margin="25,0,0,0">
             <TextBlock Text="{Binding Anime.Names.Ru}"
-                       FontSize="34"
+                       FontSize="28"
                        TextWrapping="Wrap"
                        FontWeight="UltraBlack"
                        Style="{StaticResource BaseTextBlockStyle}"
@@ -69,7 +69,7 @@
             
             <TextBlock Text="{Binding Anime.Names.En}"
                        FontWeight="Medium"
-                       FontSize="20"
+                       FontSize="17"
                        Style="{StaticResource BaseTextBlockStyle}"
                        Foreground="{StaticResource TextColor}"/>
 

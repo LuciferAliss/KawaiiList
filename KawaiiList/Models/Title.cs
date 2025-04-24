@@ -1,4 +1,6 @@
-﻿namespace KawaiiList.Models
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace KawaiiList.Models
 {
     public class AnimeNames
     {
@@ -39,15 +41,28 @@
         public EpisodesInfo? Episodes { get; set; }
     }
 
-    public class AnimeTitle
+    public partial class AnimeTitle : ObservableObject
     {
-        public int Id { get; set; }
-        public AnimeNames? Names { get; set; }
-        public AnimePosters? Posters { get; set; }
-        public List<string>? Genres { get; set; }
-        public SeasonAnime? Season { get; set; }
-        public PlayerAnime? Player { get; set; }
-        public string? Description { get; set; }
+        [ObservableProperty]
+        private int _id;
+
+        [ObservableProperty]
+        private AnimeNames? _names;
+
+        [ObservableProperty]
+        private AnimePosters? _posters;
+
+        [ObservableProperty]
+        private List<string>? _genres;
+
+        [ObservableProperty]
+        private SeasonAnime? _season;
+
+        [ObservableProperty]
+        private PlayerAnime? _player;
+
+        [ObservableProperty]
+        private string? _description;
 
         public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
 
