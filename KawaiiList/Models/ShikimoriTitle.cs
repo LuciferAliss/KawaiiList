@@ -12,6 +12,15 @@ namespace KawaiiList.Models
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [JsonPropertyName("aired_on")]
+        public string? DateStart { get; set; }
+
+        [JsonPropertyName("released_on")]
+        public string? DateEnd { get; set; }
+
         [JsonPropertyName("image")]
         public ImageData? Image { get; set; }
 

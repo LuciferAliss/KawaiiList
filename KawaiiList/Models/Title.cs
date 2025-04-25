@@ -41,6 +41,11 @@ namespace KawaiiList.Models
         public EpisodesInfo? Episodes { get; set; }
     }
 
+    public class TypeInfo
+    {
+        public string? String { get; set; }
+    }
+
     public partial class AnimeTitle : ObservableObject
     {
         [ObservableProperty]
@@ -63,6 +68,9 @@ namespace KawaiiList.Models
 
         [ObservableProperty]
         private string? _description;
+
+        [ObservableProperty]
+        private TypeInfo? _type;
 
         public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
 

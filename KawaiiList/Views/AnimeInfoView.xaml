@@ -24,7 +24,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-    
+
         <StackPanel Grid.Column="0">
             <Border Height="308"
                     BorderThickness="3"
@@ -32,7 +32,7 @@
                     CornerRadius="4">
                 <Image Source="{Binding Anime.Posters.Original.Url}"/>
             </Border>
-        
+
             <Button Margin="0,15">
                 <DockPanel>
                     <materialDesign:PackIcon Kind="Play"
@@ -41,7 +41,7 @@
                                              HorizontalAlignment="Left"/>
                     <TextBlock Text="Начать просмотр"/>
                 </DockPanel>
-                
+
             </Button>
 
             <Border Background="#FF673AB7"
@@ -55,10 +55,88 @@
                 </ComboBox>
             </Border>
 
+            <Border Margin="0,15"
+                    Padding="5"
+                    BorderThickness="6"
+                    Background="{StaticResource NavigationBarBackground}"
+                    BorderBrush="#252A36"
+                    CornerRadius="7">
+                
+                <StackPanel>
+                    
+                    <TextBlock Margin="11,0,0,0"
+                               Text="Тип"
+                               FontSize="9"
+                               Foreground="{StaticResource SecondaryTextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Margin="10,0,0,10"
+                               Text="{Binding Anime.Type.String}"
+                               FontSize="11"
+                               Foreground="{StaticResource TextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock Margin="11,0,0,0"
+                               Text="Начало выход"
+                               FontSize="9"
+                               Foreground="{StaticResource SecondaryTextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Margin="10,0,0,10"
+                               Text="{Binding AnimeInfo.DateStart}"
+                               FontSize="11"
+                               Foreground="{StaticResource TextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock Margin="11,0,0,0"
+                               Text="Конец выхода"
+                               FontSize="9"
+                               Foreground="{StaticResource SecondaryTextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Margin="10,0,0,10"
+                               Text="{Binding AnimeInfo.DateEnd}"
+                               FontSize="11"
+                               Foreground="{StaticResource TextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock Margin="11,0,0,0"
+                               Text="Статус"
+                               FontSize="9"
+                               Foreground="{StaticResource SecondaryTextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Margin="10,0,0,10"
+                               Text="{Binding AnimeInfo.Status}"
+                               FontSize="11"
+                               Foreground="{StaticResource TextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock Margin="11,0,0,0"
+                               Text="Эпизоды"
+                               FontSize="9"
+                               Foreground="{StaticResource SecondaryTextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Margin="10,0,0,10"
+                               Text="{Binding AnimeInfo.DateStart}"
+                               FontSize="11"
+                               Foreground="{StaticResource TextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock Margin="11,0,0,0"
+                               Text="Автор"
+                               FontSize="9"
+                               Foreground="{StaticResource SecondaryTextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock Margin="10,0,0,10"
+                               Text="Tv Show"
+                               FontSize="11"
+                               Foreground="{StaticResource TextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+
+                </StackPanel>
+                
+            </Border>
+            
         </StackPanel>
 
-            
-        <StackPanel Grid.Column="1"
+        <StackPanel Grid.Column="1" 
                     Margin="25,0,0,0">
             <TextBlock Text="{Binding Anime.Names.Ru}"
                        FontSize="28"
