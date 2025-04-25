@@ -64,69 +64,69 @@
                 
                 <StackPanel>
                     
-                    <TextBlock Margin="11,0,0,0"
+                    <TextBlock Margin="12,3,0,0"
                                Text="Тип"
-                               FontSize="9"
+                               FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
-                    <TextBlock Margin="10,0,0,10"
+                    <TextBlock Margin="10,3,0,10"
                                Text="{Binding Anime.Type.String}"
-                               FontSize="11"
+                               FontSize="15"
                                Foreground="{StaticResource TextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
 
-                    <TextBlock Margin="11,0,0,0"
+                    <TextBlock Margin="12,0,0,0"
                                Text="Начало выход"
-                               FontSize="9"
+                               FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
-                    <TextBlock Margin="10,0,0,10"
+                    <TextBlock Margin="10,3,0,10"
                                Text="{Binding AnimeInfo.DateStart}"
-                               FontSize="11"
+                               FontSize="15"
                                Foreground="{StaticResource TextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
 
-                    <TextBlock Margin="11,0,0,0"
+                    <TextBlock Margin="12,0,0,0"
                                Text="Конец выхода"
-                               FontSize="9"
+                               FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
-                    <TextBlock Margin="10,0,0,10"
+                    <TextBlock Margin="10,3,0,10"
                                Text="{Binding AnimeInfo.DateEnd}"
-                               FontSize="11"
+                               FontSize="15"
                                Foreground="{StaticResource TextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
 
-                    <TextBlock Margin="11,0,0,0"
+                    <TextBlock Margin="12,0,0,0"
                                Text="Статус"
-                               FontSize="9"
+                               FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
-                    <TextBlock Margin="10,0,0,10"
+                    <TextBlock Margin="10,3,0,10"
                                Text="{Binding AnimeInfo.Status}"
-                               FontSize="11"
+                               FontSize="15"
                                Foreground="{StaticResource TextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
 
-                    <TextBlock Margin="11,0,0,0"
+                    <TextBlock Margin="12,0,0,0"
                                Text="Эпизоды"
-                               FontSize="9"
+                               FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
-                    <TextBlock Margin="10,0,0,10"
-                               Text="{Binding AnimeInfo.DateStart}"
-                               FontSize="11"
+                    <TextBlock Margin="10,3,0,10"
+                               Text="{Binding Anime.Player.Episodes.Last}"
+                               FontSize="15"
                                Foreground="{StaticResource TextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
 
-                    <TextBlock Margin="11,0,0,0"
+                    <TextBlock Margin="12,0,0,0"
                                Text="Автор"
-                               FontSize="9"
+                               FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
-                    <TextBlock Margin="10,0,0,10"
-                               Text="Tv Show"
-                               FontSize="11"
+                    <TextBlock Margin="10,3,0,10"
+                               Text="{Binding AnimeInfo.AuthorInfo.Person.Name}"
+                               FontSize="15"
                                Foreground="{StaticResource TextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"/>
 
@@ -173,6 +173,41 @@
                                Foreground="{StaticResource TextColor}"
                                TextWrapping="Wrap"/>
 
+                    <ItemsControl ItemsSource="{Binding Anime.Genres}"
+                                  Margin="0,10,0,0">
+                        
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            Width="800"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+
+                                <Button Content="{Binding}"
+                                        Margin="5,0"
+                                        Style="{StaticResource MaterialDesignRaisedButton}">
+
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <materialDesign:Ripple>
+                                                <Border CornerRadius="10" Background="{TemplateBinding Background}">
+                                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                                              VerticalAlignment="Center"
+                                                                              Margin="10,5"/>
+                                                </Border>
+                                            </materialDesign:Ripple>
+                                        </ControlTemplate>
+                                    </Button.Template>
+
+                                </Button>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        
+                    </ItemsControl>
 
                 </StackPanel>
                     

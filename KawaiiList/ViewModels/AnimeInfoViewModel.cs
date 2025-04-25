@@ -55,6 +55,7 @@ namespace KawaiiList.ViewModels
                     }
 
                     AnimeInfo = result ?? new ShikimoriTitle();
+
                     ContentVisibility = Visibility.Visible;
                 }
                 catch (OperationCanceledException)
