@@ -102,6 +102,7 @@
                                                  Style="{StaticResource TextBoxExtend}"
                                                  CaretBrush="{TemplateBinding CaretBrush}"
                                                  Background="#1A1F2C"
+                                                 Foreground="{Binding TextColor}"
                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                  IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                                  Padding="{TemplateBinding Padding}"
@@ -182,7 +183,6 @@
                             FontFamily="Montserrat"
                             ForceCursor="False"
                             CaretBrush="{StaticResource TextColor}"
-                            Foreground="{Binding TextColor}"
                             VirtualizingPanel.ScrollUnit="Pixel"
                             HorizontalContentAlignment="Stretch">
 

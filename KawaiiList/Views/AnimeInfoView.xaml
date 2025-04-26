@@ -213,7 +213,34 @@
                     </ItemsControl>
 
                     <!-- Сделать меню с выбором статистики, связыными аниме, персонажи, авторы -->
-                    
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Вкладки меню -->
+                        <Border Background="#252A36"
+                                BorderThickness="0,0,0,3"
+                                BorderBrush="{StaticResource DarkBackground}">
+                            <TabControl Grid.Row="0"
+                                        BorderThickness="0"
+                                        Style="{StaticResource MaterialDesignTabControl}">
+
+                                <TabItem Header="Статистика"/>
+                                <TabItem Header="Связанные аниме"/>
+                                <TabItem Header="Персонажи"/>
+                                <TabItem Header="Авторы"/>
+                                
+                            </TabControl>
+                        </Border>
+                        
+
+                        <!-- Контент -->
+                       
+                    </Grid>
+
                 </StackPanel>
                     
             </Border>

@@ -1,4 +1,5 @@
 ﻿using KawaiiList.Models;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -66,12 +67,12 @@ namespace KawaiiList.Services
             }
             catch (HttpRequestException httpEx)
             {
-                Console.WriteLine($"HTTP request error: {httpEx.Message}");
+                Debug.WriteLine($"HTTP request error: {httpEx.Message}");
                 return [];
             }
             catch (JsonException jsonEx)
             {
-                Console.WriteLine($"JSON processing error: {jsonEx.Message}");
+                Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
                 return [];
             }
         }
@@ -96,12 +97,12 @@ namespace KawaiiList.Services
             }
             catch (HttpRequestException httpEx)
             {
-                Console.WriteLine($"HTTP request error: {httpEx.Message}");
+                Debug.WriteLine($"HTTP request error: {httpEx.Message}");
                 return [];
             }
             catch (JsonException jsonEx)
             {
-                Console.WriteLine($"JSON processing error: {jsonEx.Message}");
+                Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
                 return [];
             }
         }
