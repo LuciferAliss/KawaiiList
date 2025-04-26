@@ -19,6 +19,10 @@
         </ResourceDictionary>
     </UserControl.Resources>-->
 
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    
     <Grid Visibility="{Binding ContentVisibility}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -68,67 +72,79 @@
                                Text="Тип"
                                FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsTypeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     <TextBlock Margin="10,3,0,10"
                                Text="{Binding Anime.Type.String}"
                                FontSize="15"
                                Foreground="{StaticResource TextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsTypeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                    <TextBlock Margin="12,0,0,0"
+                    <TextBlock Margin="12,3,0,0"
                                Text="Начало выход"
                                FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsDateStartVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     <TextBlock Margin="10,3,0,10"
                                Text="{Binding AnimeInfo.DateStart}"
                                FontSize="15"
                                Foreground="{StaticResource TextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsDateStartVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                    <TextBlock Margin="12,0,0,0"
+                    <TextBlock Margin="12,3,0,0"
                                Text="Конец выхода"
                                FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsDateEndVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     <TextBlock Margin="10,3,0,10"
                                Text="{Binding AnimeInfo.DateEnd}"
                                FontSize="15"
                                Foreground="{StaticResource TextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsDateEndVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                    <TextBlock Margin="12,0,0,0"
+                    <TextBlock Margin="12,3,0,0"
                                Text="Статус"
                                FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     <TextBlock Margin="10,3,0,10"
-                               Text="{Binding AnimeInfo.Status}"
+                               Text="{Binding Anime.Status.String}"
                                FontSize="15"
                                Foreground="{StaticResource TextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                    <TextBlock Margin="12,0,0,0"
+                    <TextBlock Margin="12,3,0,0"
                                Text="Эпизоды"
                                FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsEpisodesLastVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     <TextBlock Margin="10,3,0,10"
                                Text="{Binding Anime.Player.Episodes.Last}"
                                FontSize="15"
                                Foreground="{StaticResource TextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsEpisodesLastVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                    <TextBlock Margin="12,0,0,0"
-                               Text="Автор"
+                    <TextBlock Margin="12,3,0,0"
+                               Text="Студия"
                                FontSize="13"
                                Foreground="{StaticResource SecondaryTextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsStudioNameVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     <TextBlock Margin="10,3,0,10"
-                               Text="{Binding AnimeInfo.AuthorInfo.Person.Name}"
+                               Text="{Binding AnimeInfo.StudioText}"
                                FontSize="15"
                                Foreground="{StaticResource TextColor}"
-                               Style="{StaticResource BaseTextBlockStyle}"/>
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsStudioNameVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                 </StackPanel>
                 
@@ -146,6 +162,7 @@
                        Foreground="{StaticResource TextColor}"/>
             
             <TextBlock Text="{Binding Anime.Names.En}"
+                       TextWrapping="Wrap"
                        FontWeight="Medium"
                        FontSize="17"
                        Style="{StaticResource BaseTextBlockStyle}"
@@ -188,21 +205,7 @@
 
                                 <Button Content="{Binding}"
                                         Margin="5,0"
-                                        Style="{StaticResource MaterialDesignRaisedButton}">
-
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="Button">
-                                            <materialDesign:Ripple>
-                                                <Border CornerRadius="10" Background="{TemplateBinding Background}">
-                                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                                              VerticalAlignment="Center"
-                                                                              Margin="10,5"/>
-                                                </Border>
-                                            </materialDesign:Ripple>
-                                        </ControlTemplate>
-                                    </Button.Template>
-
-                                </Button>
+                                        Style="{StaticResource MaterialDesignRaisedButton}"/>
 
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

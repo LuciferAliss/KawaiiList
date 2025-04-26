@@ -3,8 +3,11 @@ using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace KawaiiList.ViewModels
 {
@@ -22,6 +25,25 @@ namespace KawaiiList.ViewModels
 
         [ObservableProperty]
         private ShikimoriTitle _animeInfo;
+
+        [ObservableProperty]
+        private bool _isTypeVisible;
+
+        [ObservableProperty]
+        private bool _isDateStartVisible;
+
+        [ObservableProperty]
+        private bool _isDateEndVisible;
+
+        [ObservableProperty]
+        private bool _isStatusVisible;
+
+        [ObservableProperty]
+        private bool _isEpisodesLastVisible;
+
+        [ObservableProperty]
+        private bool _isStudioNameVisible;
+
 
         public AnimeInfoViewModel(AnimeStore animeStore, ShikimoriService shikimoriService)
         {
@@ -51,10 +73,15 @@ namespace KawaiiList.ViewModels
     
                     if (result.Description != null)
                     {
-                        Anime.Description = result.Description;
+                        string cleanedText = Regex.Replace(result.Description, @"\[character=\d+\]|\[\/character\]", "");
+                        Anime.Description = cleanedText;
+                        Debug.WriteLine(result.Description);
+                        Debug.WriteLine(result.DescriptionSource);
                     }
 
                     AnimeInfo = result ?? new ShikimoriTitle();
+
+                    CheckAndMarkIfNotEmpty();
 
                     ContentVisibility = Visibility.Visible;
                 }
@@ -62,6 +89,16 @@ namespace KawaiiList.ViewModels
                 {   
                 }
             });
+        }
+
+        private void CheckAndMarkIfNotEmpty()
+        {
+            IsTypeVisible = Anime.Type?.String != null;
+            IsDateStartVisible = AnimeInfo?.DateStart != null;
+            IsDateEndVisible = AnimeInfo?.DateEnd != null;
+            IsStatusVisible = Anime?.Status?.String != null;
+            IsEpisodesLastVisible = Anime?.Player?.Episodes?.Last != null;
+            IsStudioNameVisible = AnimeInfo?.StudioText != "";
         }
     }
 }

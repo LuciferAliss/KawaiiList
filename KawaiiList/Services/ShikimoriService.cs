@@ -37,7 +37,6 @@ namespace KawaiiList.Services
 
                 List<AnimeRole>? roles = await response.Content.ReadFromJsonAsync<List<AnimeRole>>(cancellationToken: token);
 
-                // Находим оригинального автора (может быть несколько)
                 List<AnimeRole>? originalAuthors = roles?
                     .Where(r => r.Roles.Any(role =>
                         role.Contains("Original Creator") ||
