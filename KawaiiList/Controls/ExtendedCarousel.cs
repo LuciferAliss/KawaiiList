@@ -22,16 +22,5 @@ namespace KawaiiList.Controls
                 carousel.PageIndex = newIndex;
             }
         }
-
-        public new void UpdatePageButtons(int index = -1)
-        {
-            base.UpdatePageButtons(index);
-
-            // Обновляем IndexPage при изменении PageIndex
-            if (index >= 0 && index != IndexPage)
-            {
-                IndexPage = index;
-            }
-        }
     }
 }

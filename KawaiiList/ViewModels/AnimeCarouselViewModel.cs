@@ -16,10 +16,10 @@ namespace KawaiiList.ViewModels
         private readonly AnilibriaService _apiService;
         private IDisposable? _autoScrollSubscription;
         private IConnectableObservable<long>? _autoScrollObservable;
-        private bool _loadData = false;
         private readonly INavigationService _navigationService;
         private readonly AnimeStore _animeStore;
         private CancellationTokenSource _cts = new();
+        private bool _stop = false;
 
         [ObservableProperty]
         ObservableCollection<AnimeTitle> _animeTitle;
@@ -28,11 +28,11 @@ namespace KawaiiList.ViewModels
         int _pageIndex;
 
         [ObservableProperty]
-        private Visibility _isMouseVisible = Visibility.Hidden;
+        private Visibility _contentVisibility = Visibility.Hidden;
 
         public AnimeCarouselViewModel(AnilibriaService apiService, AnimeStore animeStore, INavigationService navigationService)
         {
-            PageIndex = -1;
+            PageIndex = 0;
             _animeTitle = [];
             _apiService = apiService;
             _navigationService = navigationService;
@@ -92,16 +92,19 @@ namespace KawaiiList.ViewModels
                         return;
                     }
 
-                    AnimeTitle = [.. data];
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        AnimeTitle = [.. data];
+                        PageIndex = -1;
+                        ContentVisibility = Visibility.Visible;
+                    });
 
                     _autoScrollObservable?.Connect();
-                    _loadData = true;
-                    IsMouseVisible = Visibility.Visible;
                 }
                 catch (OperationCanceledException)
                 {
                 }
-             });
+            });
         }
 
         [RelayCommand]
@@ -121,7 +124,7 @@ namespace KawaiiList.ViewModels
         [RelayCommand]
         private void MouseEnterCarousel()
         {
-            if (!_loadData)
+            if (_stop)
             {
                 return;
             }
@@ -132,7 +135,7 @@ namespace KawaiiList.ViewModels
         [RelayCommand]
         private void MouseLeaveCarousel()
         {
-            if (!_loadData)
+            if (_stop)
             {
                 return;
             }
@@ -149,8 +152,9 @@ namespace KawaiiList.ViewModels
 
         public override void Dispose()
         {
+            _stop = true;
             StopAutoScroll();
-            _loadData = false;
+            _cts.Cancel();
 
             base.Dispose();
         }

@@ -177,6 +177,7 @@
     </UserControl.Resources>
 
     <Grid Background="Transparent"
+          Visibility="{Binding ContentVisibility}"
           x:Name="AnimeCarousel">
 
         <i:Interaction.Triggers>
@@ -296,8 +297,7 @@
         <Button HorizontalAlignment="Left"
                 Command="{Binding PagePrevCommand}"
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Visibility="{Binding IsMouseVisible}">
+                Grid.ColumnSpan="2">
 
             <materialDesign:PackIcon Kind="ChevronLeft"
                                      Width="56"
@@ -339,8 +339,7 @@
         <Button Grid.Column="1"
                 HorizontalAlignment="Right"
                 Command="{Binding PageNextCommand}"
-                Grid.ColumnSpan="2"
-                Visibility="{Binding IsMouseVisible}">
+                Grid.ColumnSpan="2">
 
             <materialDesign:PackIcon Kind="ChevronRight"
                                      Width="56"

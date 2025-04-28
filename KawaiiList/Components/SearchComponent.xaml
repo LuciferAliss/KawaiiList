@@ -112,6 +112,7 @@
                                         <materialDesign:PackIcon Kind="Search"
                                                                  VerticalAlignment="Center"
                                                                  HorizontalAlignment="Center"
+                                                                 Foreground="{Binding TextColor}"
                                                                  Margin="0,0,10,0"
                                                                  Width="25"
                                                                  Height="25"

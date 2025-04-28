@@ -181,6 +181,7 @@
                                Foreground="{StaticResource TextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"
                                FontWeight="UltraBlack"
+                               Margin="0,0,0,6"
                                FontSize="25"/>
 
                     <TextBlock Text="{Binding Anime.Description}"
@@ -190,8 +191,16 @@
                                Foreground="{StaticResource TextColor}"
                                TextWrapping="Wrap"/>
 
+
+                    <TextBlock Text="Жанры"
+                               Foreground="{StaticResource TextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               FontWeight="UltraBlack"
+                               FontSize="25"
+                               Margin="0,14,0,6"/>
+                    
                     <ItemsControl ItemsSource="{Binding Anime.Genres}"
-                                  Margin="0,10,0,0">
+                                  Margin="0,0,0,14">
                         
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -205,7 +214,10 @@
 
                                 <Button Content="{Binding}"
                                         Margin="5,0"
-                                        Style="{StaticResource MaterialDesignRaisedButton}"/>
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Padding="7,0"
+                                        FontSize="14"
+                                        Height="28"/>
 
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -214,6 +226,13 @@
 
                     <!-- Сделать меню с выбором статистики, связыными аниме, персонажи, авторы -->
 
+                    <TextBlock Text="Информация"
+                               Foreground="{StaticResource TextColor}"
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               FontWeight="UltraBlack"
+                               FontSize="25"
+                               Margin="0,14,0,6"/>
+                    
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -222,23 +241,29 @@
 
                         <!-- Вкладки меню -->
                         <Border Background="#252A36"
-                                BorderThickness="0,0,0,3"
-                                BorderBrush="{StaticResource DarkBackground}">
+                                Grid.Row="0">
                             <TabControl Grid.Row="0"
-                                        BorderThickness="0"
                                         Style="{StaticResource MaterialDesignTabControl}">
 
-                                <TabItem Header="Статистика"/>
-                                <TabItem Header="Связанные аниме"/>
-                                <TabItem Header="Персонажи"/>
-                                <TabItem Header="Авторы"/>
+                                <TabItem Header="Статистика"
+                                         Height="30"
+                                         Padding="0"/>
+                                <TabItem Header="Связанные аниме"
+                                         Height="30"
+                                         Padding="0"/>
+                                <TabItem Header="Персонажи"
+                                         Height="30"
+                                         Padding="0"/>
+                                <TabItem Header="Авторы"
+                                         Height="30"
+                                         Padding="0"/>
                                 
                             </TabControl>
                         </Border>
-                        
 
-                        <!-- Контент -->
-                       
+                        <ContentControl Grid.Row="1"
+                                        Content=""/>
+
                     </Grid>
 
                 </StackPanel>

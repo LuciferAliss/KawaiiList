@@ -51,16 +51,10 @@ namespace KawaiiList.Models
         public string? String { get; set; }
     }
 
-
-    public class FranchisesInfo
-    {
-        public List<FranchiseInfo>? Franchise { get; set; }
-    }
-
     public class FranchiseInfo
     {
-        int Id;
-        public AnimeNames? Names;
+        public int Id { get; set; }
+        public AnimeNames? Names { get; set; }
     }
 
     public partial class AnimeTitle : ObservableObject
@@ -93,7 +87,7 @@ namespace KawaiiList.Models
         private StatusInfo? _status;
 
         [ObservableProperty]
-        private FranchisesInfo? _franchises;
+        private List<FranchiseInfo>? _franchises;
 
         public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
 
