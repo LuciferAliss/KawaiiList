@@ -9,7 +9,7 @@
              xmlns:viewmodel="clr-namespace:KawaiiList.ViewModels"
              d:DataContext="{d:DesignInstance viewmodel:StatisticsAnimeViewModel}">
 
-    <Grid>
+    <StackPanel>
 
         <TextBlock Grid.Row="0"
                    Style="{StaticResource BaseTextBlockStyle}"
@@ -17,15 +17,16 @@
                    Text="Оценки"
                    FontSize="20"
                    FontWeight="Bold"
-                   Margin="10,0,0,0"/>
+                   Margin="0,15,0,10"/>
         
         <lvc:CartesianChart Series="{Binding Series}"
                             XAxes="{Binding XAxes}"
                             YAxes="{Binding YAxes}"
-                            TooltipPosition="Auto"
-                            Height="400"
-                            Grid.Row="1"/>
+                            FindingStrategy="CompareAll"
+                            TooltipPosition="Hidden"
+                            LegendPosition="Hidden"
+                            Height="400"/>
 
-    </Grid>
+    </StackPanel>
 
 </UserControl>

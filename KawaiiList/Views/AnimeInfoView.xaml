@@ -263,7 +263,8 @@
                         </Border>
 
                         <ContentControl Grid.Row="1"
-                                        Content="{Binding CurrentComponent}">
+                                        Content="{Binding CurrentComponent}"
+                                        HorizontalAlignment="Stretch">
 
                             <ContentControl.Resources>
                                 <DataTemplate DataType="{x:Type viewmodel:StatisticsAnimeViewModel}">

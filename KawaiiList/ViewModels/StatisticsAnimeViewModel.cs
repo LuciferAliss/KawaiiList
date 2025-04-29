@@ -36,15 +36,24 @@ namespace KawaiiList.ViewModels
         private Axis[] _xAxes = 
         [
             new Axis 
-            { 
+            {
                 SeparatorsPaint = new SolidColorPaint(new SKColor(235, 235, 235)),
                 LabelsPaint = new SolidColorPaint(SKColors.White),
-                CrosshairLabelsPaint = new SolidColorPaint(SKColors.White)
+                Labeler = value => value.ToString(), // Форматирование меток
+                ForceStepToMin = false, // Принудительно использовать MinStep
+                MinStep = 1,
             }
         ];
 
         [ObservableProperty]
-        private Axis[] _yAxes = [new Axis { IsVisible = false }];
+        private Axis[] _yAxes =
+        [
+            new Axis
+            {
+                Labels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+                
+            }
+        ];
 
         public StatisticsAnimeViewModel(AnimeStore animeStore)
         {
@@ -76,16 +85,11 @@ namespace KawaiiList.ViewModels
             {
                 Values = _data,
                 DataLabelsPaint = new SolidColorPaint(new SKColor(255, 255, 255)),
-                DataLabelsPosition = DataLabelsPosition.Start,
-                DataLabelsTranslate = new(0, 0),
-                DataLabelsFormatter = point => $"{point.Model!.Name}",
-                Ry = 3,
-                MaxBarWidth = 70,
+                DataLabelsFormatter = point => $"{point.Model!.Value}",
                 Padding = 10,
             }
             .OnPointMeasured(point =>
             {
-                // assign a different color to each point
                 if (point.Visual is null) return;
                 point.Visual.Fill = point.Model!.Paint;
             });
