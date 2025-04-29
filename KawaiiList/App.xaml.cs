@@ -59,6 +59,7 @@ public partial class App : Application
         return new SearchViewModel
         (
             service.GetRequiredService<AnilibriaService>(),
+            service.GetRequiredService<ShikimoriService>(),
             service.GetRequiredService<AnimeStore>(),
             CreateAnimeInfoNavigationService(service)
         );

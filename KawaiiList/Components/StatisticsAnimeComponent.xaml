@@ -10,16 +10,21 @@
              d:DataContext="{d:DesignInstance viewmodel:StatisticsAnimeViewModel}">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
+        <TextBlock Grid.Row="0"
+                   Style="{StaticResource BaseTextBlockStyle}"
+                   Foreground="{StaticResource TextColor}"
+                   Text="Оценки"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Margin="10,0,0,0"/>
+        
         <lvc:CartesianChart Series="{Binding Series}"
                             XAxes="{Binding XAxes}"
                             YAxes="{Binding YAxes}"
-                            TooltipPosition="Hidden"
-                            Height="300"
-                            Grid.Row="0"/>
+                            TooltipPosition="Auto"
+                            Height="400"
+                            Grid.Row="1"/>
 
     </Grid>
 

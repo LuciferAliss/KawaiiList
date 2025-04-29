@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
-using OpenTK.Graphics.OpenGL;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reactive.Linq;

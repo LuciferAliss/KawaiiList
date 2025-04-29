@@ -5,6 +5,7 @@ using LiveChartsCore.Defaults;
 using LiveChartsCore.Kernel.Events;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 
@@ -32,7 +33,15 @@ namespace KawaiiList.ViewModels
         private ISeries[] _series;
 
         [ObservableProperty]
-        private Axis[] _xAxes = [new Axis { SeparatorsPaint = new SolidColorPaint(new SKColor(220, 220, 220)) }];
+        private Axis[] _xAxes = 
+        [
+            new Axis 
+            { 
+                SeparatorsPaint = new SolidColorPaint(new SKColor(235, 235, 235)),
+                LabelsPaint = new SolidColorPaint(SKColors.White),
+                CrosshairLabelsPaint = new SolidColorPaint(SKColors.White)
+            }
+        ];
 
         [ObservableProperty]
         private Axis[] _yAxes = [new Axis { IsVisible = false }];
@@ -67,10 +76,11 @@ namespace KawaiiList.ViewModels
             {
                 Values = _data,
                 DataLabelsPaint = new SolidColorPaint(new SKColor(255, 255, 255)),
-                DataLabelsPosition = DataLabelsPosition.End,
-                DataLabelsTranslate = new(-1, 0),
-                DataLabelsFormatter = point => $"{point.Model!.Name} {point.Coordinate.PrimaryValue}",
-                MaxBarWidth = 50,
+                DataLabelsPosition = DataLabelsPosition.Start,
+                DataLabelsTranslate = new(0, 0),
+                DataLabelsFormatter = point => $"{point.Model!.Name}",
+                Ry = 3,
+                MaxBarWidth = 70,
                 Padding = 10,
             }
             .OnPointMeasured(point =>
