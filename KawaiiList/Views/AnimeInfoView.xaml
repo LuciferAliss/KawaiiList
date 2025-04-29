@@ -1,14 +1,15 @@
 ﻿<UserControl x:Class="KawaiiList.Views.AnimeInfoView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:KawaiiList.Views"
-      mc:Ignorable="d" 
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:hc="https://handyorg.github.io/handycontrol"
-      xmlns:viewmodel="clr-namespace:KawaiiList.ViewModels"
-      d:DataContext="{d:DesignInstance viewmodel:AnimeInfoViewModel}">
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KawaiiList.Views"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:viewmodel="clr-namespace:KawaiiList.ViewModels"
+             xmlns:components="clr-namespace:KawaiiList.Components"
+             d:DataContext="{d:DesignInstance viewmodel:AnimeInfoViewModel}">
 
     <!--<UserControl.Resources>
         <ResourceDictionary>
@@ -236,7 +237,7 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <!-- Вкладки меню -->
@@ -262,7 +263,15 @@
                         </Border>
 
                         <ContentControl Grid.Row="1"
-                                        Content=""/>
+                                        Content="{Binding CurrentComponent}">
+
+                            <ContentControl.Resources>
+                                <DataTemplate DataType="{x:Type viewmodel:StatisticsAnimeViewModel}">
+                                    <components:StatisticsAnimeComponent/>
+                                </DataTemplate>
+                            </ContentControl.Resources>
+
+                        </ContentControl>
 
                     </Grid>
 

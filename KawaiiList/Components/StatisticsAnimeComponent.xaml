@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="KawaiiList.Components.StatisticsAnimeComponent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KawaiiList.Components"
+             mc:Ignorable="d"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             xmlns:viewmodel="clr-namespace:KawaiiList.ViewModels"
+             d:DataContext="{d:DesignInstance viewmodel:StatisticsAnimeViewModel}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <lvc:CartesianChart Series="{Binding Series}"
+                            XAxes="{Binding XAxes}"
+                            YAxes="{Binding YAxes}"
+                            TooltipPosition="Hidden"
+                            Height="300"
+                            Grid.Row="0"/>
+
+    </Grid>
+
+</UserControl>

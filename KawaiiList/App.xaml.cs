@@ -21,6 +21,7 @@ public partial class App : Application
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<HomeViewModel>();
+        services.AddTransient<StatisticsAnimeViewModel>();
         services.AddTransient<AnimeInfoViewModel>();
         services.AddTransient<SearchViewModel>(CreateSearchViewModel);
 
@@ -68,6 +69,7 @@ public partial class App : Application
         return new AnimeCarouselViewModel
         (
             service.GetRequiredService<AnilibriaService>(),
+            service.GetRequiredService<ShikimoriService>(),
             service.GetRequiredService<AnimeStore>(),
             CreateAnimeInfoNavigationService(service)
         );

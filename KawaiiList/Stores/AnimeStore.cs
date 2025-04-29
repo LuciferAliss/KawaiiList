@@ -17,6 +17,17 @@ namespace KawaiiList.Stores
             }
         }
 
+        private ShikimoriTitle _currentAnimeInfo;
+        public ShikimoriTitle CurrentAnimeInfo
+        {
+            get => _currentAnimeInfo;
+            set
+            {
+                _currentAnimeInfo = value;
+                OnCurrentAnimeChanged();
+            }
+        }
+
         private void OnCurrentAnimeChanged()
         {
             CurrentAnimeChanged?.Invoke();
