@@ -2,6 +2,7 @@
 using KawaiiList.Stores;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
+using LiveChartsCore.Drawing;
 using LiveChartsCore.Kernel.Events;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
@@ -33,27 +34,22 @@ namespace KawaiiList.ViewModels
         private ISeries[] _series;
 
         [ObservableProperty]
-        private Axis[] _xAxes = 
-        [
-            new Axis 
-            {
-                SeparatorsPaint = new SolidColorPaint(new SKColor(235, 235, 235)),
-                LabelsPaint = new SolidColorPaint(SKColors.White),
-                Labeler = value => value.ToString(), // Форматирование меток
-                ForceStepToMin = false, // Принудительно использовать MinStep
-                MinStep = 1,
-            }
-        ];
+        private Axis[] _xAxes;
+            
+        //    = 
+        //[
+        //    new Axis 
+        //    {
+        //        SeparatorsPaint = new SolidColorPaint(new SKColor(235, 235, 235)),
+        //        LabelsPaint = new SolidColorPaint(SKColors.White),
+        //        Labeler = value => value.ToString(), // Форматирование меток
+        //        ForceStepToMin = false, // Принудительно использовать MinStep
+        //        MinStep = 1,
+        //    }
+        //];
 
         [ObservableProperty]
-        private Axis[] _yAxes =
-        [
-            new Axis
-            {
-                Labels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-                
-            }
-        ];
+        private Axis[] _yAxes;
 
         public StatisticsAnimeViewModel(AnimeStore animeStore)
         {
@@ -67,8 +63,8 @@ namespace KawaiiList.ViewModels
 
                     float hue = startHue + (endHue - startHue) * i / (10 - 1);
 
-                    float saturation = 1f;
-                    float lightness = 0.5f;
+                    float saturation = 0.8f;
+                    float lightness = 0.4f;
 
                     var color = SKColor.FromHsl(hue, saturation * 100, lightness * 100);
                     return new SolidColorPaint(color);
@@ -81,11 +77,11 @@ namespace KawaiiList.ViewModels
                 _data.Add(new PilotInfo(_animeStore.CurrentAnimeInfo.RatesScoresStats[i].Name.ToString(), _animeStore.CurrentAnimeInfo.RatesScoresStats[i].Value, paints[i]));
             }
 
+            _data.Reverse();
+
             var rowSeries = new RowSeries<PilotInfo>
             {
                 Values = _data,
-                DataLabelsPaint = new SolidColorPaint(new SKColor(255, 255, 255)),
-                DataLabelsFormatter = point => $"{point.Model!.Value}",
                 Padding = 10,
             }
             .OnPointMeasured(point =>
@@ -95,6 +91,31 @@ namespace KawaiiList.ViewModels
             });
 
             _series = [rowSeries];
+
+            XAxes =
+            [
+                new Axis
+                {
+                    SeparatorsPaint = null,
+                    LabelsPaint = null,
+                    Position = AxisPosition.Start
+                }
+            ];
+
+            YAxes =
+            [
+                new Axis
+                {
+                   Labels = _data.Select(d => d.Name + " (" + d.Value + ")").ToArray(),
+                   LabelsPaint = new SolidColorPaint(SKColors.White) { FontFamily = "Montserrat" },
+                   SeparatorsPaint = null,
+                   LabelsRotation = 0,
+                   TextSize = 14,
+                   MinStep = 1,
+                   ForceStepToMin = true,
+                   Position = AxisPosition.Start
+                }
+            ];
         }
     }
 }

@@ -264,6 +264,7 @@
                         <StackPanel Grid.Column="1"
                                     Margin="10,0,0,0">
                             <TextBlock Text="{Binding Names.Ru}"
+                                       Foreground="{StaticResource TextColor}"
                                        FontWeight="Bold"
                                        FontSize="26"
                                        TextWrapping="Wrap"/>
