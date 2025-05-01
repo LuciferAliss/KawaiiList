@@ -20,17 +20,17 @@ public partial class App : Application
         services.AddHttpClient<ShikimoriService>();
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
-        services.AddTransient<HomeViewModel>();
         services.AddTransient<StatisticsAnimeViewModel>();
-        services.AddTransient<AnimeInfoViewModel>();
         services.AddTransient<SearchViewModel>(CreateSearchViewModel);
-
         services.AddSingleton<NavigationBarViewModel>(s => new NavigationBarViewModel
         (
             CreateHomeNavigationService(s)
         ));
-
         services.AddTransient<HaderViewModel>();
+
+        services.AddTransient<HomeViewModel>();
+        services.AddTransient<AnimeInfoViewModel>(CreateWatchAnimeViewModel);
+        services.AddTransient<WatchAnimeViewModel>();
 
         services.AddSingleton<INavigationService>(s => CreateHomeNavigationService(s));
 
@@ -76,6 +76,16 @@ public partial class App : Application
         );
     }
 
+    private AnimeInfoViewModel CreateWatchAnimeViewModel (IServiceProvider service)
+    {
+        return new AnimeInfoViewModel
+        (
+            service.GetRequiredService<AnimeStore>(),
+            service.GetRequiredService<StatisticsAnimeViewModel>(),
+            CreateWatchAnimeNavigationService(service)
+        );
+    }
+
     private INavigationService CreateAnimeInfoNavigationService(IServiceProvider service)
     {
         return new NavigationService<AnimeInfoViewModel>(service.GetRequiredService<NavigationStore>(),
@@ -86,5 +96,11 @@ public partial class App : Application
     {
         return new NavigationService<HomeViewModel>(service.GetRequiredService<NavigationStore>(),
             () => service.GetRequiredService<HomeViewModel>());
+    }
+
+    private INavigationService CreateWatchAnimeNavigationService(IServiceProvider service)
+    {
+        return new NavigationService<WatchAnimeViewModel>(service.GetRequiredService<NavigationStore>(),
+            () => service.GetRequiredService<WatchAnimeViewModel>());
     }
 }

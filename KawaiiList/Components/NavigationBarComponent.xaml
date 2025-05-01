@@ -12,7 +12,7 @@
                 Background="#252A36"
                 BorderThickness="0,0,0,0"
                 CornerRadius="12,0,0,12"
-                Width="250"
+                Width="200"
                 Height="720">
             <DockPanel>
                 <!-- Заголовок сайдбара -->
@@ -24,10 +24,10 @@
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Center">
                         <Image Source="/Resources/Images/Logo.png"
-                               Width="52"
-                               Height="57"/>
+                               Width="45"
+                               Height="50"/>
                         <TextBlock Text="KawaiiList"
-                                   FontSize="35"
+                                   FontSize="28"
                                    FontWeight="Bold"
                                    VerticalAlignment="Center"
                                    Padding="10,0,0,0"

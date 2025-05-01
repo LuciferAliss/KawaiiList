@@ -167,6 +167,7 @@ namespace KawaiiList.ViewModels
                     if (result.Description != null)
                     {
                         string cleanedText = Regex.Replace(result.Description, @"\[character=\d+\]|\[\/character\]", "");
+                        cleanedText = Regex.Replace(cleanedText, @"\[anime=\d+\]|\[\/anime\]", "");
                         selectedAnime.Description = cleanedText;
                         Debug.WriteLine(result.Description);
                         Debug.WriteLine(result.DescriptionSource);

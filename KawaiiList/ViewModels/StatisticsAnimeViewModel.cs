@@ -2,11 +2,9 @@
 using KawaiiList.Stores;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
-using LiveChartsCore.Drawing;
 using LiveChartsCore.Kernel.Events;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 
@@ -31,30 +29,27 @@ namespace KawaiiList.ViewModels
         private readonly List<PilotInfo> _data = [];
 
         [ObservableProperty]
-        private ISeries[] _series;
+        private ISeries[] _seriesScores = [];
 
         [ObservableProperty]
-        private Axis[] _xAxes;
-            
-        //    = 
-        //[
-        //    new Axis 
-        //    {
-        //        SeparatorsPaint = new SolidColorPaint(new SKColor(235, 235, 235)),
-        //        LabelsPaint = new SolidColorPaint(SKColors.White),
-        //        Labeler = value => value.ToString(), // Форматирование меток
-        //        ForceStepToMin = false, // Принудительно использовать MinStep
-        //        MinStep = 1,
-        //    }
-        //];
+        private IEnumerable<ISeries> _seriesListUser = [];
 
         [ObservableProperty]
-        private Axis[] _yAxes;
+        private Axis[] _xAxes = [];
+
+        [ObservableProperty]
+        private Axis[] _yAxes = [];
 
         public StatisticsAnimeViewModel(AnimeStore animeStore)
         {
             _animeStore = animeStore;
 
+            CreatingFeedbackSchedule();
+            CreatingUserListChart();
+        }
+
+        private void CreatingFeedbackSchedule()
+        {
             var paints = Enumerable.Range(0, 10)
                 .Select(i =>
                 {
@@ -90,7 +85,7 @@ namespace KawaiiList.ViewModels
                 point.Visual.Fill = point.Model!.Paint;
             });
 
-            _series = [rowSeries];
+            SeriesScores = [rowSeries];
 
             XAxes =
             [
@@ -116,6 +111,26 @@ namespace KawaiiList.ViewModels
                    Position = AxisPosition.Start
                 }
             ];
+        }
+
+        private void CreatingUserListChart()
+        {
+            var stats = _animeStore.CurrentAnimeInfo.RatesStatusesStats ?? [];
+            double total = stats.Sum(i => i.Value);
+
+            SeriesListUser = stats.Select(item => new PieSeries<int>
+            {
+                Values = [item.Value],
+                Name = item.Name,
+                DataLabelsSize = 16,
+                DataLabelsPaint = new SolidColorPaint(SKColors.White),
+                HoverPushout = 0,
+                DataLabelsFormatter = (chartPoint) =>
+                {
+                    double percent = item.Value / total * 100;
+                    return percent < 5 ? string.Empty : $"{item.Name}{Environment.NewLine}{item.Value}";
+                }
+            }).ToArray();
         }
     }
 }

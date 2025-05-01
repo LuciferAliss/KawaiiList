@@ -17,7 +17,7 @@
 
         <ContentControl Content="{Binding AnimeCarousel}" 
                         Margin="0,10,0,0"
-                        HorizontalAlignment="Stretch">
+                        HorizontalAlignment="Center">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type viewModels:AnimeCarouselViewModel}">
                     <components:AnimeCarouselComponent/>

@@ -1,17 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows;
+using static System.Net.WebRequestMethods;
 
 namespace KawaiiList.ViewModels
 {
     public partial class AnimeInfoViewModel : BaseViewModel
     {
         private readonly AnimeStore _animeStore;
-        private CancellationTokenSource _cts = new();
+        private readonly INavigationService _navigationService;
 
         [ObservableProperty]
         private BaseViewModel _currentComponent;
@@ -44,12 +46,13 @@ namespace KawaiiList.ViewModels
         private bool _isStudioNameVisible;
 
 
-        public AnimeInfoViewModel(AnimeStore animeStore, StatisticsAnimeViewModel statisticsAnimeViewModel)
+        public AnimeInfoViewModel(AnimeStore animeStore, StatisticsAnimeViewModel statisticsAnimeViewModel, INavigationService navigation)
         {
             _animeStore = animeStore;
             Anime = _animeStore.CurrentAnime;
             AnimeInfo = _animeStore.CurrentAnimeInfo;
             CurrentComponent = statisticsAnimeViewModel;
+            _navigationService = navigation;
 
             CheckAndMarkIfNotEmpty();
         }
@@ -64,6 +67,22 @@ namespace KawaiiList.ViewModels
             IsStudioNameVisible = AnimeInfo?.StudioText != "";
 
             ContentVisibility = Visibility.Visible;
+        }
+
+        [RelayCommand]
+        private void OpenUrl()
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://shikimori.one/" + AnimeInfo.Url?.Substring(1),
+                UseShellExecute = true
+            });
+        }
+
+        [RelayCommand]
+        private void OpenWatchAnimeView()
+        {
+            _navigationService.Navigate();
         }
     }
 }

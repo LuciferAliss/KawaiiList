@@ -11,22 +11,45 @@
 
     <StackPanel>
 
-        <TextBlock Grid.Row="0"
-                   Style="{StaticResource BaseTextBlockStyle}"
+        <TextBlock Style="{StaticResource BaseTextBlockStyle}"
                    Foreground="{StaticResource TextColor}"
-                   Text="Оценки"
+                   Text="Подробная информация об оценке аниме"
                    FontSize="20"
                    FontWeight="Bold"
-                   Margin="0,15,0,10"/>
+                   Margin="0,15,0,0"/>
+        <TextBlock Style="{StaticResource BaseTextBlockStyle}"
+                   Foreground="{StaticResource SecondaryTextColor}"
+                   Text="Вся информация была заимствована  с сайта shikimori.one"
+                   FontSize="12"
+                   FontWeight="Bold"/>
         
-        <lvc:CartesianChart Series="{Binding Series}"
+        <lvc:CartesianChart Series="{Binding SeriesScores}"
                             XAxes="{Binding XAxes}"
                             YAxes="{Binding YAxes}"
                             FindingStrategy="CompareAll"
                             TooltipPosition="Hidden"
                             LegendPosition="Hidden"
+                            VerticalAlignment="Top"
                             Height="400"/>
 
+        <TextBlock Style="{StaticResource BaseTextBlockStyle}"
+                   Foreground="{StaticResource TextColor}"
+                   Text="Информация об добавления аниме в пользовательские списки"
+                   FontSize="20"
+                   FontWeight="Bold"/>
+        <TextBlock Style="{StaticResource BaseTextBlockStyle}"
+                   Foreground="{StaticResource SecondaryTextColor}"
+                   Text="Вся информация была заимствована  с сайта shikimori.one"
+                   FontSize="12"
+                   FontWeight="Bold"
+                   Margin="0,0,0,30"/>
+
+        <lvc:PieChart Series="{Binding SeriesListUser}" 
+                      Height="300"
+                      Width="300"
+                      Margin="35,0,0,0"
+                      HorizontalAlignment="Left"/>
+        
     </StackPanel>
 
 </UserControl>

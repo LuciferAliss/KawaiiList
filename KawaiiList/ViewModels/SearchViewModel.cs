@@ -18,6 +18,13 @@ namespace KawaiiList.ViewModels
         private CancellationTokenSource _cts = new();
 
         [ObservableProperty]
+        private bool _loadAnimeData = false;
+
+        [ObservableProperty]
+        private string _loadAnimeText = "Загрузка...";
+
+
+        [ObservableProperty]
         private string _searchText;
 
         [ObservableProperty]
@@ -52,6 +59,11 @@ namespace KawaiiList.ViewModels
 
         private void LoadAnime(string value)
         {
+            LoadAnimeData = true;
+            LoadAnimeText = "Загрузка...";
+
+            Task.Delay(1000);
+
             _cts.Cancel();
             _cts.Dispose();
             _cts = new CancellationTokenSource();
@@ -68,7 +80,12 @@ namespace KawaiiList.ViewModels
                     if (token.IsCancellationRequested)
                         return;
 
-                    AnimeList = result ?? new List<AnimeTitle>();
+                    LoadAnimeData = false;
+                    if (result.Count == 0)
+                    {
+                        LoadAnimeText = "Ничего не найдено";
+                    }
+                    AnimeList = result ?? [];
                 }
                 catch (OperationCanceledException)
                 {
@@ -96,6 +113,7 @@ namespace KawaiiList.ViewModels
                     if (result.Description != null)
                     {
                         string cleanedText = Regex.Replace(result.Description, @"\[character=\d+\]|\[\/character\]", "");
+                        cleanedText = Regex.Replace(cleanedText, @"\[anime=\d+\]|\[\/anime\]", "");
                         selectedAnime.Description = cleanedText;
                         Debug.WriteLine(result.Description);
                         Debug.WriteLine(result.DescriptionSource);

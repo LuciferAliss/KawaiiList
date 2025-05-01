@@ -178,7 +178,8 @@
 
     <Grid Background="Transparent"
           Visibility="{Binding ContentVisibility}"
-          x:Name="AnimeCarousel">
+          x:Name="AnimeCarousel"
+          Width="980">
 
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="MouseEnter">
