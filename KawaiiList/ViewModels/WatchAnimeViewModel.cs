@@ -10,7 +10,9 @@ namespace KawaiiList.ViewModels
     public partial class WatchAnimeViewModel : BaseViewModel
     {
         private readonly VlcService _vlcService;
-        private readonly AnimeTitle _anime;
+
+        [ObservableProperty]
+        private AnimeTitle _anime;
 
         [ObservableProperty]
         private MediaPlayer _mediaPlayer;
@@ -18,14 +20,14 @@ namespace KawaiiList.ViewModels
         public WatchAnimeViewModel(VlcService vlcService, AnimeStore animeStore)
         {
             _vlcService = vlcService;
-            _anime = animeStore.CurrentAnime;
+            Anime = animeStore.CurrentAnime;
             MediaPlayer = _vlcService.CreatePlayer();
         }
 
         [RelayCommand]
         public void Play()
         {
-            string url = "https://" + _anime.Player?.Host + _anime.Player?.List?["1"].Hls?.Hd ?? "";
+            string url = _anime.Player?.List?["1"].Hls?.Hd ?? "";
             var media = _vlcService.CreateMedia(url);
             
             MediaPlayer.Play(media);
@@ -35,6 +37,12 @@ namespace KawaiiList.ViewModels
         public void Pause()
         {
             MediaPlayer?.Pause();
+        }
+
+        override public void Dispose()
+        {
+            MediaPlayer?.Dispose();
+            base.Dispose();
         }
     }
 }

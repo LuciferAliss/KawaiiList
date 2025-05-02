@@ -7,21 +7,160 @@
              mc:Ignorable="d"
              xmlns:viewmodel="clr-namespace:KawaiiList.ViewModels"
              d:DataContext="{d:DesignInstance viewmodel:WatchAnimeViewModel}"
-             xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF">
+             xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
+             xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <StackPanel>
         <vlc:VideoView MediaPlayer="{Binding MediaPlayer}"
-                       Width="640"
-                       Height="360"
+                       Width="880"
+                       Height="495"
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Stretch">
-            <StackPanel Orientation="Horizontal"
-                        VerticalAlignment="Bottom"
-                        Background="#80000000"
-                        Opacity="0.6">
-                <Button Content="▶" Command="{Binding PlayCommand}" />
-                <Button Content="⏸" Command="{Binding PauseCommand}" Margin="10,0,0,0"/>
-            </StackPanel>
+
+            <Border Padding="10"
+                    VerticalAlignment="Bottom">
+
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                        <GradientStop Color="#AA000000" Offset="0"/>
+                        <GradientStop Color="#00000000" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel Grid.Column="0"
+                                    Margin="0,0,0,15">
+                            <TextBlock Text="Эпизод"
+                                       Style="{StaticResource BaseTextBlockStyle}"
+                                       Foreground="{StaticResource TextColor}"
+                                       FontSize="17"/>
+                            <TextBlock Text="Первые шаги"
+                                       Style="{StaticResource BaseTextBlockStyle}"
+                                       Foreground="{StaticResource TextColor}"
+                                       FontSize="11"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom">
+                            <TextBlock Text="00:00 / 24:00"
+                                       Margin="0,0,0,15"
+                                       Style="{StaticResource BaseTextBlockStyle}"
+                                       Foreground="{StaticResource TextColor}"
+                                       FontSize="11"/>
+                        </StackPanel>
+                        
+                    </Grid>
+                    
+                    <Grid Grid.Row="1">
+
+                        <Slider Orientation="Horizontal"
+                                HorizontalContentAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
+                                Minimum="0"
+                                Maximum="100"/>
+
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Button Width="30"
+                                    Height="30">
+
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+                                        <Setter Property="Background" Value="#331d5b"/>
+                                        <Setter Property="BorderBrush" Value="#331d5b"/>
+                                    </Style>
+                                </Button.Style>
+
+                                <materialdesign:PackIcon Kind="SkipPrevious"/>
+
+                            </Button>
+
+                            <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+                                    Width="40"
+                                    Height="40"
+                                    Margin="15,0"
+                                    Command="{Binding PlayCommand}">
+
+                                <materialdesign:PackIcon Kind="Play"
+                                                         Width="35"
+                                                         Height="35"/>
+
+                            </Button>
+                            
+                            <Button Width="30"
+                                    Height="30">
+
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+                                        <Setter Property="Background" Value="#331d5b"/>
+                                        <Setter Property="BorderBrush" Value="#331d5b"/>
+                                    </Style>
+                                </Button.Style>
+
+                                <materialdesign:PackIcon Kind="SkipNext"/>
+                                
+                            </Button>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center">
+
+                            <Button Style="{StaticResource MaterialDesignIconButton}"
+                                    Width="29"
+                                    Height="29">
+
+                                <materialdesign:PackIcon Kind="VolumeHigh"
+                                                         Width="20"
+                                                         Height="20"/>
+
+                            </Button>
+
+                            <Button Style="{StaticResource MaterialDesignIconButton}"
+                                    Width="29"
+                                    Height="29">
+                                
+                                <materialdesign:PackIcon Kind="Settings"
+                                                         Width="20"
+                                                         Height="20"/>
+                                
+                            </Button>
+
+                            <Button Style="{StaticResource MaterialDesignIconButton}"
+                                    Width="29"
+                                    Height="29">
+
+                                <materialdesign:PackIcon Kind="Fullscreen"
+                                                         Width="25"
+                                                         Height="25"/>
+
+                            </Button>
+                        </StackPanel>
+                        
+                    </Grid>
+
+                </Grid>
+            </Border>
+
         </vlc:VideoView>
     </StackPanel>
 
