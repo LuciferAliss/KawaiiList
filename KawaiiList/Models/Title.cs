@@ -1,4 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using LiveChartsCore;
+using OpenTK.Graphics.ES11;
+using System.Text.Json.Serialization;
+using static OpenTK.Graphics.OpenGL.GL;
 
 namespace KawaiiList.Models
 {
@@ -39,6 +43,32 @@ namespace KawaiiList.Models
     public class PlayerAnime
     {
         public EpisodesInfo? Episodes { get; set; }
+        public string? Host { get; set; }
+        public Dictionary<string, EpisodeInfo>? List { get; set; }
+    }
+
+    public class EpisodeInfo
+    {
+        public int? Episode { get; set; }
+        public string? Name { get; set; }
+        public Skips? Skips { get; set; }
+        public HlsLinks? Hls { get; set; }
+    }
+
+    public class HlsLinks
+    {
+        public string? Fhd { get; set; }
+
+        public string? Hd { get; set; }
+
+        public string? Sd { get; set; }
+    }
+
+    public class Skips
+    {
+        public List<int>? Opening { get; set; }
+
+        public List<int>? Ending { get; set; }
     }
 
     public class TypeInfo

@@ -12,7 +12,6 @@ namespace KawaiiList.ViewModels
 {
     public partial class AnimeInfoViewModel : BaseViewModel
     {
-        private readonly AnimeStore _animeStore;
         private readonly INavigationService _navigationService;
 
         [ObservableProperty]
@@ -48,9 +47,8 @@ namespace KawaiiList.ViewModels
 
         public AnimeInfoViewModel(AnimeStore animeStore, StatisticsAnimeViewModel statisticsAnimeViewModel, INavigationService navigation)
         {
-            _animeStore = animeStore;
-            Anime = _animeStore.CurrentAnime;
-            AnimeInfo = _animeStore.CurrentAnimeInfo;
+            Anime = animeStore.CurrentAnime;
+            AnimeInfo = animeStore.CurrentAnimeInfo;
             CurrentComponent = statisticsAnimeViewModel;
             _navigationService = navigation;
 

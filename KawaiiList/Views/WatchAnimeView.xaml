@@ -4,13 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KawaiiList.Views"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             xmlns:viewmodel="clr-namespace:KawaiiList.ViewModels"
+             d:DataContext="{d:DesignInstance viewmodel:WatchAnimeViewModel}"
+             xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF">
 
     <StackPanel>
-        <TextBlock Text="fwef"
-                   Style="{StaticResource BaseTextBlockStyle}"
-                   Foreground="White"
-                   FontSize="40"/>
+        <vlc:VideoView MediaPlayer="{Binding MediaPlayer}"
+                       Width="640"
+                       Height="360"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Bottom"
+                        Background="#80000000"
+                        Opacity="0.6">
+                <Button Content="▶" Command="{Binding PlayCommand}" />
+                <Button Content="⏸" Command="{Binding PauseCommand}" Margin="10,0,0,0"/>
+            </StackPanel>
+        </vlc:VideoView>
     </StackPanel>
-    
+
 </UserControl>

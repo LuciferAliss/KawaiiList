@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using KawaiiList.Models;
 using KawaiiList.Stores;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
@@ -25,7 +26,7 @@ namespace KawaiiList.ViewModels
 
     public partial class StatisticsAnimeViewModel : BaseViewModel
     {
-        private readonly AnimeStore _animeStore;
+        private readonly ShikimoriTitle _animeInfo;
         private readonly List<PilotInfo> _data = [];
 
         [ObservableProperty]
@@ -42,7 +43,7 @@ namespace KawaiiList.ViewModels
 
         public StatisticsAnimeViewModel(AnimeStore animeStore)
         {
-            _animeStore = animeStore;
+            _animeInfo = animeStore.CurrentAnimeInfo;
 
             CreatingFeedbackSchedule();
             CreatingUserListChart();
@@ -67,9 +68,9 @@ namespace KawaiiList.ViewModels
                 .ToArray();
 
 
-            for (int i = 0; i < _animeStore.CurrentAnimeInfo.RatesScoresStats?.Count; i++)
+            for (int i = 0; i < _animeInfo.RatesScoresStats?.Count; i++)
             {
-                _data.Add(new PilotInfo(_animeStore.CurrentAnimeInfo.RatesScoresStats[i].Name.ToString(), _animeStore.CurrentAnimeInfo.RatesScoresStats[i].Value, paints[i]));
+                _data.Add(new PilotInfo(_animeInfo.RatesScoresStats[i].Name.ToString(), _animeInfo.RatesScoresStats[i].Value, paints[i]));
             }
 
             _data.Reverse();
@@ -115,7 +116,7 @@ namespace KawaiiList.ViewModels
 
         private void CreatingUserListChart()
         {
-            var stats = _animeStore.CurrentAnimeInfo.RatesStatusesStats ?? [];
+            var stats = _animeInfo.RatesStatusesStats ?? [];
             double total = stats.Sum(i => i.Value);
 
             SeriesListUser = stats.Select(item => new PieSeries<int>
