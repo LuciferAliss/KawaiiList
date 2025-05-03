@@ -15,13 +15,15 @@ namespace KawaiiList.ViewModels
         private AnimeTitle _anime;
 
         [ObservableProperty]
-        private MediaPlayer _mediaPlayer;
+        private MediaPlayer _animeMediaPlayer;
 
         public WatchAnimeViewModel(VlcService vlcService, AnimeStore animeStore)
         {
             _vlcService = vlcService;
+            AnimeMediaPlayer = _vlcService.AnimeMediaPlayer;
             Anime = animeStore.CurrentAnime;
-            MediaPlayer = _vlcService.CreatePlayer();
+
+            _vlcService.FullScreenModeChanged += UpdateFullScreenMode;
         }
 
         [RelayCommand]
@@ -29,20 +31,25 @@ namespace KawaiiList.ViewModels
         {
             string url = _anime.Player?.List?["1"].Hls?.Hd ?? "";
             var media = _vlcService.CreateMedia(url);
-            
-            MediaPlayer.Play(media);
+
+            AnimeMediaPlayer.Play(media);
         }
 
         [RelayCommand]
         public void Pause()
         {
-            MediaPlayer?.Pause();
+            AnimeMediaPlayer?.Pause();
         }
 
         override public void Dispose()
         {
-            MediaPlayer?.Dispose();
+            AnimeMediaPlayer?.Dispose();
             base.Dispose();
+        }
+
+        private void UpdateFullScreenMode()
+        {
+            AnimeMediaPlayer = _vlcService.AnimeMediaPlayer;
         }
     }
 }
