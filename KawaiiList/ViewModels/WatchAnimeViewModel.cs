@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Models;
 using KawaiiList.Services;
@@ -9,7 +9,8 @@ namespace KawaiiList.ViewModels
 {
     public partial class WatchAnimeViewModel : BaseViewModel
     {
-        private readonly VlcService _vlcService;
+        private readonly string host;
+        public LibVLC LibVLC { get; }
 
         [ObservableProperty]
         private AnimeTitle _anime;
@@ -17,39 +18,48 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private MediaPlayer _animeMediaPlayer;
 
-        public WatchAnimeViewModel(VlcService vlcService, AnimeStore animeStore)
+        public WatchAnimeViewModel(AnimeStore animeStore)
         {
-            _vlcService = vlcService;
-            AnimeMediaPlayer = _vlcService.AnimeMediaPlayer;
             Anime = animeStore.CurrentAnime;
 
-            _vlcService.FullScreenModeChanged += UpdateFullScreenMode;
-        }
+            Core.Initialize();
+            LibVLC = new LibVLC(enableDebugLogs: true);
+            host = "https://cache.libria.fun";
 
-        [RelayCommand]
-        public void Play()
-        {
             string url = _anime.Player?.List?["1"].Hls?.Hd ?? "";
-            var media = _vlcService.CreateMedia(url);
+            var media = new Media(LibVLC, host + url, FromType.FromLocation);
+            AnimeMediaPlayer = new MediaPlayer(LibVLC);
 
-            AnimeMediaPlayer.Play(media);
+            AnimeMediaPlayer.Media = media;
         }
 
         [RelayCommand]
-        public void Pause()
+        public void ManageStartAndStopVideo()
         {
-            AnimeMediaPlayer?.Pause();
+            if (AnimeMediaPlayer.IsPlaying)
+            {
+                AnimeMediaPlayer?.Pause();
+            }
+            else
+            {
+                AnimeMediaPlayer.Play();
+            }
         }
+
+        [RelayCommand]
+        public void ToggleFullscreen()
+        {
+            AnimeMediaPlayer.Fullscreen = !AnimeMediaPlayer.Fullscreen;
+        }
+
 
         override public void Dispose()
         {
+            AnimeMediaPlayer?.Stop();
             AnimeMediaPlayer?.Dispose();
-            base.Dispose();
-        }
+            LibVLC?.Dispose();
 
-        private void UpdateFullScreenMode()
-        {
-            AnimeMediaPlayer = _vlcService.AnimeMediaPlayer;
+            base.Dispose();
         }
     }
 }

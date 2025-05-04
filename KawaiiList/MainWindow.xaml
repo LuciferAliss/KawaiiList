@@ -32,9 +32,7 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <!--// Навигационная панель //-->
                 <ColumnDefinition Width="auto"/>
-                <!--// Основная страница //-->
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -92,7 +90,6 @@
                 </Border>
 
                 <!-- Верхняя навигационная панель -->
-
                 <components:HaderComponent Grid.Row="1"
                                            VerticalAlignment="Stretch"
                                            DataContext="{Binding HaderViewModel}"/>

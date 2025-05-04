@@ -16,7 +16,6 @@ public partial class App : Application
 
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<AnimeStore>();
-        services.AddSingleton<VlcService>();
         services.AddHttpClient<AnilibriaService>();
         services.AddHttpClient<ShikimoriService>();
 

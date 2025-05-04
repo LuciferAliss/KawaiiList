@@ -5,11 +5,11 @@ namespace KawaiiList.ViewModels
     public partial class HaderViewModel : BaseViewModel
     {
         [ObservableProperty]
-        private SearchViewModel _search;
+        private SearchViewModel _searchAnimeViewModel;
 
         public HaderViewModel(SearchViewModel search)
         {
-            _search = search;
+            SearchAnimeViewModel = search;
         }
     }
 }

@@ -19,17 +19,12 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <ContentControl Content="{Binding Search}"
-                                Grid.Column="0"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center"
-                                Margin="0,0,15,0">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type viewModels:SearchViewModel}">
-                            <components:SearchComponent />
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
+                <components:SearchComponent DataContext="{Binding SearchAnimeViewModel}"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Margin="0,0,15,0">
+                </components:SearchComponent>
 
                 <!-- Профиль -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">

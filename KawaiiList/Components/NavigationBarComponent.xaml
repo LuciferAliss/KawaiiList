@@ -7,13 +7,12 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d">
 
-    <StackPanel>
+    <Grid>
         <Border Grid.Column="0"
                 Background="#252A36"
                 BorderThickness="0,0,0,0"
                 CornerRadius="12,0,0,12"
-                Width="200"
-                Height="720">
+                Width="200">
             <DockPanel>
                 <!-- Заголовок сайдбара -->
                 <Border DockPanel.Dock="Top"
@@ -150,6 +149,6 @@
                 </StackPanel>
             </DockPanel>
         </Border>
-    </StackPanel>
+    </Grid>
 
 </UserControl>
