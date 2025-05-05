@@ -102,6 +102,7 @@
                                   HorizontalScrollBarVisibility="Disabled"
                                   VerticalAlignment="Stretch"
                                   HorizontalAlignment="Stretch">
+                        
                         <StackPanel Margin="25">
 
                             <ContentControl Content="{Binding CurrentViewModel}">

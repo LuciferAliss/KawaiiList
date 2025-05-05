@@ -7,6 +7,8 @@ namespace KawaiiList.Views
         public WatchAnimeView()
         {
             InitializeComponent();
+
+
         }
     }
 }
