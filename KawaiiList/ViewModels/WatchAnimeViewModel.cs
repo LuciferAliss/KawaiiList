@@ -9,6 +9,7 @@ namespace KawaiiList.ViewModels
 {
     public partial class WatchAnimeViewModel : BaseViewModel
     {
+        private readonly IMediaControlService _mediaService;
         private readonly string host;
         public LibVLC LibVLC { get; }
 
@@ -18,23 +19,22 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private MediaPlayer _animeMediaPlayer;
 
-        [ObservableProperty]
-        private string _apisod ;
-
-        public WatchAnimeViewModel(AnimeStore animeStore)
+        public WatchAnimeViewModel(AnimeStore animeStore, IMediaControlService mediaService)
         {
             Anime = animeStore.CurrentAnime;
+            _mediaService = mediaService;
 
             Core.Initialize();
             LibVLC = new LibVLC(enableDebugLogs: true);
             host = "https://cache.libria.fun";
 
             string url = host + _anime.Player?.List?["1"].Hls?.Fhd ?? "";
-            Apisod = url;
-            var media = new Media(LibVLC, url, FromType.FromLocation);
-            AnimeMediaPlayer = new MediaPlayer(LibVLC);
 
-            AnimeMediaPlayer.Media = media;
+            var media = new Media(LibVLC, url, FromType.FromLocation);
+            AnimeMediaPlayer = new MediaPlayer(LibVLC)
+            {
+                Media = media
+            };
         }
 
         [RelayCommand]
@@ -50,11 +50,11 @@ namespace KawaiiList.ViewModels
             }
         }
 
-        //[RelayCommand]
-        //public void ToggleFullscreen()
-        //{
-        //    AnimeMediaPlayer.Fullscreen = !AnimeMediaPlayer.Fullscreen;
-        //}
+        [RelayCommand]
+        public void ToggleFullscreen()
+        {
+            _mediaService.EnterFullscreen(null, this);
+        }
 
 
         override public void Dispose()

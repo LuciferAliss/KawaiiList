@@ -19,6 +19,8 @@ public partial class App : Application
         services.AddHttpClient<AnilibriaService>();
         services.AddHttpClient<ShikimoriService>();
 
+        services.AddTransient<IMediaControlService, MediaControlService>();
+
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
         services.AddTransient<SearchViewModel>(CreateSearchViewModel);
@@ -32,7 +34,7 @@ public partial class App : Application
         services.AddTransient<AnimeInfoViewModel>(CreateWatchAnimeViewModel);
         services.AddTransient<WatchAnimeViewModel>();
 
-        services.AddSingleton<INavigationService>(s => CreateHomeNavigationService(s));
+        services.AddTransient<INavigationService>(s => CreateHomeNavigationService(s));
 
         services.AddSingleton<MainViewModel>();
 

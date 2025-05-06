@@ -8,57 +8,14 @@
              xmlns:viewmodel="clr-namespace:KawaiiList.ViewModels"
              d:DataContext="{d:DesignInstance viewmodel:WatchAnimeViewModel}"
              xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
-             xmlns:media="https://github.com/mysteryx93/MediaPlayerUI.NET"
-             xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:ui="clr-namespace:HanumanInstitute.MediaPlayer.Wpf;assembly=MediaPlayer.Wpf"
-		     xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms">
+             xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-    <UserControl.InputBindings>
-        <KeyBinding Key="Space" Command="{Binding PlayPauseCommand, ElementName=Player}" />
-        <KeyBinding Key="Right" Command="{Binding SeekCommand, ElementName=Player}" CommandParameter="{media:Int32 1}" />
-        <KeyBinding Key="Right" Modifiers="Ctrl" Command="{Binding SeekCommand, ElementName=Player}" CommandParameter="{media:Int32 10}" />
-        <KeyBinding Key="Left" Command="{Binding SeekCommand, ElementName=Player}" CommandParameter="{media:Int32 -1}" />
-        <KeyBinding Key="Left" Modifiers="Ctrl" Command="{Binding SeekCommand, ElementName=Player}" CommandParameter="{media:Int32 -10}" />
-        <KeyBinding Key="Up" Command="{Binding ChangeVolumeCommand, ElementName=Player}" CommandParameter="{media:Int32 5}" />
-        <KeyBinding Key="Down" Command="{Binding ChangeVolumeCommand, ElementName=Player}" CommandParameter="{media:Int32 -5}" />
-        <KeyBinding Key="Enter" Modifiers="Alt" Command="{Binding ToggleFullScreenCommand, ElementName=Player}" />
-    </UserControl.InputBindings>
-
-    <Grid>
-        <media:MediaPlayer Height="300">
-
-            <media:MediaPlayer.Style>
-                <Style TargetType="media:MediaPlayer">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="media:MediaPlayer">
-                                <Grid Background="Black">
-                                    <media:MpvPlayerHost Source="{Binding Apisod}" />
-
-                                    <!-- Добавим свои кнопки -->
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Background="#77000000">
-                                        <Button Content="▶" Width="40" Height="40"/>
-                                        <Button Content="⏸" Width="40" Height="40"/>
-                                        <!-- и так далее -->
-                                    </StackPanel>
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </media:MediaPlayer.Style>
-        </media:MediaPlayer>
-        
-        
-    </Grid>
-    
-    <!--<Grid>
-        <vlc:VideoView MediaPlayer="{Binding AnimeMediaPlayer}"
-                       MinWidth="880"
+    <Grid VerticalAlignment="Stretch"
+          HorizontalAlignment="Stretch">
+        <vlc:VideoView x:Name="Player"
+                       MediaPlayer="{Binding AnimeMediaPlayer}"
                        Background="Black"
-                       MinHeight="495"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center">
+                       MinHeight="420">
 
             <Border Padding="10"
                     VerticalAlignment="Bottom">
@@ -84,7 +41,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <StackPanel Grid.Column="0"
                                     Margin="0,0,0,15">
                             <TextBlock Text="Эпизод"
@@ -106,9 +63,9 @@
                                        Foreground="{StaticResource TextColor}"
                                        FontSize="11"/>
                         </StackPanel>
-                        
+
                     </Grid>
-                    
+
                     <Grid Grid.Row="1">
 
                         <Slider Orientation="Horizontal"
@@ -148,7 +105,7 @@
                                                          Height="35"/>
 
                             </Button>
-                            
+
                             <Button Width="30"
                                     Height="30">
 
@@ -160,7 +117,7 @@
                                 </Button.Style>
 
                                 <materialdesign:PackIcon Kind="SkipNext"/>
-                                
+
                             </Button>
                         </StackPanel>
 
@@ -181,11 +138,11 @@
                             <Button Style="{StaticResource MaterialDesignIconButton}"
                                     Width="29"
                                     Height="29">
-                                
+
                                 <materialdesign:PackIcon Kind="Settings"
                                                          Width="20"
                                                          Height="20"/>
-                                
+
                             </Button>
 
                             <Button Style="{StaticResource MaterialDesignIconButton}"
@@ -199,13 +156,13 @@
 
                             </Button>
                         </StackPanel>
-                        
+
                     </Grid>
 
                 </Grid>
             </Border>
 
         </vlc:VideoView>
-    </Grid>-->
+    </Grid>
 
 </UserControl>
