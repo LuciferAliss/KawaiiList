@@ -40,7 +40,7 @@ namespace KawaiiList.ViewModels
                 Media = media
             };
 
-            _mediaService.SetMediaPlayer(AnimeMediaPlayer);
+            _mediaService.SetMediaPlayer(AnimeMediaPlayer, LibVLC);
         }
 
         [RelayCommand]
@@ -59,9 +59,8 @@ namespace KawaiiList.ViewModels
         [RelayCommand]
         public void ToggleFullscreen()
         {
-            _mediaService.ToggleFullscreen(this);
-
-            IsFullscreen = IsFullscreen == Visibility.Hidden ? Visibility.Visible : Visibility.Hidden;
+            _mediaService.ToggleFullscreen(AnimeMediaPlayer);
+            AnimeMediaPlayer?.Stop();
         }
 
 

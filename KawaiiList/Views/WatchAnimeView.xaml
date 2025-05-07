@@ -10,8 +10,7 @@
              xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
              xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-    <Grid VerticalAlignment="Stretch"
-          HorizontalAlignment="Stretch">
+    <Grid VerticalAlignment="Stretch">
         <vlc:VideoView x:Name="Player"
                        MediaPlayer="{Binding AnimeMediaPlayer}"
                        Background="Black"

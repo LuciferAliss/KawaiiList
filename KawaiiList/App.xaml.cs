@@ -20,8 +20,11 @@ public partial class App : Application
         services.AddHttpClient<AnilibriaService>();
         services.AddHttpClient<ShikimoriService>();
 
-        services.AddTransient<FullscreenPlayerWindow>();
-        services.AddTransient<IMediaControlService, MediaControlService>(s => new MediaControlService
+        services.AddTransient<FullscreenPlayerWindow>(s => new FullscreenPlayerWindow()
+        {
+            DataContext = s.GetRequiredService<WatchAnimeViewModel>()
+        });
+        services.AddSingleton<IMediaControlService, MediaControlService>(s => new MediaControlService
         (
             () => s.GetRequiredService<FullscreenPlayerWindow>()
         ));
