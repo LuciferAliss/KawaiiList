@@ -4,12 +4,13 @@ using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using LibVLCSharp.Shared;
+using System.Windows;
 
 namespace KawaiiList.ViewModels
 {
     public partial class WatchAnimeViewModel : BaseViewModel
     {
-        private readonly IMediaControlService _mediaService;
+        public readonly IMediaControlService _mediaService;
         private readonly string host;
         public LibVLC LibVLC { get; }
 
@@ -18,6 +19,9 @@ namespace KawaiiList.ViewModels
 
         [ObservableProperty]
         private MediaPlayer _animeMediaPlayer;
+
+        [ObservableProperty]
+        private Visibility _isFullscreen = Visibility.Visible;
 
         public WatchAnimeViewModel(AnimeStore animeStore, IMediaControlService mediaService)
         {
@@ -35,6 +39,8 @@ namespace KawaiiList.ViewModels
             {
                 Media = media
             };
+
+            _mediaService.SetMediaPlayer(AnimeMediaPlayer);
         }
 
         [RelayCommand]
@@ -53,7 +59,9 @@ namespace KawaiiList.ViewModels
         [RelayCommand]
         public void ToggleFullscreen()
         {
-            _mediaService.EnterFullscreen(null, this);
+            _mediaService.ToggleFullscreen(this);
+
+            IsFullscreen = IsFullscreen == Visibility.Hidden ? Visibility.Visible : Visibility.Hidden;
         }
 
 

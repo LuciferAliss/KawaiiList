@@ -3,6 +3,7 @@ using KawaiiList.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using KawaiiList.Stores;
+using KawaiiList.Components;
 
 namespace KawaiiList;
 
@@ -19,7 +20,11 @@ public partial class App : Application
         services.AddHttpClient<AnilibriaService>();
         services.AddHttpClient<ShikimoriService>();
 
-        services.AddTransient<IMediaControlService, MediaControlService>();
+        services.AddTransient<FullscreenPlayerWindow>();
+        services.AddTransient<IMediaControlService, MediaControlService>(s => new MediaControlService
+        (
+            () => s.GetRequiredService<FullscreenPlayerWindow>()
+        ));
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();

@@ -1,25 +1,14 @@
-﻿using System.Windows;
+﻿using KawaiiList.ViewModels;
+using System.Windows;
+using System.Windows.Media;
+using MediaPlayer = LibVLCSharp.Shared.MediaPlayer;
 
 namespace KawaiiList.Services
 {
     public interface IMediaControlService
     {
-        event Action<UIElement?, object?>? OnRequestFullscreen;
-        event Action? OnRequestExitFullscreen;
+        public void SetMediaPlayer(MediaPlayer mediaPlayer);
 
-        void EnterFullscreen(UIElement? content, object? viewModel);
-        void ExitFullscreen();
-
-        void Play();
-        void Pause();
-        void TogglePlay();
-        void Seek(long position);
-        void SetVolume(int volume);
-        void ToggleMute();
-
-        bool IsPlaying { get; }
-        long Duration { get; }
-        long CurrentTime { get; }
-        int Volume { get; set; }
+        public void ToggleFullscreen(BaseViewModel vm);
     }
 }

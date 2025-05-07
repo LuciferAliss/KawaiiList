@@ -1,25 +1,14 @@
-﻿using KawaiiList.Services;
+﻿using KawaiiList.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace KawaiiList.Views
 {
     public partial class WatchAnimeView : UserControl
     {
-        public WatchAnimeView(IMediaControlService mediaService)
+        public WatchAnimeView()
         {
             InitializeComponent();
-
-            mediaService.OnRequestFullscreen += (content, viewModel) =>
-            {
-                if (content == null)
-                {
-                    content = Player;
-                }
-
-                mediaService.EnterFullscreen(content, viewModel);
-            };
         }
     }
 }
