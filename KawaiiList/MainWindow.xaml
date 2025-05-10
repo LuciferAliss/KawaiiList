@@ -9,15 +9,20 @@
         xmlns:views="clr-namespace:KawaiiList.Views"
         mc:Ignorable="d"
         Title="MainPage"
-        MinHeight="720" 
-        MaxHeight="720"
+        MinHeight="720"
         MinWidth="1280"
-        MaxWidth="1280"
+        Width="{Binding ScreenWidth}"
         WindowStartupLocation="CenterScreen"
+        WindowState="{Binding WindowState}"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
         MouseDown="WindowMouseDoun">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+
 
     <Border CornerRadius="12"
             BorderThickness="3">
@@ -39,11 +44,14 @@
             <!-- Боковая панель -->
             <components:NavigationBarComponent Grid.Column="0"
                                                VerticalAlignment="Stretch"
-                                               DataContext="{Binding NavigationBarViewModel}"/>
+                                               DataContext="{Binding NavigationBarViewModel}"
+                                               Visibility="{Binding DataContext.IsFullscreen, 
+                                                        RelativeSource={RelativeSource AncestorType=Window}, 
+                                                        Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -51,7 +59,8 @@
                 <!--// Панель управления //-->
                 <Border Grid.Row="0"
                         CornerRadius="0,12,0,0"
-                        Background="#252A36">
+                        Background="#252A36"
+                        Visibility="{Binding IsFullscreen, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right">
 
                         <Button Style="{DynamicResource MaterialDesignFlatButton}"
@@ -92,7 +101,10 @@
                 <!-- Верхняя навигационная панель -->
                 <components:HaderComponent Grid.Row="1"
                                            VerticalAlignment="Stretch"
-                                           DataContext="{Binding HaderViewModel}"/>
+                                           DataContext="{Binding HaderViewModel}"
+                                           Visibility="{Binding DataContext.IsFullscreen, 
+                                                        RelativeSource={RelativeSource AncestorType=Window}, 
+                                                        Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                 <!-- Основной контент страницы -->
                 <Border Grid.Row="2"
@@ -102,8 +114,8 @@
                                   HorizontalScrollBarVisibility="Disabled"
                                   VerticalAlignment="Stretch"
                                   HorizontalAlignment="Stretch">
-                        
-                        <StackPanel Margin="25">
+
+                        <StackPanel Margin="{Binding MarginMainConent}">
 
                             <ContentControl Content="{Binding CurrentViewModel}">
                                 <ContentControl.Resources>

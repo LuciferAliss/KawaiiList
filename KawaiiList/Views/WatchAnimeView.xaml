@@ -14,7 +14,8 @@
         <vlc:VideoView x:Name="Player"
                        MediaPlayer="{Binding AnimeMediaPlayer}"
                        Background="Black"
-                       MinHeight="420">
+                       Height="{Binding ScreenHeight}"
+                       Width="{Binding ScreenWidth}">
 
             <Border Padding="10"
                     VerticalAlignment="Bottom">

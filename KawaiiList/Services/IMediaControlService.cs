@@ -6,8 +6,8 @@ namespace KawaiiList.Services
 {
     public interface IMediaControlService
     {
-        public void SetMediaPlayer(MediaPlayer mediaPlayer, LibVLC libVLC);
+        public event Action FullscreenModeChanged;
 
-        public void ToggleFullscreen(MediaPlayer player);
+        public bool IsFullscreen { get; set; }
     }
 }

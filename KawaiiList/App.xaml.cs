@@ -17,17 +17,13 @@ public partial class App : Application
 
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<AnimeStore>();
+
         services.AddHttpClient<AnilibriaService>();
         services.AddHttpClient<ShikimoriService>();
 
-        services.AddTransient<FullscreenPlayerWindow>(s => new FullscreenPlayerWindow()
-        {
-            DataContext = s.GetRequiredService<WatchAnimeViewModel>()
-        });
-        services.AddSingleton<IMediaControlService, MediaControlService>(s => new MediaControlService
-        (
-            () => s.GetRequiredService<FullscreenPlayerWindow>()
-        ));
+        services.AddSingleton<IMediaControlService, MediaControlService>();
+        services.AddTransient<IScreenService, ScreenService>();
+        services.AddTransient<INavigationService>(s => CreateHomeNavigationService(s));
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
@@ -41,8 +37,6 @@ public partial class App : Application
         services.AddTransient<HomeViewModel>();
         services.AddTransient<AnimeInfoViewModel>(CreateWatchAnimeViewModel);
         services.AddTransient<WatchAnimeViewModel>();
-
-        services.AddTransient<INavigationService>(s => CreateHomeNavigationService(s));
 
         services.AddSingleton<MainViewModel>();
 

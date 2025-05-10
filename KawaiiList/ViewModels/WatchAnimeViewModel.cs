@@ -4,13 +4,14 @@ using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using LibVLCSharp.Shared;
-using System.Windows;
 
 namespace KawaiiList.ViewModels
 {
     public partial class WatchAnimeViewModel : BaseViewModel
     {
-        public readonly IMediaControlService _mediaService;
+        private readonly IMediaControlService _mediaService;
+        private readonly IScreenService _screenService;
+
         private readonly string host;
         public LibVLC LibVLC { get; }
 
@@ -21,12 +22,19 @@ namespace KawaiiList.ViewModels
         private MediaPlayer _animeMediaPlayer;
 
         [ObservableProperty]
-        private Visibility _isFullscreen = Visibility.Visible;
+        private double _screenWidth;
 
-        public WatchAnimeViewModel(AnimeStore animeStore, IMediaControlService mediaService)
+        [ObservableProperty]
+        private double _screenHeight;
+
+        public WatchAnimeViewModel(AnimeStore animeStore, IMediaControlService mediaService, IScreenService screenService)
         {
             Anime = animeStore.CurrentAnime;
             _mediaService = mediaService;
+            _screenService = screenService;
+
+            ScreenHeight = 504;
+            ScreenWidth = 896;
 
             Core.Initialize();
             LibVLC = new LibVLC(enableDebugLogs: true);
@@ -39,8 +47,6 @@ namespace KawaiiList.ViewModels
             {
                 Media = media
             };
-
-            _mediaService.SetMediaPlayer(AnimeMediaPlayer, LibVLC);
         }
 
         [RelayCommand]
@@ -59,8 +65,10 @@ namespace KawaiiList.ViewModels
         [RelayCommand]
         public void ToggleFullscreen()
         {
-            _mediaService.ToggleFullscreen(AnimeMediaPlayer);
-            AnimeMediaPlayer?.Stop();
+            _mediaService.IsFullscreen = !_mediaService.IsFullscreen;
+
+            ScreenHeight = _mediaService.IsFullscreen ? 504 : _screenService.GetScreenHeight() ;
+            ScreenWidth = _mediaService.IsFullscreen ? 896 : _screenService.GetScreenWidth() ;
         }
 
 
