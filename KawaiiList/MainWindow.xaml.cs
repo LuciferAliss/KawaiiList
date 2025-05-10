@@ -8,6 +8,9 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+        Height = 720;
+        Width = 1280;
     }
 
     private void WindowMouseDoun(object sender, MouseButtonEventArgs e)

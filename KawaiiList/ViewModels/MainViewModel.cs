@@ -11,7 +11,6 @@ namespace KawaiiList.ViewModels
     {
         private readonly NavigationStore _navigationStore;
         private readonly IMediaControlService _mediaService;
-        private readonly IScreenService _screenService;
 
         [ObservableProperty]
         private ObservableObject _currentViewModel;
@@ -29,24 +28,17 @@ namespace KawaiiList.ViewModels
         private int _marginMainConent = 25;
 
         [ObservableProperty]
-        private double _screenWidth;
-
-        [ObservableProperty]
         private WindowState _windowState = WindowState.Normal;
 
         public MainViewModel(NavigationStore navigationStore,
             NavigationBarViewModel navigationBarViewModel,
             HaderViewModel hader,
-            IMediaControlService mediaService,
-            IScreenService screenService)
+            IMediaControlService mediaService)
         {
             _navigationStore = navigationStore;
             NavigationBarViewModel = navigationBarViewModel;
             HaderViewModel = hader;
             _mediaService = mediaService;
-            _screenService = screenService;
-
-            ScreenWidth = 1280;
 
             CurrentViewModel = _navigationStore.CurrentViewModel;
             
@@ -64,7 +56,6 @@ namespace KawaiiList.ViewModels
             IsFullscreen = _mediaService.IsFullscreen;
             MarginMainConent = IsFullscreen ? 25 : 4;
             WindowState = IsFullscreen ?  WindowState.Normal : WindowState.Maximized;
-            ScreenWidth = IsFullscreen ? 1280 : _screenService.GetScreenWidth();
         }
     }
 }
