@@ -1,8 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using LiveChartsCore;
-using OpenTK.Graphics.ES11;
-using System.Text.Json.Serialization;
-using static OpenTK.Graphics.OpenGL.GL;
 
 namespace KawaiiList.Models
 {

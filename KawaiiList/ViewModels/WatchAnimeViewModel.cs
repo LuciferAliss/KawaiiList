@@ -4,16 +4,14 @@ using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using LibVLCSharp.Shared;
+using System.Windows.Threading;
 
 namespace KawaiiList.ViewModels
 {
     public partial class WatchAnimeViewModel : BaseViewModel
     {
         private readonly IMediaControlService _mediaService;
-        private readonly IScreenService _screenService;
-
-        private readonly string host;
-        public LibVLC LibVLC { get; }
+        private readonly IScreenService _screenService; 
 
         [ObservableProperty]
         private AnimeTitle _anime;
@@ -27,6 +25,18 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private double _screenHeight;
 
+        [ObservableProperty]
+        private int _volume;
+
+        [ObservableProperty]
+        private string _playIconKind = "Play";
+
+        [ObservableProperty]
+        private int _episode;
+
+        [ObservableProperty]
+        private string _nameEpisode = "";
+
         public WatchAnimeViewModel(AnimeStore animeStore, IMediaControlService mediaService, IScreenService screenService)
         {
             Anime = animeStore.CurrentAnime;
@@ -36,30 +46,29 @@ namespace KawaiiList.ViewModels
             ScreenHeight = 504;
             ScreenWidth = 896;
 
-            Core.Initialize();
-            LibVLC = new LibVLC(enableDebugLogs: true);
-            host = "https://cache.libria.fun";
+            _mediaService.CreateMediaPlayer();
+            Volume = 60;
+            Episode = 1;
 
-            string url = host + _anime.Player?.List?["1"].Hls?.Fhd ?? "";
+            AnimeMediaPlayer = _mediaService.AnimeMediaPlayer; 
+        }
 
-            var media = new Media(LibVLC, url, FromType.FromLocation);
-            AnimeMediaPlayer = new MediaPlayer(LibVLC)
-            {
-                Media = media
-            };
+        partial void OnVolumeChanged(int value)
+        {
+            _mediaService.Volume = value;
+        }
+
+        partial void OnEpisodeChanged(int value)
+        {
+            NameEpisode = _anime.Player?.List?[$"{Episode}"]?.Name ?? "";
+            _mediaService.ToggleEpisode(_anime.Player?.List?[$"{Episode}"].Hls?.Fhd ?? "");
         }
 
         [RelayCommand]
-        public void ManageStartAndStopVideo()
+        public void TogglePlaying()
         {
-            if (AnimeMediaPlayer.IsPlaying)
-            {
-                AnimeMediaPlayer?.Pause();
-            }
-            else
-            {
-                AnimeMediaPlayer.Play();
-            }
+            _mediaService.IsPlaying = !_mediaService.IsPlaying;
+            PlayIconKind = _mediaService.IsPlaying ? "Pause" : "Play";
         }
 
         [RelayCommand]
@@ -74,9 +83,7 @@ namespace KawaiiList.ViewModels
 
         override public void Dispose()
         {
-            AnimeMediaPlayer?.Stop();
-            AnimeMediaPlayer?.Dispose();
-            LibVLC?.Dispose();
+            _mediaService.DisposeMediaPlayer();
 
             base.Dispose();
         }
