@@ -5,10 +5,14 @@ namespace KawaiiList.Services
     public interface IMediaControlService
     {
         public event Action FullscreenModeChanged;
+        public event Action<long, float> TimeChanged;
+        public event Action<long> EndTimeChanged;
+        public event Action FinishAnimeChanged;
 
         public bool IsFullscreen { get; set; }
         public bool IsPlaying { get; set; }
         public int Volume { get; set; }
+        public float TimeAnime { set; }
         public MediaPlayer AnimeMediaPlayer { get; }
 
         public void CreateMediaPlayer();

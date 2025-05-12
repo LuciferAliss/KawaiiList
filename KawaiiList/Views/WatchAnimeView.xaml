@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KawaiiList.Views"
              mc:Ignorable="d"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:viewmodel="clr-namespace:KawaiiList.ViewModels"
              d:DataContext="{d:DesignInstance viewmodel:WatchAnimeViewModel}"
              xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
@@ -65,11 +66,21 @@
                         <StackPanel Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom">
-                            <TextBlock Text="00:00 / 24:00"
-                                       Margin="0,0,0,15"
+
+                            <TextBlock Margin="0,0,0,15"
                                        Style="{StaticResource BaseTextBlockStyle}"
                                        Foreground="{StaticResource TextColor}"
-                                       FontSize="11"/>
+                                       FontSize="11">
+
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} / {1}">
+                                        <Binding Path="CurrentTimeEpisode" />
+                                        <Binding Path="EndTimeEpisode" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                                
+                            </TextBlock>
+
                         </StackPanel>
 
                     </Grid>
@@ -81,7 +92,22 @@
                                 HorizontalAlignment="Stretch"
                                 Focusable="False"
                                 Minimum="0"
-                                Maximum="100"/>
+                                Maximum="1"
+                                Value="{Binding ValueTimeSlider, Mode=TwoWay}">
+
+                            <i:Interaction.Triggers>
+                                <!-- Начало перетаскивания -->
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding SliderDragStartedCommand}" />
+                                </i:EventTrigger>
+
+                                <!-- Конец перетаскивания -->
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                    <i:InvokeCommandAction Command="{Binding SliderReleasedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                        </Slider>
 
                     </Grid>
 

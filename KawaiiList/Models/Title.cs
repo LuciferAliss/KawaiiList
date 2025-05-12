@@ -32,8 +32,8 @@ namespace KawaiiList.Models
 
     public class EpisodesInfo
     {
-        public int First { get; set; }
-        public int Last { get; set; }
+        public int? First { get; set; }
+        public int? Last { get; set; }
     }
 
     public class PlayerAnime
