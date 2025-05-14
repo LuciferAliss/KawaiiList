@@ -2,8 +2,6 @@
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Forms;
 
 namespace KawaiiList.ViewModels
 {

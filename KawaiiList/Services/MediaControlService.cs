@@ -1,19 +1,18 @@
 ﻿using LibVLCSharp.Shared;
-using System.Diagnostics;
 
 namespace KawaiiList.Services
 {
     public class MediaControlService : IMediaControlService
     {
         public event Action FullscreenModeChanged;
-        public event Action<long, float> TimeChanged;
+        public event Action<long> TimeChanged;
         public event Action<long> EndTimeChanged;
         public event Action FinishAnimeChanged;
 
         private readonly string host = "https://cache.libria.fun";
-        public MediaPlayer AnimeMediaPlayer { get; private set; }
-        private Media _media;
-        private LibVLC _libVLC;
+        public MediaPlayer? AnimeMediaPlayer { get; private set; }
+        private Media? _media;
+        private LibVLC? _libVLC;
 
         private bool _isFullscreen = true;
         public bool IsFullscreen
@@ -39,22 +38,22 @@ namespace KawaiiList.Services
                 }
                 else
                 {
-                    AnimeMediaPlayer.Play();
+                    AnimeMediaPlayer?.Play();
                 }
             }
         }
 
         public int Volume
         {
-            get => AnimeMediaPlayer.Volume;
+            get => AnimeMediaPlayer!.Volume;
             set
             {
-                AnimeMediaPlayer.Volume = value;
+                AnimeMediaPlayer!.Volume = value;
             }
         }
 
-        private float _timeAnime;
-        public float TimeAnime
+        private long _timeAnime;
+        public long TimeAnime
         {
             private get => _timeAnime;
             set
@@ -66,56 +65,56 @@ namespace KawaiiList.Services
 
         private void UpdateAnimeTime()
         {
-            AnimeMediaPlayer.Position = TimeAnime;
+            AnimeMediaPlayer!.Time = TimeAnime;
         }
 
         private void OnTimeChanged(object sender, EventArgs e)
         {
-            TimeChanged?.Invoke(AnimeMediaPlayer.Time, AnimeMediaPlayer.Position);
+            TimeChanged?.Invoke(AnimeMediaPlayer!.Time);
+
+            if (AnimeMediaPlayer?.Length - 1000 <= AnimeMediaPlayer?.Time)
+            {
+                AnimeMediaPlayer.Position = 0;
+                IsPlaying = false;
+
+                FinishAnimeChanged?.Invoke();
+            }
         }
 
         private void OnLengthChanged(object sender, EventArgs e)
         {
-            EndTimeChanged?.Invoke(AnimeMediaPlayer.Length);
+            EndTimeChanged?.Invoke(AnimeMediaPlayer!.Length - 1000);
         }
 
         public void CreateMediaPlayer()
         {
-            _libVLC = new LibVLC(enableDebugLogs: true);
+            _libVLC = new LibVLC();
             AnimeMediaPlayer = new MediaPlayer(_libVLC);
 
             AnimeMediaPlayer.TimeChanged += OnTimeChanged!;
             AnimeMediaPlayer.LengthChanged += OnLengthChanged!;
-            AnimeMediaPlayer.EndReached += OnMediaEnded!;
-        }
-
-        private void OnMediaEnded(object sender, EventArgs e)
-        {
-            Debug.WriteLine("end");
-            IsPlaying = false;
-            AnimeMediaPlayer.Stop();
-            AnimeMediaPlayer.Media = _media;
-            TimeAnime = 0;
-            FinishAnimeChanged?.Invoke();
         }
 
         public void DisposeMediaPlayer()
         {
             _isPlaying = false;
 
-            AnimeMediaPlayer.TimeChanged -= OnTimeChanged!;
-            AnimeMediaPlayer.LengthChanged -= OnLengthChanged!;
-            AnimeMediaPlayer.EndReached -= OnMediaEnded!;
+            AnimeMediaPlayer!.TimeChanged -= OnTimeChanged!;
+            AnimeMediaPlayer!.LengthChanged -= OnLengthChanged!;
+            _timeAnime = 0;
 
             AnimeMediaPlayer?.Dispose();
             _libVLC?.Dispose();
+
+            AnimeMediaPlayer = null;
+            _libVLC = null;
         }
 
         public void ToggleEpisode(string url)
         {
-            _media = new(_libVLC, host + url, FromType.FromLocation);
+            _media = new(_libVLC!, host + url, FromType.FromLocation);
             _media.Parse(MediaParseOptions.ParseNetwork);
-            AnimeMediaPlayer.Media = _media;
+            AnimeMediaPlayer!.Media = _media;
         }
 
         private void OnFullscreenModeChanged()

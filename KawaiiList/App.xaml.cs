@@ -3,7 +3,6 @@ using KawaiiList.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using KawaiiList.Stores;
-using KawaiiList.Components;
 
 namespace KawaiiList;
 

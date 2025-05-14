@@ -12,8 +12,7 @@
              xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <Grid VerticalAlignment="Stretch">
-        <vlc:VideoView x:Name="Player"
-                       MediaPlayer="{Binding AnimeMediaPlayer}"
+        <vlc:VideoView MediaPlayer="{Binding AnimeMediaPlayer}"
                        Background="Black"
                        Height="{Binding ScreenHeight}"
                        Width="{Binding ScreenWidth}">
@@ -92,7 +91,7 @@
                                 HorizontalAlignment="Stretch"
                                 Focusable="False"
                                 Minimum="0"
-                                Maximum="1"
+                                Maximum="{Binding ValueEndTimeSlider}"
                                 Value="{Binding ValueTimeSlider, Mode=TwoWay}">
 
                             <i:Interaction.Triggers>

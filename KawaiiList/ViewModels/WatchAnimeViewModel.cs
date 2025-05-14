@@ -4,7 +4,6 @@ using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using LibVLCSharp.Shared;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace KawaiiList.ViewModels
 {
@@ -46,7 +45,18 @@ namespace KawaiiList.ViewModels
         private string _endTimeEpisode = "24:00";
 
         [ObservableProperty]
-        private float _valueTimeSlider;
+        private long _valueTimeSlider;
+
+        partial void OnValueTimeSliderChanged(long value)
+        {
+            if (_isDraggingSlider)
+            {
+                _mediaService.TimeAnime = value;
+            }
+        }
+
+        [ObservableProperty]
+        private long _valueEndTimeSlider = 1;
 
         public WatchAnimeViewModel(AnimeStore animeStore, IMediaControlService mediaService, IScreenService screenService)
         {
@@ -108,13 +118,13 @@ namespace KawaiiList.ViewModels
             ScreenWidth = _mediaService.IsFullscreen ? 896 : _screenService.GetScreenWidth() ;
         }
 
-        private void OnTimeChanged(long time, float position)
+        private void OnTimeChanged(long time)
         {
             CurrentTimeEpisode = FormatTime(time);
 
             if (!_isDraggingSlider)
             {
-                ValueTimeSlider = position;
+                ValueTimeSlider = time;
             }
         }
 
@@ -127,6 +137,7 @@ namespace KawaiiList.ViewModels
 
         private void OnLengthAnimeChanged(long time)
         {
+            ValueEndTimeSlider = time;
             EndTimeEpisode = FormatTime(time);
         }
 
