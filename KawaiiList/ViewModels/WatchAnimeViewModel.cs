@@ -37,6 +37,12 @@ namespace KawaiiList.ViewModels
         private string _audioIconKind = "VolumeHigh";
 
         [ObservableProperty]
+        private List<string> _episodesText = [];
+
+        [ObservableProperty]
+        private string _selectedEpisode = "";
+
+        [ObservableProperty]
         private int _episode;
 
         [ObservableProperty]
@@ -72,13 +78,19 @@ namespace KawaiiList.ViewModels
             _mediaService = mediaService;
             _screenService = screenService;
 
-            ScreenHeight = 504;
-            ScreenWidth = 896;
+            ScreenHeight = 540;
+            ScreenWidth = 960;
 
             _mediaService.CreateMediaPlayer();
             NameAnime = _anime.Names?.Ru ?? _anime.Names?.En ?? "";
             Volume = 60;
             Episode = (int)(_anime.Player!.List!.Keys!.Min());
+
+            foreach (var item in _anime.Player!.List!.Keys)
+            {
+                string str = $"Серия {item}";
+                EpisodesText.Add(str);
+            }
 
             AnimeMediaPlayer = _mediaService.AnimeMediaPlayer; 
         }
@@ -88,8 +100,18 @@ namespace KawaiiList.ViewModels
             _mediaService.Volume = value;
         }
 
+        partial void OnSelectedEpisodeChanged(string value)
+        {
+            _mediaService.IsPlaying = false;
+            PlayIconKind = _mediaService.IsPlaying ? "Pause" : "Play";
+
+            Episode = int.Parse(value.Split(" ")[1]);
+        }
+
         partial void OnEpisodeChanged(int value)
         {
+            VideoResolutionText.Clear();
+
             NameEpisode = _anime.Player?.List?[Episode]?.Name ?? "";
             _videoResolution = _anime.Player?.List?[Episode].Hls ?? new HlsLinks();
 
@@ -173,8 +195,8 @@ namespace KawaiiList.ViewModels
         {
             _mediaService.IsFullscreen = !_mediaService.IsFullscreen;
 
-            ScreenHeight = _mediaService.IsFullscreen ? 504 : _screenService.GetScreenHeight() ;
-            ScreenWidth = _mediaService.IsFullscreen ? 896 : _screenService.GetScreenWidth() ;
+            ScreenHeight = _mediaService.IsFullscreen ? 540 : _screenService.GetScreenHeight() ;
+            ScreenWidth = _mediaService.IsFullscreen ? 960 : _screenService.GetScreenWidth() ;
         }
 
         private void OnTimeChanged(long time)

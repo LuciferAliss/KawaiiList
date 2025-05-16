@@ -127,6 +127,7 @@ namespace KawaiiList.Services
             _media = new(_libVLC!, host + url, FromType.FromLocation);
             _media.Parse(MediaParseOptions.ParseNetwork);
             AnimeMediaPlayer!.Media = _media;
+            
             AnimeMediaPlayer.Volume = Volume;
             AnimeMediaPlayer.Mute = Mute;
         }
