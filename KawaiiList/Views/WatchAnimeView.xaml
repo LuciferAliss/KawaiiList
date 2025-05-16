@@ -12,13 +12,90 @@
              xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <Grid VerticalAlignment="Stretch">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Image Source="{Binding Anime.Posters.Original.Url}"
+                       Width="50"
+                       Height="70"
+                       Grid.Column="0" />
+
+                <Grid Grid.Column="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding NameAnime}"
+                               Foreground="White"
+                               Grid.Row="0"
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               FontSize="13"
+                               Margin="4,10"/>
+                    
+                    <StackPanel Grid.Row="1"
+                                Margin="4,0"
+                                Orientation="Horizontal">
+
+                        <TextBlock Text="{Binding Anime.Type.String}"
+                                   Style="{StaticResource BaseTextBlockStyle}"
+                                   Foreground="{StaticResource SecondaryTextColor}"/>
+                        <TextBlock Text="{Binding Anime.Status.String}"
+                                   Style="{StaticResource BaseTextBlockStyle}"
+                                   Foreground="{StaticResource SecondaryTextColor}"/>
+
+                    </StackPanel>
+
+
+                </Grid>
+                
+            </Grid>
+            
+            
+
+        </Grid>
+        
+        
         <vlc:VideoView MediaPlayer="{Binding AnimeMediaPlayer}"
+                       Grid.Row="1"
                        Background="Black"
                        Height="{Binding ScreenHeight}"
                        Width="{Binding ScreenWidth}">
 
-            <Border Padding="10"
-                    VerticalAlignment="Bottom">
+            <Grid>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <ComboBox Grid.Row="0"
+                          HorizontalAlignment="Left"
+                          >
+                    <ComboBoxItem Content="Сезон 1"/>
+                </ComboBox>
+
+                <Border Padding="10"
+                        Grid.Row="1"
+                        VerticalAlignment="Bottom">
 
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
@@ -100,7 +177,7 @@
                                     <i:InvokeCommandAction Command="{Binding SliderDragStartedCommand}" />
                                 </i:EventTrigger>
 
-                                <!-- Конец перетаскивания -->
+                                <!-- Отпускание ЛКМ (конец перетаскивания) -->
                                 <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                                     <i:InvokeCommandAction Command="{Binding SliderReleasedCommand}" />
                                 </i:EventTrigger>
@@ -184,28 +261,41 @@
                                     Maximum="100"
                                     Focusable="False"
                                     Value="{Binding Volume, Mode=TwoWay}"/>
-                            
+
                             <Button Style="{StaticResource MaterialDesignIconButton}"
                                     Grid.Column="1"
                                     Width="29"
-                                    Height="29">
+                                    Height="29"
+                                    Command="{Binding ToggleMuteAudioCommand}">
 
-                                <materialdesign:PackIcon Kind="VolumeHigh"
+                                <materialdesign:PackIcon Kind="{Binding AudioIconKind}"
                                                          Width="20"
                                                          Height="20"/>
 
                             </Button>
 
-                            <Button Style="{StaticResource MaterialDesignIconButton}"
-                                    Grid.Column="2"
-                                    Width="29"
-                                    Height="29">
+                            <materialdesign:PopupBox Grid.Column="2"
+                                                     Width="29"
+                                                     Height="29"
+                                                     PlacementMode="TopAndAlignCentres"
+                                                     HorizontalContentAlignment="Center">
 
-                                <materialdesign:PackIcon Kind="Settings"
-                                                         Width="20"
-                                                         Height="20"/>
+                                <materialdesign:PopupBox.ToggleContent>
+                                    <materialdesign:PackIcon Kind="Settings"
+                                                             Foreground="#FF673AB7"/>
+                                </materialdesign:PopupBox.ToggleContent>
 
-                            </Button>
+                                <materialdesign:PopupBox.PopupContent>
+                                    <StackPanel Margin="10,4">
+                                        <TextBlock Text="Разрешение"/>
+
+                                        <ComboBox ItemsSource="{Binding VideoResolutionText}"
+                                                  SelectedItem="{Binding SelectedResolution, Mode=TwoWay}"/>
+
+                                    </StackPanel>
+                                </materialdesign:PopupBox.PopupContent>
+
+                            </materialdesign:PopupBox>
 
                             <Button Style="{StaticResource MaterialDesignIconButton}"
                                     Grid.Column="3"
@@ -224,7 +314,7 @@
 
                 </Grid>
             </Border>
-
+            </Grid>
         </vlc:VideoView>
     </Grid>
 

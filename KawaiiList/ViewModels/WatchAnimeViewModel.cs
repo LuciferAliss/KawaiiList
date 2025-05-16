@@ -12,6 +12,7 @@ namespace KawaiiList.ViewModels
         private readonly IMediaControlService _mediaService;
         private readonly IScreenService _screenService;
 
+        private HlsLinks _videoResolution = new();
         private bool _isDraggingSlider = false;
 
         [ObservableProperty]
@@ -33,7 +34,19 @@ namespace KawaiiList.ViewModels
         private string _playIconKind = "Play";
 
         [ObservableProperty]
+        private string _audioIconKind = "VolumeHigh";
+
+        [ObservableProperty]
         private int _episode;
+
+        [ObservableProperty]
+        private List<string> _videoResolutionText = [];
+
+        [ObservableProperty]
+        private string _selectedResolution = "";
+
+        [ObservableProperty]
+        private string _nameAnime = "";
 
         [ObservableProperty]
         private string _nameEpisode = "";
@@ -47,16 +60,11 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private long _valueTimeSlider;
 
-        partial void OnValueTimeSliderChanged(long value)
-        {
-            if (_isDraggingSlider)
-            {
-                _mediaService.TimeAnime = value;
-            }
-        }
-
         [ObservableProperty]
         private long _valueEndTimeSlider = 1;
+
+        [ObservableProperty]
+        private bool _isCheckedOpenPopue = false;
 
         public WatchAnimeViewModel(AnimeStore animeStore, IMediaControlService mediaService, IScreenService screenService)
         {
@@ -68,8 +76,9 @@ namespace KawaiiList.ViewModels
             ScreenWidth = 896;
 
             _mediaService.CreateMediaPlayer();
+            NameAnime = _anime.Names?.Ru ?? _anime.Names?.En ?? "";
             Volume = 60;
-            Episode = 1;
+            Episode = (int)(_anime.Player!.List!.Keys!.Min());
 
             AnimeMediaPlayer = _mediaService.AnimeMediaPlayer; 
         }
@@ -81,12 +90,49 @@ namespace KawaiiList.ViewModels
 
         partial void OnEpisodeChanged(int value)
         {
-            NameEpisode = _anime.Player?.List?[$"{Episode}"]?.Name ?? "";
-            _mediaService.ToggleEpisode(_anime.Player?.List?[$"{Episode}"].Hls?.Fhd ?? "");
+            NameEpisode = _anime.Player?.List?[Episode]?.Name ?? "";
+            _videoResolution = _anime.Player?.List?[Episode].Hls ?? new HlsLinks();
+
+            string? bestResolutionLink = _videoResolution.Fhd
+                          ?? _videoResolution.Hd
+                          ?? _videoResolution.Sd;
+
+            if (_videoResolution.Fhd != null)
+            {
+                VideoResolutionText.Add("1080p");
+            }
+            if (_videoResolution.Hd != null)
+            {
+                VideoResolutionText.Add("720p");
+            }
+            if (_videoResolution.Sd != null)
+            {
+                VideoResolutionText.Add("480p");
+            }
+
+            SelectedResolution = VideoResolutionText[0];
+
+            _mediaService.ToggleEpisode(bestResolutionLink ?? "");
 
             _mediaService.TimeChanged += OnTimeChanged;
             _mediaService.EndTimeChanged += OnLengthAnimeChanged;
             _mediaService.FinishAnimeChanged += FinishAnimeChanged;
+        }
+
+        partial void OnSelectedResolutionChanged(string value)
+        {
+            switch (SelectedResolution)
+            {
+                case "1080p":
+                    _mediaService.ToggleSelectedResolution(_videoResolution.Fhd ?? "");
+                    break;
+                case "720p":
+                    _mediaService.ToggleSelectedResolution(_videoResolution.Hd ?? "");
+                    break;
+                case "480p":
+                    _mediaService.ToggleSelectedResolution(_videoResolution.Sd ?? "");
+                    break;
+            }
         }
 
         [RelayCommand]
@@ -103,10 +149,23 @@ namespace KawaiiList.ViewModels
         }
 
         [RelayCommand]
+        public void ToggleSettings()
+        {
+            IsCheckedOpenPopue = !IsCheckedOpenPopue;
+        }
+
+        [RelayCommand]
         public void TogglePlaying()
         {
             _mediaService.IsPlaying = !_mediaService.IsPlaying;
             PlayIconKind = _mediaService.IsPlaying ? "Pause" : "Play";
+        }
+
+        [RelayCommand]
+        private void ToggleMuteAudio()
+        {
+            _mediaService.Mute = !_mediaService.Mute;
+            AudioIconKind = _mediaService.Mute ? "VolumeMute" : "VolumeHigh";
         }
 
         [RelayCommand]

@@ -15,7 +15,7 @@ namespace KawaiiList.Models
         public string? Url
         {
             get => _url;
-            set => _url = value != null ? "https://www.anilibria.tv" + value : null;
+            set => _url = value != null ? "https://www.anilibria.top" + value : null;
         }
     }
 
@@ -40,7 +40,7 @@ namespace KawaiiList.Models
     {
         public EpisodesInfo? Episodes { get; set; }
         public string? Host { get; set; }
-        public Dictionary<string, EpisodeInfo>? List { get; set; }
+        public Dictionary<int, EpisodeInfo>? List { get; set; }
     }
 
     public class EpisodeInfo

@@ -9,6 +9,7 @@ namespace KawaiiList.Services
         public event Action<long> EndTimeChanged;
         public event Action FinishAnimeChanged;
 
+        public bool Mute { get; set; }
         public bool IsFullscreen { get; set; }
         public bool IsPlaying { get; set; }
         public int Volume { get; set; }
@@ -18,5 +19,6 @@ namespace KawaiiList.Services
         public void CreateMediaPlayer();
         public void DisposeMediaPlayer();
         public void ToggleEpisode(string url);
+        public void ToggleSelectedResolution(string url);
     }
 }

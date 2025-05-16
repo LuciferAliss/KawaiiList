@@ -47,21 +47,21 @@ namespace KawaiiList.Services
 
                 resultInfo.AuthorInfo = originalAuthors?.FirstOrDefault();
 
-                return resultInfo ?? new ShikimoriTitle();
+                return resultInfo ?? new ShikimoriTitle { Id = -1 };
             }
             catch (OperationCanceledException)
             {
-                return new ShikimoriTitle();
+                return new ShikimoriTitle { Id = -1 };
             }
             catch (HttpRequestException httpEx)
             {
                 Console.WriteLine($"HTTP request error: {httpEx.Message}");
-                return new ShikimoriTitle();
+                return new ShikimoriTitle { Id = -1 };
             }
             catch (JsonException jsonEx)
             {
                 Console.WriteLine($"JSON processing error: {jsonEx.Message}");
-                return new ShikimoriTitle();
+                return new ShikimoriTitle { Id = -1 };
             }
         }
     }

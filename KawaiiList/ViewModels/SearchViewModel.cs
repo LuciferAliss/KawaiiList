@@ -23,7 +23,6 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private string _loadAnimeText = "Загрузка...";
 
-
         [ObservableProperty]
         private string _searchText;
 
@@ -109,6 +108,12 @@ namespace KawaiiList.ViewModels
 
                     if (token.IsCancellationRequested)
                         return;
+
+                    if (result.Id == -1)
+                    {
+                        ItemSelected(selectedAnime);
+                        return;
+                    }
 
                     if (result.Description != null)
                     {

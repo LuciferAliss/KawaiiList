@@ -1,4 +1,5 @@
 ﻿using LibVLCSharp.Shared;
+using System.Threading;
 
 namespace KawaiiList.Services
 {
@@ -13,6 +14,17 @@ namespace KawaiiList.Services
         public MediaPlayer? AnimeMediaPlayer { get; private set; }
         private Media? _media;
         private LibVLC? _libVLC;
+
+        private bool _mute = false;
+        public bool Mute
+        {
+            get => _mute;
+            set
+            {
+                _mute = value;
+                AnimeMediaPlayer!.Mute = _mute;
+            }
+        }
 
         private bool _isFullscreen = true;
         public bool IsFullscreen
@@ -115,6 +127,23 @@ namespace KawaiiList.Services
             _media = new(_libVLC!, host + url, FromType.FromLocation);
             _media.Parse(MediaParseOptions.ParseNetwork);
             AnimeMediaPlayer!.Media = _media;
+            AnimeMediaPlayer.Volume = Volume;
+            AnimeMediaPlayer.Mute = Mute;
+        }
+        
+        public void ToggleSelectedResolution(string url)
+        {
+            float time = AnimeMediaPlayer!.Position;
+            bool isPlaing = IsPlaying;
+
+            IsPlaying = false;
+            _media = new(_libVLC!, host + url, FromType.FromLocation);
+            _media.Parse(MediaParseOptions.ParseNetwork);
+            AnimeMediaPlayer!.Media = _media;
+            IsPlaying = isPlaing;
+            AnimeMediaPlayer!.Position = time;
+            AnimeMediaPlayer.Volume = Volume;
+            AnimeMediaPlayer.Mute = Mute;
         }
 
         private void OnFullscreenModeChanged()

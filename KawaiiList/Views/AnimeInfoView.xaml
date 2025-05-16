@@ -138,7 +138,8 @@
                                TextWrapping="Wrap"
                                Foreground="{StaticResource TextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"
-                               Visibility="{Binding IsStudioNameVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                               Visibility="{Binding IsStudioNameVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                               TextTrimming="CharacterEllipsis"/>
 
 
                     <TextBlock Margin="12,3,0,0"
