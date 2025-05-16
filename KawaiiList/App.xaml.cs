@@ -22,6 +22,7 @@ public partial class App : Application
 
         services.AddSingleton<IMediaControlService, MediaControlService>();
         services.AddTransient<IScreenService, ScreenService>();
+        services.AddTransient<ICursorPositionService, CursorPositionService>();
         services.AddTransient<INavigationService>(s => CreateHomeNavigationService(s));
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);

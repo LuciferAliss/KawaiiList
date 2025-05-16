@@ -9,17 +9,23 @@
              xmlns:viewmodel="clr-namespace:KawaiiList.ViewModels"
              d:DataContext="{d:DesignInstance viewmodel:WatchAnimeViewModel}"
              xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
-             xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+             xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Focusable="True">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
 
     <Grid VerticalAlignment="Stretch">
 
         <vlc:VideoView MediaPlayer="{Binding AnimeMediaPlayer}"
                        Grid.Row="1"
+                       Focusable="True"
                        Background="Black"
                        Height="{Binding ScreenHeight}"
                        Width="{Binding ScreenWidth}">
 
-            <Grid>
+            <Grid Visibility="{Binding IsControlsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -30,6 +36,7 @@
                           HorizontalAlignment="Left"
                           Margin="15,10"
                           MinWidth="100"
+                          Focusable="False"
                           Foreground="White"
                           Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                           ItemsSource="{Binding EpisodesText}"
@@ -135,26 +142,12 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
                                     Grid.Column="1">
-                            <Button Width="30"
-                                    Height="30"
-                                    Focusable="False">
 
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
-                                        <Setter Property="Background" Value="#331d5b"/>
-                                        <Setter Property="BorderBrush" Value="#331d5b"/>
-                                    </Style>
-                                </Button.Style>
-
-                                <materialdesign:PackIcon Kind="SkipPrevious"/>
-
-                            </Button>
-
-                            <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+                                <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
                                     Width="40"
                                     Height="40"
                                     Margin="15,0"
@@ -167,20 +160,6 @@
 
                             </Button>
 
-                            <Button Width="30"
-                                    Height="30"
-                                    Focusable="False">
-
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
-                                        <Setter Property="Background" Value="#331d5b"/>
-                                        <Setter Property="BorderBrush" Value="#331d5b"/>
-                                    </Style>
-                                </Button.Style>
-
-                                <materialdesign:PackIcon Kind="SkipNext"/>
-
-                            </Button>
                         </StackPanel>
 
                         <Grid HorizontalAlignment="Stretch"

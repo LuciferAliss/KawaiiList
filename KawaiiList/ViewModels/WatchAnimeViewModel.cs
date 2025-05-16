@@ -4,6 +4,8 @@ using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using LibVLCSharp.Shared;
+using System.Diagnostics;
+using System.Windows;
 
 namespace KawaiiList.ViewModels
 {
@@ -11,9 +13,14 @@ namespace KawaiiList.ViewModels
     {
         private readonly IMediaControlService _mediaService;
         private readonly IScreenService _screenService;
+        private readonly ICursorPositionService _cursorService;
 
+        private CancellationTokenSource? _hideControlsCts;
         private HlsLinks _videoResolution = new();
         private bool _isDraggingSlider = false;
+
+        [ObservableProperty]
+        private bool isControlsVisible = true;
 
         [ObservableProperty]
         private AnimeTitle _anime;
@@ -72,9 +79,10 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private bool _isCheckedOpenPopue = false;
 
-        public WatchAnimeViewModel(AnimeStore animeStore, IMediaControlService mediaService, IScreenService screenService)
+        public WatchAnimeViewModel(AnimeStore animeStore, IMediaControlService mediaService, IScreenService screenService, ICursorPositionService cursorPositionService)
         {
             Anime = animeStore.CurrentAnime;
+            _cursorService = cursorPositionService;
             _mediaService = mediaService;
             _screenService = screenService;
 
@@ -84,15 +92,37 @@ namespace KawaiiList.ViewModels
             _mediaService.CreateMediaPlayer();
             NameAnime = _anime.Names?.Ru ?? _anime.Names?.En ?? "";
             Volume = 60;
-            Episode = (int)(_anime.Player!.List!.Keys!.Min());
-
+            
             foreach (var item in _anime.Player!.List!.Keys)
             {
                 string str = $"Серия {item}";
                 EpisodesText.Add(str);
             }
 
-            AnimeMediaPlayer = _mediaService.AnimeMediaPlayer; 
+            SelectedEpisode = $"Серия {_anime.Player!.List!.Keys!.Min()}";
+
+            AnimeMediaPlayer = _mediaService.AnimeMediaPlayer;
+
+            _cursorService.CursorPositionChanged += CursorPositionChanged;
+            _cursorService.Start();
+        }
+
+        private void CursorPositionChanged(object? sender, Point e)
+        {
+            IsControlsVisible = true;
+
+            _hideControlsCts?.Cancel();
+            _hideControlsCts = new CancellationTokenSource();
+            var token = _hideControlsCts.Token;
+
+            Task.Delay(3000, token)
+            .ContinueWith(t =>
+            {
+                if (!t.IsCanceled)
+                {
+                    IsControlsVisible = false;
+                }
+            }, token, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         partial void OnVolumeChanged(int value)
@@ -234,6 +264,8 @@ namespace KawaiiList.ViewModels
             _mediaService.TimeChanged -= OnTimeChanged;
             _mediaService.EndTimeChanged -= OnLengthAnimeChanged;
             _mediaService.FinishAnimeChanged -= FinishAnimeChanged;
+            _cursorService.Stop();
+            _hideControlsCts?.Cancel();
 
             base.Dispose();
         }

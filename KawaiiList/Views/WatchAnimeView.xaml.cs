@@ -1,6 +1,4 @@
-﻿using KawaiiList.ViewModels;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace KawaiiList.Views
 {
