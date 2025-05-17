@@ -11,8 +11,8 @@ namespace KawaiiList.ViewModels
 {
     public partial class SearchViewModel : BaseViewModel
     {
-        private readonly AnilibriaService _apiAnilibriaService;
-        private readonly ShikimoriService _apiShikimoriService;
+        private readonly IAnilibriaService _apiAnilibriaService;
+        private readonly IShikimoriService _apiShikimoriService;
         private readonly AnimeStore _animeStore;
         private readonly INavigationService _navigationService;
         private CancellationTokenSource _cts = new();
@@ -32,7 +32,7 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private Brush _textColor = new SolidColorBrush(Colors.LightGray);
 
-        public SearchViewModel(AnilibriaService anilibriaService, ShikimoriService shikimoriService, AnimeStore animeStore, INavigationService navigationService)
+        public SearchViewModel(IAnilibriaService anilibriaService, IShikimoriService shikimoriService, AnimeStore animeStore, INavigationService navigationService)
         {
             SearchText = "";
             _apiAnilibriaService = anilibriaService;

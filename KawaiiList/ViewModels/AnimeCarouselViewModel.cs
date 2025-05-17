@@ -14,8 +14,8 @@ namespace KawaiiList.ViewModels
 {
     public partial class AnimeCarouselViewModel : BaseViewModel
     {
-        private readonly AnilibriaService _apiAnilibriaService;
-        private readonly ShikimoriService _apiShikimoriService;
+        private readonly IAnilibriaService _apiAnilibriaService;
+        private readonly IShikimoriService _apiShikimoriService;
         private IDisposable? _autoScrollSubscription;
         private IConnectableObservable<long>? _autoScrollObservable;
         private readonly INavigationService _navigationService;
@@ -32,7 +32,7 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private Visibility _contentVisibility = Visibility.Hidden;
 
-        public AnimeCarouselViewModel(AnilibriaService anilibriaService, ShikimoriService shikimoriService, AnimeStore animeStore, INavigationService navigationService)
+        public AnimeCarouselViewModel(IAnilibriaService anilibriaService, IShikimoriService shikimoriService, AnimeStore animeStore, INavigationService navigationService)
         {
             PageIndex = 0;
             _animeTitle = [];

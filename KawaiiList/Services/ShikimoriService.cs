@@ -6,7 +6,7 @@ using KawaiiList.Models;
 
 namespace KawaiiList.Services
 {
-    public class ShikimoriService
+    public class ShikimoriService : IShikimoriService
     {
         private readonly HttpClient httpClient;
 

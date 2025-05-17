@@ -17,8 +17,8 @@ public partial class App : Application
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<AnimeStore>();
 
-        services.AddHttpClient<AnilibriaService>();
-        services.AddHttpClient<ShikimoriService>();
+        services.AddHttpClient<IAnilibriaService, AnilibriaService>();
+        services.AddHttpClient<IShikimoriService, ShikimoriService>();
 
         services.AddSingleton<IMediaControlService, MediaControlService>();
         services.AddTransient<IScreenService, ScreenService>();
@@ -62,8 +62,8 @@ public partial class App : Application
     {
         return new SearchViewModel
         (
-            service.GetRequiredService<AnilibriaService>(),
-            service.GetRequiredService<ShikimoriService>(),
+            service.GetRequiredService<IAnilibriaService>(),
+            service.GetRequiredService<IShikimoriService>(),
             service.GetRequiredService<AnimeStore>(),
             CreateAnimeInfoNavigationService(service)
         );
@@ -73,8 +73,8 @@ public partial class App : Application
     {
         return new AnimeCarouselViewModel
         (
-            service.GetRequiredService<AnilibriaService>(),
-            service.GetRequiredService<ShikimoriService>(),
+            service.GetRequiredService<IAnilibriaService>(),
+            service.GetRequiredService<IShikimoriService>(),
             service.GetRequiredService<AnimeStore>(),
             CreateAnimeInfoNavigationService(service)
         );

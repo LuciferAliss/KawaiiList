@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace KawaiiList.Services
 {
-    public class AnilibriaService
+    public class AnilibriaService : IAnilibriaService
     {
         private readonly HttpClient httpClient;
 
@@ -55,7 +55,7 @@ namespace KawaiiList.Services
                 var response = await httpClient.GetAsync($"title/updates?limit={count}", token);
 
                 response.EnsureSuccessStatusCode();
-                
+
                 string responseBody = await response.Content.ReadAsStringAsync();
                 var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<AnimeTitle>>>(cancellationToken: token);
 
