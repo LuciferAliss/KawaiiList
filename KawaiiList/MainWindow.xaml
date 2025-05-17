@@ -127,6 +127,9 @@
                                     <DataTemplate DataType="{x:Type viewmodels:WatchAnimeViewModel}">
                                         <views:WatchAnimeView/>
                                     </DataTemplate>
+                                    <DataTemplate DataType="{x:Type viewmodels:CatalogViewModel}">
+                                        <views:CatalogView/>
+                                    </DataTemplate>
                                 </ContentControl.Resources>
                             </ContentControl>
 

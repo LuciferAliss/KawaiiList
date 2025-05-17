@@ -27,11 +27,9 @@ public partial class App : Application
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
+        services.AddTransient<CatalogViewModel>();
         services.AddTransient<SearchViewModel>(CreateSearchViewModel);
-        services.AddSingleton<NavigationBarViewModel>(s => new NavigationBarViewModel
-        (
-            CreateHomeNavigationService(s)
-        ));
+        services.AddSingleton<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddTransient<HaderViewModel>();
 
         services.AddTransient<HomeViewModel>();
@@ -56,6 +54,15 @@ public partial class App : Application
         MainWindow.Show();
 
         base.OnStartup(e);
+    }
+
+    private NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider service)
+    {
+        return new NavigationBarViewModel
+        (
+            CreateHomeNavigationService(service),
+            CreateCatalogNavigationService(service)
+        );
     }
 
     private SearchViewModel CreateSearchViewModel(IServiceProvider service)
@@ -106,5 +113,11 @@ public partial class App : Application
     {
         return new NavigationService<WatchAnimeViewModel>(service.GetRequiredService<NavigationStore>(),
             () => service.GetRequiredService<WatchAnimeViewModel>());
+    }
+
+    private INavigationService CreateCatalogNavigationService(IServiceProvider service)
+    {
+        return new NavigationService<CatalogViewModel>(service.GetRequiredService<NavigationStore>(),
+            () => service.GetRequiredService<CatalogViewModel>());
     }
 }

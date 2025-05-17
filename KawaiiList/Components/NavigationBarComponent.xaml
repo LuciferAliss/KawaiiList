@@ -56,7 +56,7 @@
                     </RadioButton>
 
                     <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
-                                 Command="{Binding NavigateAnimeInfoCommand}"
+                                 Command="{Binding NavigateCatalogCommand}"
                                  HorizontalContentAlignment="Left"
                                  FontSize="20"
                                  Margin="0,5,0,5">
