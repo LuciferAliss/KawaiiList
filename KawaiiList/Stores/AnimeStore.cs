@@ -6,8 +6,8 @@ namespace KawaiiList.Stores
     {
         public event Action CurrentAnimeChanged;
 
-        private AnimeTitle _currentAnime;
-        public AnimeTitle CurrentAnime
+        private AnilibriaTitle _currentAnime;
+        public AnilibriaTitle CurrentAnime
         {
             get => _currentAnime;
             set

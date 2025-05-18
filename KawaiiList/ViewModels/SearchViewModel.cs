@@ -27,7 +27,7 @@ namespace KawaiiList.ViewModels
         private string _searchText;
 
         [ObservableProperty]
-        private List<AnimeTitle> _animeList = [];
+        private List<AnilibriaTitle> _animeList = [];
         
         [ObservableProperty]
         private Brush _textColor = new SolidColorBrush(Colors.LightGray);
@@ -93,7 +93,7 @@ namespace KawaiiList.ViewModels
         }
 
         [RelayCommand]
-        private void ItemSelected(AnimeTitle selectedAnime)
+        private void ItemSelected(AnilibriaTitle selectedAnime)
         {
             _cts.Cancel();
             _cts.Dispose();

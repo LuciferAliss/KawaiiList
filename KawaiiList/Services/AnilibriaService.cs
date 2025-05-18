@@ -1,4 +1,5 @@
 ﻿using KawaiiList.Models;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -20,7 +21,7 @@ namespace KawaiiList.Services
             this.httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<List<AnimeTitle>> SearchTitlesAsync(string query, CancellationToken token)
+        public async Task<List<AnilibriaTitle>> SearchTitlesAsync(string query, CancellationToken token)
         {
             try
             {
@@ -28,7 +29,7 @@ namespace KawaiiList.Services
 
                 response.EnsureSuccessStatusCode();
 
-                var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<AnimeTitle>>>(cancellationToken: token);
+                var result = await response.Content.ReadFromJsonAsync<AnilibriaTitles>(cancellationToken: token);
 
                 return result?.List ?? [];
             }
@@ -48,7 +49,7 @@ namespace KawaiiList.Services
             }
         }
 
-        public async Task<List<AnimeTitle>> GetTitlesAsync(int count, CancellationToken token)
+        public async Task<List<AnilibriaTitle>> GetTitlesAsync(int count, CancellationToken token)
         {
             try
             {
@@ -57,9 +58,126 @@ namespace KawaiiList.Services
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
-                var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<AnimeTitle>>>(cancellationToken: token);
+                var result = await response.Content.ReadFromJsonAsync<AnilibriaTitles>(cancellationToken: token);
 
                 return result?.List ?? [];
+            }
+            catch (OperationCanceledException)
+            {
+                return [];
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Debug.WriteLine($"HTTP request error: {httpEx.Message}");
+                return [];
+            }
+            catch (JsonException jsonEx)
+            {
+                Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
+                return [];
+            }
+        }
+
+        public async Task<List<AnilibriaTitle>> GetPageAsync(int page, string genre, int? year, CancellationToken token)
+        {
+            string uri;
+            const int Limit = 24;
+            var qp = new List<string>
+            {
+                $"limit={Limit}",
+                $"page={page}"
+            };
+
+            if (genre != "Любой" || year.HasValue)
+            {
+                qp.Add("filter=");
+
+                if (genre != "Любой")
+                {
+                    qp.Add($"genres={Uri.EscapeDataString(genre)},");
+                }
+
+                if (year.HasValue)
+                {
+                    qp.Add($"year={year.Value},");
+                }
+
+                qp[qp.Count - 1].Replace(",", "");
+                uri = $"v3/title/search?{string.Join("&", qp)}";
+            }
+            else
+            {
+                uri = $"title/updates?{string.Join("&", qp)}";
+            }
+
+            try
+            {
+                var response = await httpClient.GetAsync(uri, token);
+
+                response.EnsureSuccessStatusCode();
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var result = await response.Content.ReadFromJsonAsync<AnilibriaTitles>(cancellationToken: token);
+
+                return result?.List ?? [];
+            }
+            catch (OperationCanceledException)
+            {
+                return [];
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Debug.WriteLine($"HTTP request error: {httpEx.Message}");
+                return [];
+            }
+            catch (JsonException jsonEx)
+            {
+                Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
+                return [];
+            }
+        }
+
+        public async Task<List<string>> GetGenresAsync(CancellationToken token)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"genres", token);
+
+                response.EnsureSuccessStatusCode();
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var result = await response.Content.ReadFromJsonAsync<List<string>> (cancellationToken: token);
+
+                return result ?? [];
+            }
+            catch (OperationCanceledException)
+            {
+                return [];
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Debug.WriteLine($"HTTP request error: {httpEx.Message}");
+                return [];
+            }
+            catch (JsonException jsonEx)
+            {
+                Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
+                return [];
+            }
+        }
+
+        public async Task<List<int>> GetYearsAsync(CancellationToken token)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"years", token);
+
+                response.EnsureSuccessStatusCode();
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var result = await response.Content.ReadFromJsonAsync<List<int>>(cancellationToken: token);
+
+                return result ?? [];
             }
             catch (OperationCanceledException)
             {

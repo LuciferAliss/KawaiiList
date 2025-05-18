@@ -22,4 +22,14 @@ public partial class MainWindow : Window
             DragMove();
         }
     }
+
+    private void MinimizeWindowClick(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Minimized;
+    }
+
+    private void CloseWindowClick(object sender, RoutedEventArgs e)
+    {
+        Application.Current.Shutdown();
+    }
 }

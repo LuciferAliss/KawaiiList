@@ -21,7 +21,7 @@ namespace KawaiiList.ViewModels
         private Visibility _contentVisibility = Visibility.Hidden;
 
         [ObservableProperty]
-        private AnimeTitle _anime;
+        private AnilibriaTitle _anime;
 
         [ObservableProperty]
         private ShikimoriTitle _animeInfo;

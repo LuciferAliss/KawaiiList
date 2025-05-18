@@ -23,7 +23,7 @@ namespace KawaiiList.ViewModels
         private bool isControlsVisible = true;
 
         [ObservableProperty]
-        private AnimeTitle _anime;
+        private AnilibriaTitle _anime;
 
         [ObservableProperty]
         private MediaPlayer _animeMediaPlayer;

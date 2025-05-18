@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -14,20 +13,21 @@ namespace KawaiiList.ViewModels
 {
     public partial class AnimeCarouselViewModel : BaseViewModel
     {
-        private readonly IAnilibriaService _apiAnilibriaService;
-        private readonly IShikimoriService _apiShikimoriService;
-        private IDisposable? _autoScrollSubscription;
-        private IConnectableObservable<long>? _autoScrollObservable;
+        private readonly IAnilibriaService _anilibriaService;
+        private readonly IShikimoriService _shikimoriService;
         private readonly INavigationService _navigationService;
         private readonly AnimeStore _animeStore;
+
+        private IDisposable? _autoScrollSubscription;
+        private IConnectableObservable<long>? _autoScrollObservable;
         private CancellationTokenSource _cts = new();
         private bool _stop = false;
 
         [ObservableProperty]
-        ObservableCollection<AnimeTitle> _animeTitle;
+        private List<AnilibriaTitle> _animeTitle;
 
         [ObservableProperty]
-        int _pageIndex;
+        private int _pageIndex;
 
         [ObservableProperty]
         private Visibility _contentVisibility = Visibility.Hidden;
@@ -36,9 +36,8 @@ namespace KawaiiList.ViewModels
         {
             PageIndex = 0;
             _animeTitle = [];
-            _apiShikimoriService = shikimoriService;
-            _apiAnilibriaService = anilibriaService;
-            _apiAnilibriaService = anilibriaService;
+            _shikimoriService = shikimoriService;
+            _anilibriaService = anilibriaService;
             _navigationService = navigationService;
             _animeStore = animeStore;
 
@@ -84,7 +83,7 @@ namespace KawaiiList.ViewModels
             {
                 try
                 {
-                    List<AnimeTitle> data = await _apiAnilibriaService.GetTitlesAsync(15, token);
+                    List<AnilibriaTitle> data = await _anilibriaService.GetTitlesAsync(15, token);
 
                     if (token.IsCancellationRequested)
                         return;
@@ -98,7 +97,7 @@ namespace KawaiiList.ViewModels
 
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        AnimeTitle = [.. data];
+                        AnimeTitle = data;
                         PageIndex = -1;
                         ContentVisibility = Visibility.Visible;
                     });
@@ -148,7 +147,7 @@ namespace KawaiiList.ViewModels
         }
 
         [RelayCommand]
-        private void ItemSelected(AnimeTitle selectedAnime)
+        private void ItemSelected(AnilibriaTitle selectedAnime)
         {
             _cts.Cancel();
             _cts.Dispose();
@@ -159,7 +158,7 @@ namespace KawaiiList.ViewModels
             {
                 try
                 {
-                    var result = await _apiShikimoriService.GetInfoAsync(selectedAnime.Names?.En ?? "", token);
+                    var result = await _shikimoriService.GetInfoAsync(selectedAnime.Names?.En ?? "", token);
 
                     if (token.IsCancellationRequested)
                         return;

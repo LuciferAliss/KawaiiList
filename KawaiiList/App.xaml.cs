@@ -27,7 +27,7 @@ public partial class App : Application
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
-        services.AddTransient<CatalogViewModel>();
+        services.AddTransient<CatalogViewModel>(CreateCatalogViewModel);
         services.AddTransient<SearchViewModel>(CreateSearchViewModel);
         services.AddSingleton<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddTransient<HaderViewModel>();
@@ -94,6 +94,17 @@ public partial class App : Application
             service.GetRequiredService<AnimeStore>(),
             service.GetRequiredService<StatisticsAnimeViewModel>(),
             CreateWatchAnimeNavigationService(service)
+        );
+    }
+
+    private CatalogViewModel CreateCatalogViewModel(IServiceProvider service)
+    {
+        return new CatalogViewModel
+        (
+            service.GetRequiredService<IAnilibriaService>(),
+            service.GetRequiredService<IShikimoriService>(),
+            service.GetRequiredService<AnimeStore>(),
+            CreateAnimeInfoNavigationService(service)
         );
     }
 

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace KawaiiList.Models
 {
@@ -32,20 +33,20 @@ namespace KawaiiList.Models
 
     public class EpisodesInfo
     {
-        public int? First { get; set; }
-        public int? Last { get; set; }
+        public double? First { get; set; }
+        public double? Last { get; set; }
     }
 
     public class PlayerAnime
     {
         public EpisodesInfo? Episodes { get; set; }
         public string? Host { get; set; }
-        public Dictionary<int, EpisodeInfo>? List { get; set; }
+        public Dictionary<double, EpisodeInfo>? List { get; set; }
     }
 
     public class EpisodeInfo
     {
-        public int? Episode { get; set; }
+        public double? Episode { get; set; }
         public string? Name { get; set; }
         public Skips? Skips { get; set; }
         public HlsLinks? Hls { get; set; }
@@ -83,37 +84,30 @@ namespace KawaiiList.Models
         public AnimeNames? Names { get; set; }
     }
 
-    public partial class AnimeTitle : ObservableObject
+    public class PaginationInfo
     {
-        [ObservableProperty]
-        private int _id;
+        public int? Pages { get; set; }
+        public int? CurrentPage { get; set; }
+        public int? ItemsPerPage { get; set; }
+        public int? TotalItems { get; set; }
+    }
 
-        [ObservableProperty]
-        private AnimeNames? _names;
-
-        [ObservableProperty]
-        private AnimePosters? _posters;
-
-        [ObservableProperty]
-        private List<string>? _genres;
-
-        [ObservableProperty]
-        private SeasonAnime? _season;
-
-        [ObservableProperty]
-        private PlayerAnime? _player;
+    public partial class AnilibriaTitle : ObservableObject
+    {
+        public int Id { get; set; }
+        public AnimeNames? Names { get; set; }
+        public AnimePosters? Posters { get; set; }
+        public List<string>? Genres { get; set; }
+        public SeasonAnime? Season { get; set; }
+        public PlayerAnime? Player { get; set; }
 
         [ObservableProperty]
         private string? _description;
 
-        [ObservableProperty]
-        private TypeInfo? _type;
-
-        [ObservableProperty]
-        private StatusInfo? _status;
-
-        [ObservableProperty]
-        private List<FranchiseInfo>? _franchises;
+        public TypeInfo? Type { get; set; }
+        public StatusInfo? Status { get; set; }
+        public List<FranchiseInfo>? Franchises { get; set; }
+        //public PaginationInfo? Pagination { get; set; }
 
         public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
 
@@ -121,5 +115,10 @@ namespace KawaiiList.Models
         {
             return "";
         }
+    }
+
+    public class AnilibriaTitles
+    {
+        public List<AnilibriaTitle>? List { get; set; }
     }
 }

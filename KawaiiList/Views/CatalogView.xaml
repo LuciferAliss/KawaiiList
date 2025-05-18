@@ -3,11 +3,154 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KawaiiList.Views"
+             xmlns:local="clr-namespace:KawaiiList.Views" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:viewmodels="clr-namespace:KawaiiList.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:CatalogViewModel}"
              mc:Ignorable="d">
     
     <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Каталог"   
+                   Foreground="{StaticResource TextColor}"
+                   FontSize="30"
+                   Style="{StaticResource BaseTextBlockStyle}"/>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal">
             
+            <ComboBox Grid.Row="0"
+                      materialDesign:HintAssist.Hint="Жанр"
+                      HorizontalAlignment="Left"
+                      Margin="15,10"
+                      MinWidth="100"
+                      Focusable="False"
+                      Foreground="White"
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      ItemsSource="{Binding AnimeGenres}"
+                      SelectedItem="{Binding SelectedGenres, Mode=TwoWay}"/>
+
+            <ComboBox Grid.Row="0"
+                      materialDesign:HintAssist.Hint="Год"
+                      HorizontalAlignment="Left"
+                      Margin="15,10"
+                      MinWidth="100"
+                      Focusable="False"
+                      Foreground="White"
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      ItemsSource="{Binding AnimeYears}"
+                      SelectedItem="{Binding SelectedYear, Mode=TwoWay}"/>
+            
+        </StackPanel>
+        
+        <ItemsControl Grid.Row="2"
+                      ItemsSource="{Binding AnimeTitle}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      ScrollViewer.CanContentScroll="False">
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel ItemWidth="335"
+                               ItemHeight="465"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <materialDesign:Card Cursor="Hand"
+                                         Margin="8"
+                                         Background="{StaticResource NavigationBarBackground}">
+
+                        <materialDesign:Card.Style>
+                            <Style TargetType="materialDesign:Card" BasedOn="{StaticResource MaterialDesignElevatedCard}">
+                                <Setter Property="BorderBrush">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="{StaticResource BorderWindowBlueColor}" Offset="0"/>
+                                            <GradientStop Color="{StaticResource BorderPurplWindowPinkColor}" Offset="0.75"/>
+                                            <GradientStop Color="{StaticResource BorderWindowPurpleColor}" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <!-- Плавное появление бордера -->
+                                                    <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"
+                                                    From="0" To="4" 
+                                                    Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <!-- Плавное исчезновение бордера -->
+                                                    <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"
+                                                    From="4" To="0" 
+                                                    Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </materialDesign:Card.Style>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown">
+                                <i:InvokeCommandAction Command="{Binding DataContext.ItemSelectedCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                       CommandParameter="{Binding}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <StackPanel VerticalAlignment="Top">
+                            <!-- Изображение (постер) -->
+                            <Image Source="{Binding Posters.Original.Url}"
+                                   Height="358"
+                                   Stretch="UniformToFill"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Stretch"/>
+
+                            <!-- Текстовая информация -->
+                            <StackPanel Margin="10,15">
+                                <TextBlock Text="{Binding Names.Ru}"
+                                           FontWeight="Bold"
+                                           Foreground="{StaticResource TextColor}"
+                                           TextWrapping="Wrap"
+                                           TextTrimming="CharacterEllipsis"
+                                           MaxHeight="20"
+                                           FontSize="14"/>
+
+                                <TextBlock Foreground="{StaticResource SecondaryTextColor}"
+                                           FontSize="13"
+                                           Margin="0,5,0,0">
+
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} эп. - {1}">
+                                            <Binding Path="Player.Episodes.Last" />
+                                            <Binding Path="Season.Year" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
     
 </UserControl>
