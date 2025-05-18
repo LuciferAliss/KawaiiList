@@ -33,6 +33,12 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private int? _selectedYear = null;
 
+        [ObservableProperty]
+        private int _currentPage;
+
+        [ObservableProperty]
+        private int _maxPage = 1;
+
         public CatalogViewModel(IAnilibriaService anilibriaService, IShikimoriService shikimoriService, AnimeStore animeStore, INavigationService navigationService)
         {
             _anilibriaService = anilibriaService;
@@ -40,7 +46,13 @@ namespace KawaiiList.ViewModels
             _navigationService = navigationService;
             _animeStore = animeStore;
 
-            LoadPageAnime(1);
+            CurrentPage = 1;
+        }
+
+        partial void OnCurrentPageChanged(int value)
+        {
+            CurrentPage = Math.Clamp(CurrentPage, 0, MaxPage);
+            LoadPageAnime(value);
         }
 
         partial void OnAnimeTitleChanged(List<AnilibriaTitle> value)

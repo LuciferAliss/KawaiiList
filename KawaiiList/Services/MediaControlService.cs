@@ -1,5 +1,4 @@
 ﻿using LibVLCSharp.Shared;
-using System.Threading;
 
 namespace KawaiiList.Services
 {

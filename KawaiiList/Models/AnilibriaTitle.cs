@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Text.Json.Serialization;
 
 namespace KawaiiList.Models
 {
@@ -107,7 +106,7 @@ namespace KawaiiList.Models
         public TypeInfo? Type { get; set; }
         public StatusInfo? Status { get; set; }
         public List<FranchiseInfo>? Franchises { get; set; }
-        //public PaginationInfo? Pagination { get; set; }
+        public PaginationInfo? Pagination { get; set; }
 
         public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
 

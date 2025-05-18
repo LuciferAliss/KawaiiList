@@ -1,5 +1,4 @@
 ﻿using KawaiiList.Models;
-using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
