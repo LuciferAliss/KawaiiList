@@ -201,13 +201,13 @@ namespace KawaiiList.ViewModels
         }
 
         [RelayCommand]
-        public void ToggleSettings()
+        private void ToggleSettings()
         {
             IsCheckedOpenPopue = !IsCheckedOpenPopue;
         }
 
         [RelayCommand]
-        public void TogglePlaying()
+        private void TogglePlaying()
         {
             _mediaService.IsPlaying = !_mediaService.IsPlaying;
             PlayIconKind = _mediaService.IsPlaying ? "Pause" : "Play";
@@ -221,7 +221,7 @@ namespace KawaiiList.ViewModels
         }
 
         [RelayCommand]
-        public void ToggleFullscreen()
+        private void ToggleFullscreen()
         {
             _mediaService.IsFullscreen = !_mediaService.IsFullscreen;
 

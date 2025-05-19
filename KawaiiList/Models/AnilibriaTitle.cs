@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace KawaiiList.Models
 {
@@ -88,6 +89,7 @@ namespace KawaiiList.Models
         public int? Pages { get; set; }
         public int? CurrentPage { get; set; }
         public int? ItemsPerPage { get; set; }
+        [JsonPropertyName("total_items")]
         public int? TotalItems { get; set; }
     }
 
@@ -106,7 +108,6 @@ namespace KawaiiList.Models
         public TypeInfo? Type { get; set; }
         public StatusInfo? Status { get; set; }
         public List<FranchiseInfo>? Franchises { get; set; }
-        public PaginationInfo? Pagination { get; set; }
 
         public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
 
@@ -119,5 +120,6 @@ namespace KawaiiList.Models
     public class AnilibriaTitles
     {
         public List<AnilibriaTitle>? List { get; set; }
+        public PaginationInfo? Pagination { get; set; }
     }
 }

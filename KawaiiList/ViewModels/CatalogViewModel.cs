@@ -15,7 +15,9 @@ namespace KawaiiList.ViewModels
         private readonly INavigationService _navigationService;
         private readonly AnimeStore _animeStore;
 
-        private CancellationTokenSource _cts = new();
+        private CancellationTokenSource _cts1 = new();
+        private CancellationTokenSource _cts2 = new();
+        private CancellationTokenSource _cts3 = new();
         private bool _loadData = false;
 
         [ObservableProperty]
@@ -37,7 +39,10 @@ namespace KawaiiList.ViewModels
         private int _currentPage;
 
         [ObservableProperty]
-        private int _maxPage = 1;
+        private bool _isEnabledBtn1 = false;
+        
+        [ObservableProperty]
+        private bool _isEnabledBtn2 = true;
 
         public CatalogViewModel(IAnilibriaService anilibriaService, IShikimoriService shikimoriService, AnimeStore animeStore, INavigationService navigationService)
         {
@@ -47,21 +52,41 @@ namespace KawaiiList.ViewModels
             _animeStore = animeStore;
 
             CurrentPage = 1;
+            LoadGenres();
+            LoadYears();
         }
 
         partial void OnCurrentPageChanged(int value)
         {
-            CurrentPage = Math.Clamp(CurrentPage, 0, MaxPage);
             LoadPageAnime(value);
         }
 
         partial void OnAnimeTitleChanged(List<AnilibriaTitle> value)
         {
-            if (value.Count != 0 && !_loadData)
+            if (value.Count != 0)
             {
-                LoadGenres();
                 _loadData = true;
             }
+
+            if (CurrentPage == 1)
+            {
+                IsEnabledBtn1 = false;
+            }
+            else
+            {
+                IsEnabledBtn1 = true;
+            }
+        }
+
+        partial void OnSelectedYearChanged(int? value)
+        {
+            if (!_loadData)
+            {
+                return;
+            }
+
+            if (CurrentPage == 1) LoadPageAnime(CurrentPage);
+            else CurrentPage = 1;
         }
 
         partial void OnSelectedGenresChanged(string value)
@@ -70,23 +95,25 @@ namespace KawaiiList.ViewModels
             {
                 return;
             }
-            LoadPageAnime(1);
+
+            if (CurrentPage == 1) LoadPageAnime(CurrentPage);
+            else CurrentPage = 1;
         }
 
         private void LoadPageAnime(int page)
         {
-            _cts.Cancel();
-            _cts.Dispose();
-            _cts = new CancellationTokenSource();
-            var token = _cts.Token;
-
-            AnimeTitle = [];
+            _cts1.Cancel();
+            _cts1.Dispose();
+            _cts1 = new CancellationTokenSource();
+            var token = _cts1.Token;
 
             Task.Run(async () =>
             {
                 try
                 {
-                    var result = await _anilibriaService.GetPageAsync(page, SelectedGenres, SelectedYear, token);
+                    List<AnilibriaTitle> result;
+
+                    (result) = await _anilibriaService.GetPageAsync(page, SelectedGenres, SelectedYear, token);
 
                     if (token.IsCancellationRequested)
                         return;
@@ -97,6 +124,7 @@ namespace KawaiiList.ViewModels
                         LoadPageAnime(page);
                         return;
                     }
+
                     AnimeTitle = result ?? [];
                 }
                 catch (OperationCanceledException)
@@ -107,10 +135,10 @@ namespace KawaiiList.ViewModels
 
         private void LoadGenres()
         {
-            _cts.Cancel();
-            _cts.Dispose();
-            _cts = new CancellationTokenSource();
-            var token = _cts.Token;
+            _cts2.Cancel();
+            _cts2.Dispose();
+            _cts2 = new CancellationTokenSource();
+            var token = _cts2.Token;
 
             AnimeGenres = [];
 
@@ -118,10 +146,7 @@ namespace KawaiiList.ViewModels
             {
                 try
                 {
-                    List<string> result = new();
-                    result.Add("Любой");
-
-                    result.AddRange(await _anilibriaService.GetGenresAsync(token));
+                    List<string> result = await _anilibriaService.GetGenresAsync(token);
 
                     if (token.IsCancellationRequested)
                         return;
@@ -132,8 +157,9 @@ namespace KawaiiList.ViewModels
                         LoadGenres();
                         return;
                     }
+
+                    result.Insert(0, "Любой");
                     AnimeGenres = result ?? [];
-                    LoadYears();
                 }
                 catch (OperationCanceledException)
                 {
@@ -143,10 +169,10 @@ namespace KawaiiList.ViewModels
 
         private void LoadYears()
         {
-            _cts.Cancel();
-            _cts.Dispose();
-            _cts = new CancellationTokenSource();
-            var token = _cts.Token;
+            _cts3.Cancel();
+            _cts3.Dispose();
+            _cts3 = new CancellationTokenSource();
+            var token = _cts3.Token;
 
             AnimeYears = [];
 
@@ -165,7 +191,7 @@ namespace KawaiiList.ViewModels
                         LoadYears();
                         return;
                     }
-                    AnimeYears = result.Where(x => x <= DateTime.Now.Year).ToList() ?? [];
+                    AnimeYears = result.Where(x => x <= DateTime.Now.Year).Reverse().ToList() ?? [];
                 }
                 catch (OperationCanceledException)
                 {
@@ -174,12 +200,24 @@ namespace KawaiiList.ViewModels
         }
 
         [RelayCommand]
+        private void ClearYear()
+        {
+            SelectedYear = null;
+        }
+
+        [RelayCommand]
+        private void NextPage() => CurrentPage++;
+
+        [RelayCommand]
+        private void PrevPage() => CurrentPage--;
+
+        [RelayCommand]
         private void ItemSelected(AnilibriaTitle selectedAnime)
         {
-            _cts.Cancel();
-            _cts.Dispose();
-            _cts = new CancellationTokenSource();
-            var token = _cts.Token;
+            _cts1.Cancel();
+            _cts1.Dispose();
+            _cts1 = new CancellationTokenSource();
+            var token = _cts1.Token;
 
             Task.Run(async () =>
             {

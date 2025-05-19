@@ -101,7 +101,6 @@ namespace KawaiiList.Services
                     qp.Add($"year={year.Value},");
                 }
 
-                qp[qp.Count - 1].Replace(",", "");
                 uri = $"v3/title/search?{string.Join("&", qp)}";
             }
             else
