@@ -2,9 +2,9 @@
 
 namespace KawaiiList.Views
 {
-    public partial class CatalogView : UserControl
+    public partial class ScheduleView : UserControl
     {
-        public CatalogView()
+        public ScheduleView()
         {
             InitializeComponent();
         }

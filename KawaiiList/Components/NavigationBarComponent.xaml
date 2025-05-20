@@ -74,6 +74,7 @@
                     </RadioButton>
 
                     <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
+                                 Command="{Binding NavigateScheduleCommand}"
                                  HorizontalContentAlignment="Left"
                                  FontSize="20"
                                  Margin="0,5,0,5">
