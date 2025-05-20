@@ -5,13 +5,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewmodels="clr-namespace:KawaiiList.ViewModels"
+             xmlns:viewmodels="clr-namespace:KawaiiList.ViewModels" 
+             xmlns:hc="https://handyorg.github.io/handycontrol"
              d:DataContext="{d:DesignInstance Type=viewmodels:CatalogViewModel}"
              mc:Ignorable="d">
-    
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
+                <hc:Theme />
+            </ResourceDictionary.MergedDictionaries>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -50,7 +63,8 @@
 
             <Button Content="Очистить год"
                     Margin="5,10"
-                    Command="{Binding ClearYearCommand}"/>
+                    Command="{Binding ClearYearCommand}"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}"/>
 
         </StackPanel>
 
@@ -154,6 +168,15 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+        <hc:CircleProgressBar Width="60"
+                              Height="60"
+                              Grid.Row="3"
+                              IsIndeterminate="True"
+                              Foreground="LightBlue"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Visibility="{Binding LoadingAnimeData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
     </Grid>
     

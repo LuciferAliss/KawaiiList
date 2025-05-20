@@ -77,63 +77,6 @@ namespace KawaiiList.Services
             }
         }
 
-        public async Task<List<AnilibriaTitle>> GetPageAsync(string genre, int? year, CancellationToken token)
-        {
-            string uri;
-            const int Limit = 2000;
-            var qp = new List<string>
-            {
-                $"limit={Limit}",
-            };
-
-            if (genre != "Любой" || year.HasValue)
-            {
-                qp.Add("filter=");
-
-                if (genre != "Любой")
-                {
-                    qp.Add($"genres={Uri.EscapeDataString(genre)},");
-                }
-
-                if (year.HasValue)
-                {
-                    qp.Add($"year={year.Value},");
-                }
-
-                uri = $"v3/title/search?{string.Join("&", qp)}";
-            }
-            else
-            {
-                uri = $"title/updates?{string.Join("&", qp)}";
-            }
-
-            try
-            {
-                var response = await httpClient.GetAsync(uri, token);
-
-                response.EnsureSuccessStatusCode();
-
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var result = await response.Content.ReadFromJsonAsync<AnilibriaTitles>(cancellationToken: token);
-
-                return result?.List ?? [];
-            }
-            catch (OperationCanceledException)
-            {
-                return [];
-            }
-            catch (HttpRequestException httpEx)
-            {
-                Debug.WriteLine($"HTTP request error: {httpEx.Message}");
-                return [];
-            }
-            catch (JsonException jsonEx)
-            {
-                Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
-                return [];
-            }
-        }
-
         public async Task<List<string>> GetGenresAsync(CancellationToken token)
         {
             try
