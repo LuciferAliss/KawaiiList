@@ -15,7 +15,6 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0"
@@ -54,7 +53,7 @@
                     Command="{Binding ClearYearCommand}"/>
 
         </StackPanel>
-        
+
         <ItemsControl Grid.Row="2"
                       ItemsSource="{Binding AnimeTitle}"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -67,7 +66,7 @@
                                ItemHeight="465"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-            
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <materialDesign:Card Cursor="Hand"
@@ -156,51 +155,6 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <StackPanel Grid.Row="3"
-                    Margin="10,0"
-                    HorizontalAlignment="Center">
-
-            <StackPanel Orientation="Horizontal">
-
-                <Button Margin="10,10"
-                        Width="49"
-                        Height="49"
-                        IsEnabled="{Binding IsEnabledBtn1}"
-                        Command="{Binding PrevPageCommand}">
-
-                    <materialDesign:PackIcon Kind="ChevronLeft"
-                                             Width="56"
-                                             Height="56"
-                                             VerticalAlignment="Center"
-                                             HorizontalAlignment="Center"/>
-
-                </Button>
-
-                <TextBlock Margin="0,10"
-                           Text="{Binding CurrentPage}"
-                           VerticalAlignment="Center"
-                           Style="{StaticResource BaseTextBlockStyle}"
-                           Foreground="{StaticResource TextColor}"
-                           FontSize="38"/>
-
-                <Button Margin="10,10"
-                        Width="49"
-                        Height="49"
-                        IsEnabled="{Binding IsEnabledBtn2}"
-                        Command="{Binding NextPageCommand}">
-
-                    <materialDesign:PackIcon Kind="ChevronRight"
-                                             Width="56"
-                                             Height="56"
-                                             VerticalAlignment="Center"
-                                             HorizontalAlignment="Center"/>
-
-                </Button>
-
-            </StackPanel>
-
-        </StackPanel>
-        
     </Grid>
     
 </UserControl>

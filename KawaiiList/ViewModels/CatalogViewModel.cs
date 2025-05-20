@@ -35,15 +35,6 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private int? _selectedYear = null;
 
-        [ObservableProperty]
-        private int _currentPage;
-
-        [ObservableProperty]
-        private bool _isEnabledBtn1 = false;
-        
-        [ObservableProperty]
-        private bool _isEnabledBtn2 = true;
-
         public CatalogViewModel(IAnilibriaService anilibriaService, IShikimoriService shikimoriService, AnimeStore animeStore, INavigationService navigationService)
         {
             _anilibriaService = anilibriaService;
@@ -51,14 +42,9 @@ namespace KawaiiList.ViewModels
             _navigationService = navigationService;
             _animeStore = animeStore;
 
-            CurrentPage = 1;
             LoadGenres();
             LoadYears();
-        }
-
-        partial void OnCurrentPageChanged(int value)
-        {
-            LoadPageAnime(value);
+            LoadAnime();
         }
 
         partial void OnAnimeTitleChanged(List<AnilibriaTitle> value)
@@ -66,15 +52,6 @@ namespace KawaiiList.ViewModels
             if (value.Count != 0)
             {
                 _loadData = true;
-            }
-
-            if (CurrentPage == 1)
-            {
-                IsEnabledBtn1 = false;
-            }
-            else
-            {
-                IsEnabledBtn1 = true;
             }
         }
 
@@ -85,8 +62,7 @@ namespace KawaiiList.ViewModels
                 return;
             }
 
-            if (CurrentPage == 1) LoadPageAnime(CurrentPage);
-            else CurrentPage = 1;
+            LoadAnime();
         }
 
         partial void OnSelectedGenresChanged(string value)
@@ -96,11 +72,10 @@ namespace KawaiiList.ViewModels
                 return;
             }
 
-            if (CurrentPage == 1) LoadPageAnime(CurrentPage);
-            else CurrentPage = 1;
+            LoadAnime();
         }
 
-        private void LoadPageAnime(int page)
+        private void LoadAnime()
         {
             _cts1.Cancel();
             _cts1.Dispose();
@@ -113,7 +88,7 @@ namespace KawaiiList.ViewModels
                 {
                     List<AnilibriaTitle> result;
 
-                    (result) = await _anilibriaService.GetPageAsync(page, SelectedGenres, SelectedYear, token);
+                    result = await _anilibriaService.GetPageAsync(SelectedGenres, SelectedYear, token);
 
                     if (token.IsCancellationRequested)
                         return;
@@ -121,7 +96,7 @@ namespace KawaiiList.ViewModels
                     if (result.Count == 0)
                     {
                         await Task.Delay(1000);
-                        LoadPageAnime(page);
+                        LoadAnime();
                         return;
                     }
 
@@ -204,12 +179,6 @@ namespace KawaiiList.ViewModels
         {
             SelectedYear = null;
         }
-
-        [RelayCommand]
-        private void NextPage() => CurrentPage++;
-
-        [RelayCommand]
-        private void PrevPage() => CurrentPage--;
 
         [RelayCommand]
         private void ItemSelected(AnilibriaTitle selectedAnime)

@@ -77,14 +77,13 @@ namespace KawaiiList.Services
             }
         }
 
-        public async Task<List<AnilibriaTitle>> GetPageAsync(int page, string genre, int? year, CancellationToken token)
+        public async Task<List<AnilibriaTitle>> GetPageAsync(string genre, int? year, CancellationToken token)
         {
             string uri;
-            const int Limit = 24;
+            const int Limit = 2000;
             var qp = new List<string>
             {
                 $"limit={Limit}",
-                $"page={page}"
             };
 
             if (genre != "Любой" || year.HasValue)
