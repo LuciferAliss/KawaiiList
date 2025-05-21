@@ -77,6 +77,96 @@ namespace KawaiiList.Services
             }
         }
 
+        public async Task<(List<AnilibriaTitle>, bool)> GetPageTitlesAsync(int page, CancellationToken token)
+        {
+            while (true)
+            {
+                try
+                {
+                    var response = await httpClient.GetAsync($"title/updates?page={page}&items_per_page=21", cancellationToken: token);
+
+                    response.EnsureSuccessStatusCode();
+
+                    string responseBody = await response.Content.ReadAsStringAsync(cancellationToken: token);
+                    var result = await response.Content.ReadFromJsonAsync<AnilibriaTitles>(cancellationToken: token);
+
+                    if (result?.List?.Count == 0 || result?.List == null)
+                    {
+                        return (result?.List ?? [], false);
+                    }
+
+                    return (result?.List ?? [], true);
+                }
+                catch (OperationCanceledException)
+                {
+                }
+                catch (HttpRequestException httpEx)
+                {
+                    Debug.WriteLine($"HTTP request error: {httpEx.Message}");
+                }
+                catch (JsonException jsonEx)
+                {
+                    Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
+                }
+            }
+        }
+
+        public async Task<(List<AnilibriaTitle>, bool)> GetSortTitlesAsync(int page, string genre, int? year, CancellationToken token)
+        {
+            string uri;
+            const int Limit = 21;
+            var qp = new List<string>
+            {
+                $"page={page}",
+                $"items_per_page={Limit}"
+            };
+
+            qp.Add("filter=");
+
+            if (genre != "Любой")
+            {
+                qp.Add($"genres={Uri.EscapeDataString(genre)},");
+            }
+
+            if (year.HasValue)
+            {
+                qp.Add($"year={year.Value},");
+            }
+
+            uri = $"title/search?{string.Join("&", qp)}";
+
+            while (true)
+            {
+                try
+                {
+                    var response = await httpClient.GetAsync(uri, cancellationToken: token);
+
+                    response.EnsureSuccessStatusCode();
+
+                    string responseBody = await response.Content.ReadAsStringAsync(cancellationToken: token);
+                    var result = await response.Content.ReadFromJsonAsync<AnilibriaTitles>(cancellationToken: token);
+
+                    if (result?.List?.Count == 0 || result?.List == null)
+                    {
+                        return (result?.List ?? [], false);
+                    }
+
+                    return (result?.List ?? [], true);
+                }
+                catch (OperationCanceledException)
+                {
+                }
+                catch (HttpRequestException httpEx)
+                {
+                    Debug.WriteLine($"HTTP request error: {httpEx.Message}");
+                }
+                catch (JsonException jsonEx)
+                {
+                    Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
+                }
+            }
+        }
+
         public async Task<List<string>> GetGenresAsync(CancellationToken token)
         {
             try

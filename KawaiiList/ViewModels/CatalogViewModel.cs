@@ -20,9 +20,34 @@ namespace KawaiiList.ViewModels
         private CancellationTokenSource _cts2 = new();
         private CancellationTokenSource _cts3 = new();
         private List<AnilibriaTitle> _animeData = new();
+        
+        private int _page = 1;
+        public int Page
+        {
+            get => _page;
+            set
+            {
+                _page = value;
+                LoadingAnimeData = true;
+                IsNext = false;
+
+
+                if (SelectedYear.HasValue || SelectedGenres != "Любой")
+                {
+                    SortAnime();
+                }
+                else
+                {
+                    LoadAnime();
+                }
+            }
+        }
 
         [ObservableProperty]
         private bool _loadingAnimeData = false;
+
+        [ObservableProperty]
+        private bool _isNext = false;
 
         [ObservableProperty]
         private List<AnilibriaTitle> _animeTitle = [];
@@ -57,7 +82,9 @@ namespace KawaiiList.ViewModels
                 return;
             }
 
-            SortAnime();
+            _animeData = [];
+            AnimeTitle = [];
+            Page = 1;
         }
 
         partial void OnSelectedGenresChanged(string value)
@@ -67,36 +94,42 @@ namespace KawaiiList.ViewModels
                 return;
             }
 
-            SortAnime();
+            _animeData = [];
+            AnimeTitle = [];
+            Page = 1;            
         }
 
-        private void SortAnime()
-        {
-            if (SelectedGenres != "Любой" && SelectedYear.HasValue)
-            {
-                AnimeTitle = _animeData.Where(x => x.Genres.Any(genre => SelectedGenres.Contains(genre)) && x.Season.Year == SelectedYear).ToList();
-            }
-            else if (SelectedGenres != "Любой")
-            {
-                AnimeTitle = _animeData.Where(x => x.Genres.Any(genre => SelectedGenres.Contains(genre))).ToList();
-            }
-            else if (SelectedYear.HasValue)
-            {
-                AnimeTitle = _animeData.Where(x => x.Season.Year == SelectedYear).ToList();
-            }
-            else
-            {
-                AnimeTitle = _animeData;
-            }
-        }
-        
         private async Task LoadData()
         {
-            await LoadAnime();
             await LoadGenres();
             await LoadYears();
+            await LoadAnime();
+        }
 
-            LoadingAnimeData = false;
+        private async Task SortAnime()
+        {
+            _cts1.Cancel();
+            _cts1.Dispose();
+            _cts1 = new CancellationTokenSource();
+            var token = _cts1.Token;
+            LoadingAnimeData = true;
+
+            try
+            {
+                List<AnilibriaTitle> result;
+
+                (result, IsNext) = await _anilibriaService.GetSortTitlesAsync(Page, SelectedGenres, SelectedYear, token);
+
+                if (token.IsCancellationRequested)
+                    return;
+
+                _animeData.AddRange(result);
+                AnimeTitle = new List<AnilibriaTitle>(_animeData);
+                LoadingAnimeData = false;
+            }
+            catch (OperationCanceledException)
+            {
+            }
         }
 
         private async Task LoadAnime()
@@ -105,25 +138,20 @@ namespace KawaiiList.ViewModels
             _cts1.Dispose();
             _cts1 = new CancellationTokenSource();
             var token = _cts1.Token;
+            LoadingAnimeData = true;
 
             try
             {
                 List<AnilibriaTitle> result;
 
-                result = await _anilibriaService.GetTitlesAsync(2000, token);
+                (result, IsNext) = await _anilibriaService.GetPageTitlesAsync(Page, token);
 
                 if (token.IsCancellationRequested)
                     return;
 
-                if (result.Count == 0)
-                {
-                    await Task.Delay(1000);
-                    await LoadAnime();
-                    return;
-                }
-
-                _animeData = result ?? [];
-                AnimeTitle = _animeData;
+                _animeData.AddRange(result);
+                AnimeTitle = new List<AnilibriaTitle>(_animeData);
+                LoadingAnimeData = false;
             }
             catch (OperationCanceledException)
             {
@@ -195,6 +223,9 @@ namespace KawaiiList.ViewModels
         {
             SelectedYear = null;
         }
+
+        [RelayCommand]
+        private void NextPage() => Page++;
 
         [RelayCommand]
         private void ItemSelected(AnilibriaTitle selectedAnime)

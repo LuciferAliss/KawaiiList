@@ -28,6 +28,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0"
@@ -169,14 +170,21 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <hc:CircleProgressBar Width="60"
+        <hc:CircleProgressBar Grid.Row="3"
+                              Width="60"
                               Height="60"
-                              Grid.Row="3"
                               IsIndeterminate="True"
                               Foreground="LightBlue"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               Visibility="{Binding LoadingAnimeData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+        <Button Grid.Row="4"
+                Content="Продолжить"
+                HorizontalAlignment="Center"
+                Command="{Binding NextPageCommand}"
+                Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                Visibility="{Binding IsNext, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
     </Grid>
     
