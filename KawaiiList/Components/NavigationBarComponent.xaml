@@ -91,6 +91,24 @@
                         </StackPanel>
                     </RadioButton>
 
+                    <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
+                                 Command="{Binding RandomAnimeCommand}"
+                                 HorizontalContentAlignment="Left"
+                                 FontSize="20"
+                                 Margin="0,5,0,5">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="selectionsearch"
+                                                     Foreground="White"
+                                                     Height="20"
+                                                     Width="20"
+                                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="Случайное"
+                                       Style="{StaticResource BaseTextBlockStyle}"
+                                       Foreground="White"
+                                       Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </RadioButton>
+
                     <TextBlock Text="Мой аккаунт"
                                Margin="42,30,0,2"
                                Foreground="{StaticResource SecondaryTextColor}"

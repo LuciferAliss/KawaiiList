@@ -63,7 +63,11 @@ public partial class App : Application
         (
             CreateHomeNavigationService(service),
             CreateCatalogNavigationService(service),
-            CreateScheduleNavigationService(service)
+            CreateScheduleNavigationService(service),
+            CreateAnimeInfoNavigationService(service),
+            service.GetRequiredService<AnimeStore>(),
+            service.GetRequiredService<IAnilibriaService>(),
+            service.GetRequiredService<IShikimoriService>()
         );
     }
 

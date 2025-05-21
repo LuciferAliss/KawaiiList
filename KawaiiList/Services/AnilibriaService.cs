@@ -247,5 +247,33 @@ namespace KawaiiList.Services
                 return [];
             }
         }
+
+        public async Task<AnilibriaTitle> GetRandomAsync(CancellationToken token)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"title/random", token);
+
+                response.EnsureSuccessStatusCode();
+
+                var result = await response.Content.ReadFromJsonAsync<AnilibriaTitle>(cancellationToken: token);
+
+                return result ?? new();
+            }
+            catch (OperationCanceledException)
+            {
+                return new();
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Debug.WriteLine($"HTTP request error: {httpEx.Message}");
+                return new();
+            }
+            catch (JsonException jsonEx)
+            {
+                Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
+                return new();
+            }
+        }
     }
 }

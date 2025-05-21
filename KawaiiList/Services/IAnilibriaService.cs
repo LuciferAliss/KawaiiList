@@ -9,6 +9,7 @@ namespace KawaiiList.Services
         Task<(List<AnilibriaTitle>, bool)> GetPageTitlesAsync(int page, CancellationToken token);
         Task<(List<AnilibriaTitle>, bool)> GetSortTitlesAsync(int page, string genre, int? year, CancellationToken token);
         Task<List<ScheduleAnilibriaTitles>> GetScheduleAsync(CancellationToken token);
+        Task<AnilibriaTitle> GetRandomAsync(CancellationToken token);
         Task<List<string>> GetGenresAsync(CancellationToken token);
         Task<List<int>> GetYearsAsync(CancellationToken token);
     }
