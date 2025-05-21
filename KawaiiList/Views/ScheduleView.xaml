@@ -50,24 +50,23 @@
         </Border>
 
         <ItemsControl Grid.Row="1"
-              ItemsSource="{Binding AnimeTitle}"
-              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-              ScrollViewer.VerticalScrollBarVisibility="Disabled"
-              ScrollViewer.CanContentScroll="False">
+                      Margin="35,10,0,0"
+                      ItemsSource="{Binding AnimeTitle}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      ScrollViewer.CanContentScroll="False">
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel ItemWidth="335"
-                               ItemHeight="465"/>
+                    <WrapPanel ItemWidth="190"
+                               ItemHeight="290"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <materialDesign:Card Width="210"
-                                         Height="280"
-                                         Cursor="Hand"
-                                         Margin="0,0,0,0"
+                    <materialDesign:Card Cursor="Hand"
+                                         Margin="4"
                                          Background="{StaticResource NavigationBarBackground}">
 
                         <StackPanel VerticalAlignment="Top">
