@@ -4,10 +4,110 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KawaiiList.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:viewmodels="clr-namespace:KawaiiList.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:ScheduleViewModel}"
              mc:Ignorable="d">
     
     <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Background="#252A36"
+                Grid.Row="0">
             
+            <TabControl Grid.Row="0"
+                        Style="{StaticResource MaterialDesignTabControl}"
+                        SelectedIndex="{Binding SelectedDayIndex, Mode=TwoWay}">
+
+                <TabItem Header="Понедельник"
+                         Height="30"
+                         Padding="0"/>
+                <TabItem Header="Вторник"
+                         Height="30"
+                         Padding="0"/>
+                <TabItem Header="Среда"
+                         Height="30"
+                         Padding="0"/>
+                <TabItem Header="Четверг"
+                         Height="30"
+                         Padding="0"/>
+                <TabItem Header="Пятница"
+                         Height="30"
+                         Padding="0"/>
+                <TabItem Header="Суббота"
+                         Height="30"
+                         Padding="0"/>
+                <TabItem Header="Воскресенье"
+                         Height="30"
+                         Padding="0"/>
+                
+            </TabControl>
+        
+        </Border>
+
+        <ItemsControl Grid.Row="1"
+              ItemsSource="{Binding AnimeTitle}"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+              ScrollViewer.VerticalScrollBarVisibility="Disabled"
+              ScrollViewer.CanContentScroll="False">
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel ItemWidth="335"
+                               ItemHeight="465"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <materialDesign:Card Width="210"
+                                         Height="280"
+                                         Cursor="Hand"
+                                         Margin="0,0,0,0"
+                                         Background="{StaticResource NavigationBarBackground}">
+
+                        <StackPanel VerticalAlignment="Top">
+                            <!-- Изображение (постер) -->
+                            <Image Source="{Binding Posters.Original.Url}"
+                                   Height="208"
+                                   Stretch="UniformToFill"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Stretch"/>
+
+                            <!-- Текстовая информация -->
+                            <StackPanel Margin="10,15">
+                                <TextBlock Text="{Binding Names.Ru}"
+                                           FontWeight="Bold"
+                                           Foreground="{StaticResource TextColor}"
+                                           TextWrapping="Wrap"
+                                           TextTrimming="CharacterEllipsis"
+                                           MaxHeight="20"
+                                           FontSize="14"/>
+
+                                <TextBlock Foreground="{StaticResource SecondaryTextColor}"
+                                           FontSize="13"
+                                           Margin="0,5,0,0">
+
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} эп. - {1}">
+                                            <Binding Path="Player.Episodes.Last" />
+                                            <Binding Path="Season.Year" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        
+        </ItemsControl>
+
     </Grid>
     
 </UserControl>

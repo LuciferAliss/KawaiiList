@@ -56,7 +56,6 @@ namespace KawaiiList.Services
 
                 response.EnsureSuccessStatusCode();
 
-                string responseBody = await response.Content.ReadAsStringAsync();
                 var result = await response.Content.ReadFromJsonAsync<AnilibriaTitles>(cancellationToken: token);
 
                 return result?.List ?? [];
@@ -87,7 +86,6 @@ namespace KawaiiList.Services
 
                     response.EnsureSuccessStatusCode();
 
-                    string responseBody = await response.Content.ReadAsStringAsync(cancellationToken: token);
                     var result = await response.Content.ReadFromJsonAsync<AnilibriaTitles>(cancellationToken: token);
 
                     if (result?.List?.Count == 0 || result?.List == null)
@@ -143,7 +141,6 @@ namespace KawaiiList.Services
 
                     response.EnsureSuccessStatusCode();
 
-                    string responseBody = await response.Content.ReadAsStringAsync(cancellationToken: token);
                     var result = await response.Content.ReadFromJsonAsync<AnilibriaTitles>(cancellationToken: token);
 
                     if (result?.List?.Count == 0 || result?.List == null)
@@ -167,6 +164,34 @@ namespace KawaiiList.Services
             }
         }
 
+        public async Task<List<ScheduleAnilibriaTitles>> GetScheduleAsync(CancellationToken token)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"title/schedule", token);
+
+                response.EnsureSuccessStatusCode();
+
+                var result = await response.Content.ReadFromJsonAsync<List<ScheduleAnilibriaTitles>>(cancellationToken: token);
+
+                return result ?? [];
+            }
+            catch (OperationCanceledException)
+            {
+                return [];
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Debug.WriteLine($"HTTP request error: {httpEx.Message}");
+                return [];
+            }
+            catch (JsonException jsonEx)
+            {
+                Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
+                return [];
+            }
+        }
+
         public async Task<List<string>> GetGenresAsync(CancellationToken token)
         {
             try
@@ -175,7 +200,6 @@ namespace KawaiiList.Services
 
                 response.EnsureSuccessStatusCode();
 
-                string responseBody = await response.Content.ReadAsStringAsync();
                 var result = await response.Content.ReadFromJsonAsync<List<string>> (cancellationToken: token);
 
                 return result ?? [];
@@ -204,7 +228,6 @@ namespace KawaiiList.Services
 
                 response.EnsureSuccessStatusCode();
 
-                string responseBody = await response.Content.ReadAsStringAsync();
                 var result = await response.Content.ReadFromJsonAsync<List<int>>(cancellationToken: token);
 
                 return result ?? [];

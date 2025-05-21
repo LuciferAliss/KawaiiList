@@ -122,4 +122,10 @@ namespace KawaiiList.Models
         public List<AnilibriaTitle>? List { get; set; }
         public PaginationInfo? Pagination { get; set; }
     }
+
+    public class ScheduleAnilibriaTitles
+    {
+        public int Day { get; set; }
+        public List<AnilibriaTitle>? List { get; set; }
+    }
 }
