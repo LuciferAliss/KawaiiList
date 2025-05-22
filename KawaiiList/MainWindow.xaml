@@ -6,7 +6,8 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:components="clr-namespace:KawaiiList.Components"
         xmlns:viewmodels="clr-namespace:KawaiiList.ViewModels"
-        xmlns:views="clr-namespace:KawaiiList.Views"
+        xmlns:views="clr-namespace:KawaiiList.Views" 
+        xmlns:custom="clr-namespace:ModalControl;assembly=ModalControl"
         mc:Ignorable="d"
         Title="MainPage"
         MinHeight="720"
@@ -35,109 +36,118 @@
         </Border.BorderBrush>
 
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <!-- Боковая панель -->
-            <components:NavigationBarComponent Grid.Column="0"
-                                               VerticalAlignment="Stretch"
-                                               DataContext="{Binding NavigationBarViewModel}"
-                                               Visibility="{Binding DataContext.IsFullscreen, 
-                                                        RelativeSource={RelativeSource AncestorType=Window}, 
-                                                        Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Grid.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:SignUpViewModel}">
+                    <views:SignUpView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
+                    <views:HomeView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:AnimeInfoViewModel}">
+                    <views:AnimeInfoView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:WatchAnimeViewModel}">
+                    <views:WatchAnimeView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:CatalogViewModel}">
+                    <views:CatalogView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ScheduleViewModel}">
+                    <views:ScheduleView/>
+                </DataTemplate>
+            </Grid.Resources>
 
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+            <custom:Modal Panel.ZIndex="100" IsOpen="{Binding IsOpenModalView}">
+                <ContentControl Content="{Binding CurrentModalViewModel}"/>
+            </custom:Modal>
 
-                <!--// Панель управления //-->
-                <Border Grid.Row="0"
-                        CornerRadius="0,12,0,0"
-                        Background="#252A36"
-                        Visibility="{Binding IsFullscreen, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                Height="30"
-                                Width="60"
-                                Click="MinimizeWindowClick">
-                            
-                            <materialDesign:PackIcon Kind="minus"
-                                                     Foreground="White"
-                                                     Height="20"
-                                                     Width="20"
-                                                     VerticalAlignment="Center"/>
-                        
-                        </Button>
+                <!-- Боковая панель -->
+                <components:NavigationBarComponent Grid.Column="0"
+                                                   VerticalAlignment="Stretch"
+                                                   DataContext="{Binding NavigationBarViewModel}"
+                                                   Visibility="{Binding DataContext.IsFullscreen, 
+                                                            RelativeSource={RelativeSource AncestorType=Window}, 
+                                                            Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                Height="30"
-                                Width="60"
-                                Margin="0,0,10,0"
-                                Click="CloseWindowClick">
-                            
-                            <materialDesign:PackIcon Kind="close"
-                                                     Foreground="White"
-                                                     Height="20"
-                                                     Width="20"
-                                                     VerticalAlignment="Center"/>
-                            
-                        </Button>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!--// Панель управления //-->
+                    <Border Grid.Row="0"
+                            CornerRadius="0,12,0,0"
+                            Background="#252A36"
+                            Visibility="{Binding IsFullscreen, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right">
+
+                            <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                    Height="30"
+                                    Width="60"
+                                    Click="MinimizeWindowClick">
+
+                                <materialDesign:PackIcon Kind="minus"
+                                                         Foreground="White"
+                                                         Height="20"
+                                                         Width="20"
+                                                         VerticalAlignment="Center"/>
+
+                            </Button>
+
+                            <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                    Height="30"
+                                    Width="60"
+                                    Margin="0,0,10,0"
+                                    Click="CloseWindowClick">
+
+                                <materialDesign:PackIcon Kind="close"
+                                                         Foreground="White"
+                                                         Height="20"
+                                                         Width="20"
+                                                         VerticalAlignment="Center"/>
+
+                            </Button>
 
 
-                    </StackPanel>
-                </Border>
-
-                <!-- Верхняя навигационная панель -->
-                <components:HaderComponent Grid.Row="1"
-                                           VerticalAlignment="Stretch"
-                                           DataContext="{Binding HaderViewModel}"
-                                           Visibility="{Binding DataContext.IsFullscreen, 
-                                                        RelativeSource={RelativeSource AncestorType=Window}, 
-                                                        Converter={StaticResource BooleanToVisibilityConverter}}"/>
-
-                <!-- Основной контент страницы -->
-                <Border Grid.Row="2"
-                        Background="{StaticResource DarkBackground}"
-                        CornerRadius="0,0,12,0">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                  HorizontalScrollBarVisibility="Disabled"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalAlignment="Stretch"
-                                  PanningMode="VerticalFirst">
-
-                        <StackPanel Margin="{Binding MarginMainConent}">
-
-                            <ContentControl Content="{Binding CurrentViewModel}">
-                                <ContentControl.Resources>
-                                    <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
-                                        <views:HomeView/>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type viewmodels:AnimeInfoViewModel}">
-                                        <views:AnimeInfoView/>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type viewmodels:WatchAnimeViewModel}">
-                                        <views:WatchAnimeView/>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type viewmodels:CatalogViewModel}">
-                                        <views:CatalogView/>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type viewmodels:ScheduleViewModel}">
-                                        <views:ScheduleView/>
-                                    </DataTemplate>
-                                </ContentControl.Resources>
-                            </ContentControl>
-                            
                         </StackPanel>
-                    </ScrollViewer>
-                    
-                </Border>
+                    </Border>
 
+                    <!-- Верхняя навигационная панель -->
+                    <components:HaderComponent Grid.Row="1"
+                                               VerticalAlignment="Stretch"
+                                               DataContext="{Binding HaderViewModel}"
+                                               Visibility="{Binding DataContext.IsFullscreen, 
+                                                            RelativeSource={RelativeSource AncestorType=Window}, 
+                                                            Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                    <!-- Основной контент страницы -->
+                    <Border Grid.Row="2"
+                            Background="{StaticResource DarkBackground}"
+                            CornerRadius="0,0,12,0">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch"
+                                      PanningMode="VerticalFirst">
+
+                            <StackPanel Margin="{Binding MarginMainConent}">
+                                <ContentControl Content="{Binding CurrentViewModel}"/>
+                            </StackPanel>
+                            
+                        </ScrollViewer>
+
+                    </Border>
+
+                </Grid>
             </Grid>
         </Grid>
     </Border>

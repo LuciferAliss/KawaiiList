@@ -30,9 +30,9 @@ namespace KawaiiList.ViewModels
             IAnilibriaService anilibriaService,
             IShikimoriService apiShikimoriService)
         {
-            NavigateHomeCommand = new NavigateCommand<HomeViewModel>(homeNavigationService);
-            NavigateCatalogCommand = new NavigateCommand<CatalogViewModel>(catalogNavigationService);
-            NavigateScheduleCommand = new NavigateCommand<ScheduleViewModel>(scheduleNavigationService);
+            NavigateHomeCommand = new NavigateCommand(homeNavigationService);
+            NavigateCatalogCommand = new NavigateCommand(catalogNavigationService);
+            NavigateScheduleCommand = new NavigateCommand(scheduleNavigationService);
 
             _navigationService = navigationService;
             _animeStore = animeStore;

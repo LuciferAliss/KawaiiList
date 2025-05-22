@@ -3,6 +3,7 @@ using KawaiiList.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using KawaiiList.Stores;
+using System;
 
 namespace KawaiiList;
 
@@ -16,6 +17,7 @@ public partial class App : Application
 
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<AnimeStore>();
+        services.AddSingleton<ModalNavigationStore>();
 
         services.AddHttpClient<IAnilibriaService, AnilibriaService>();
         services.AddHttpClient<IShikimoriService, ShikimoriService>();
@@ -24,14 +26,16 @@ public partial class App : Application
         services.AddTransient<IScreenService, ScreenService>();
         services.AddTransient<ICursorPositionService, CursorPositionService>();
         services.AddTransient<INavigationService>(s => CreateHomeNavigationService(s));
+        services.AddTransient<CloseModalNavigationService>();
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
+        services.AddTransient<SignUpViewModel>(CreateSignUpViewModel);
         services.AddTransient<CatalogViewModel>(CreateCatalogViewModel);
         services.AddTransient<ScheduleViewModel>();
         services.AddTransient<SearchViewModel>(CreateSearchViewModel);
         services.AddSingleton<NavigationBarViewModel>(CreateNavigationBarViewModel);
-        services.AddTransient<HaderViewModel>();
+        services.AddTransient<HaderViewModel>(CreateHaderViewModel);
 
         services.AddTransient<HomeViewModel>();
         services.AddTransient<AnimeInfoViewModel>(CreateWatchAnimeViewModel);
@@ -114,6 +118,29 @@ public partial class App : Application
         );
     }
 
+    private SignUpViewModel CreateSignUpViewModel(IServiceProvider service)
+    {
+
+        CompositeNavigationService navigationService = new CompositeNavigationService
+        (
+            service.GetRequiredService<CloseModalNavigationService>()
+        );
+
+        return new SignUpViewModel
+        (
+            navigationService
+        );
+    }
+
+    private HaderViewModel CreateHaderViewModel(IServiceProvider service)
+    {
+        return new HaderViewModel
+        (
+            service.GetRequiredService<SearchViewModel>(),
+            CreateSignUpNavigationService(service)
+        );
+    }
+
     private INavigationService CreateAnimeInfoNavigationService(IServiceProvider service)
     {
         return new NavigationService<AnimeInfoViewModel>(service.GetRequiredService<NavigationStore>(),
@@ -142,5 +169,11 @@ public partial class App : Application
     {
         return new NavigationService<ScheduleViewModel>(service.GetRequiredService<NavigationStore>(),
             () => service.GetRequiredService<ScheduleViewModel>());
+    }
+
+    private INavigationService CreateSignUpNavigationService(IServiceProvider service)
+    {
+        return new ModalNavigationService<SignUpViewModel>(service.GetRequiredService<ModalNavigationStore>(),
+            () => service.GetRequiredService<SignUpViewModel>());
     }
 }

@@ -3,8 +3,7 @@ using KawaiiList.Services;
 
 namespace KawaiiList.Commands
 {
-    public class NavigateCommand<TViewModel> : CommandBase
-        where TViewModel : ObservableObject
+    public class NavigateCommand: CommandBase
     {
         private readonly INavigationService _navigationService;
 

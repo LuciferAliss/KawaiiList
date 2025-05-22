@@ -37,7 +37,8 @@
                                Margin="0,0,10,0"/>
                     <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
                             Width="40"
-                            Height="40">
+                            Height="40"
+                            Command="{Binding NavigateSingUpCommand}">
                         <materialDesign:PackIcon Kind="Account"
                                                  Width="25"
                                                  Height="25"/>

@@ -8,7 +8,7 @@ namespace KawaiiList.Services
         where TViewModel : BaseViewModel
     {
         private readonly NavigationStore _navigationStore;
-        private readonly Func<TViewModel>? _createViewModel;
+        private readonly Func<TViewModel> _createViewModel;
 
         public NavigationService(NavigationStore navigationStore, Func<TViewModel> createViewModel)
         {
