@@ -26,11 +26,12 @@ public partial class App : Application
         services.AddTransient<IScreenService, ScreenService>();
         services.AddTransient<ICursorPositionService, CursorPositionService>();
         services.AddTransient<INavigationService>(s => CreateHomeNavigationService(s));
-        services.AddTransient<CloseModalNavigationService>();
+        services.AddTransient<ICloseModalNavigationService, CloseModalNavigationService>();
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
         services.AddTransient<SignUpViewModel>(CreateSignUpViewModel);
+        services.AddTransient<SignInViewModel>(CreateSignInViewModel);
         services.AddTransient<CatalogViewModel>(CreateCatalogViewModel);
         services.AddTransient<ScheduleViewModel>();
         services.AddTransient<SearchViewModel>(CreateSearchViewModel);
@@ -120,15 +121,19 @@ public partial class App : Application
 
     private SignUpViewModel CreateSignUpViewModel(IServiceProvider service)
     {
-
-        CompositeNavigationService navigationService = new CompositeNavigationService
-        (
-            service.GetRequiredService<CloseModalNavigationService>()
-        );
-
         return new SignUpViewModel
         (
-            navigationService
+            service.GetRequiredService<ICloseModalNavigationService>(),
+            CreateSignInNavigationService(service)
+        );
+    }
+
+    private SignInViewModel CreateSignInViewModel(IServiceProvider service)
+    {
+        return new SignInViewModel
+        (
+            service.GetRequiredService<ICloseModalNavigationService>(),
+            CreateSignUpNavigationService(service)
         );
     }
 
@@ -137,7 +142,7 @@ public partial class App : Application
         return new HaderViewModel
         (
             service.GetRequiredService<SearchViewModel>(),
-            CreateSignUpNavigationService(service)
+            CreateSignInNavigationService(service)
         );
     }
 
@@ -175,5 +180,11 @@ public partial class App : Application
     {
         return new ModalNavigationService<SignUpViewModel>(service.GetRequiredService<ModalNavigationStore>(),
             () => service.GetRequiredService<SignUpViewModel>());
+    }
+
+    private INavigationService CreateSignInNavigationService(IServiceProvider service)
+    {
+        return new ModalNavigationService<SignInViewModel>(service.GetRequiredService<ModalNavigationStore>(),
+            () => service.GetRequiredService<SignInViewModel>());
     }
 }

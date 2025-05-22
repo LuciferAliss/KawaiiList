@@ -1,13 +1,8 @@
 ﻿using KawaiiList.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KawaiiList.Services
 {
-    class CloseModalNavigationService : INavigationService
+    public class CloseModalNavigationService : ICloseModalNavigationService
     {
         private readonly ModalNavigationStore _modalNavigationStore;
 

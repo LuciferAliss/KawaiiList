@@ -3,25 +3,25 @@ using KawaiiList.Services;
 
 namespace KawaiiList.ViewModels
 {
-    public partial class SignUpViewModel : BaseViewModel
+    public partial class SignInViewModel : BaseViewModel
     {
         private readonly ICloseModalNavigationService _closeNavigationService;
-        private readonly INavigationService _signInNavigationService;
+        private readonly INavigationService _signpUpNavigationService;
 
-        public SignUpViewModel(ICloseModalNavigationService closeNavigationService, INavigationService signInNavigationService)
+        public SignInViewModel(ICloseModalNavigationService closeNavigationService, INavigationService signpUpNavigationService)
         {
             _closeNavigationService = closeNavigationService;
-            _signInNavigationService = signInNavigationService;
+            _signpUpNavigationService = signpUpNavigationService;
         }
 
         [RelayCommand]
-        private void Register()
+        private void Login()
         {
             _closeNavigationService.Navigate();
         }
 
         [RelayCommand]
-        private void SignIn() => _signInNavigationService.Navigate();
+        private void SignUp() => _signpUpNavigationService.Navigate();
 
         [RelayCommand]
         private void CloseModal() => _closeNavigationService.Navigate();

@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="KawaiiList.Views.SignUpView"
+﻿<UserControl x:Class="KawaiiList.Views.SignInView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KawaiiList.Views"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
 
     <Border BorderThickness="3"
             Padding="25"
@@ -29,16 +29,15 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0"
+                       HorizontalAlignment="Center"
                        Margin="10,10"
                        Style="{StaticResource BaseTextBlockStyle}"
                        Foreground="{StaticResource TextColor}"
                        FontSize="27"
-                       Text="Регистрация"/>
+                       Text="Вход"/>
 
             <TextBox Grid.Row="1"
                      Margin="10,0"
@@ -50,62 +49,44 @@
                      Foreground="{StaticResource TextColor}"/>
 
             <TextBox Grid.Row="2"
+                     HorizontalAlignment="Stretch"
                      Margin="10,10"
-                     HorizontalAlignment="Stretch"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     materialDesign:HintAssist.Hint="Email"
-                     Text=""
-                     FontSize="14"
-                     Foreground="{StaticResource TextColor}"/>
-            
-            <TextBox Grid.Row="3"
-                     HorizontalAlignment="Stretch"
-                     Margin="10,0"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:HintAssist.Hint="Пароль"
                      Text=""
                      FontSize="14"
                      Foreground="{StaticResource TextColor}"/>
 
-            <TextBox Grid.Row="4"
-                     HorizontalAlignment="Stretch"
-                     Margin="10,10"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     materialDesign:HintAssist.Hint="Потвердите пароль"
-                     Text=""
-                     FontSize="14"
-                     Foreground="{StaticResource TextColor}"/>
-
-            <TextBlock Grid.Row="5"
+            <TextBlock Grid.Row="3"
                        Margin="10,5"
                        HorizontalAlignment="Center"
                        Cursor="Hand"
                        Style="{StaticResource BaseTextBlockStyle}"
                        Foreground="{StaticResource SecondaryTextColor}"
-                       Text="У меня уже есть аккаунт">
+                       Text="У меня ещё нет аккаунт">
                 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseDown">
-                        <i:InvokeCommandAction Command="{Binding SignInCommand}"/>
+                        <i:InvokeCommandAction Command="{Binding SignUpCommand}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 
             </TextBlock>
-
-            <Button Grid.Row="6"
+            
+            <Button Grid.Row="4"
                     HorizontalAlignment="Center"
                     Margin="10,10"
-                    Content="Зарегистрироваться"
-                    Command="{Binding RegisterCommand}"/>
+                    Content="Войти"
+                    Command="{Binding LoginCommand}"/>
 
-            <TextBlock Grid.Row="7"
+            <TextBlock Grid.Row="5"
                        Margin="10,5"
                        HorizontalAlignment="Center"
                        Cursor="Hand"
                        FontSize="9"
                        Style="{StaticResource BaseTextBlockStyle}"
                        Foreground="{StaticResource SecondaryTextColor}"
-                       Text="Я не хочу пока регестироваться">
+                       Text="Я не хочу пока входить">
                 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseDown">
@@ -114,7 +95,7 @@
                 </i:Interaction.Triggers>
                 
             </TextBlock>
-
+            
         </Grid>
     </Border>
 
