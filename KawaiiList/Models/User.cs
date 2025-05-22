@@ -9,13 +9,8 @@ namespace KawaiiList.Models
     public class User
     {
         public int Id { get; set; }
-        public required string Login { get; set; }
-        public required string PasswordHash { get; set; }
-        public required string Salt { get; set; }
-        public required string Email { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime LastLogin { get; set; }
-
-        public List<AuthToken> Tokens { get; set; } = new();
+        public string Username { get; set; }
+        public string Nickname { get; set; }
+        public string Email { get; set; }
     }
 }
