@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using KawaiiList.ViewModels;
+﻿using KawaiiList.ViewModels;
 
 namespace KawaiiList.Stores
 {

@@ -4,20 +4,34 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using KawaiiList.Stores;
 using System;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using KawaiiList.Models;
 
 namespace KawaiiList;
 
 public partial class App : Application
 {
     private IServiceProvider _serviceProvider;
+    private IConfiguration _configuration;
 
     public App()
     {
         IServiceCollection services = new ServiceCollection();
 
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+        
+        _configuration = builder.Build();
+        
+        services.Configure<SupabaseSettings>(_configuration.GetSection("Supabase"));
+
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<AnimeStore>();
         services.AddSingleton<ModalNavigationStore>();
+        services.AddSingleton<UserStore>();
+        services.AddSingleton<SupabaseClientStore>();
 
         services.AddHttpClient<IAnilibriaService, AnilibriaService>();
         services.AddHttpClient<IShikimoriService, ShikimoriService>();
@@ -27,6 +41,7 @@ public partial class App : Application
         services.AddTransient<ICursorPositionService, CursorPositionService>();
         services.AddTransient<INavigationService>(s => CreateHomeNavigationService(s));
         services.AddTransient<ICloseModalNavigationService, CloseModalNavigationService>();
+        services.AddTransient<IAuthService, AuthService>();
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
@@ -59,7 +74,14 @@ public partial class App : Application
         MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
         MainWindow.Show();
 
+        InitializeSupabase();
         base.OnStartup(e);
+    }
+
+    private async void InitializeSupabase()
+    {
+        var clientStore = _serviceProvider.GetRequiredService<SupabaseClientStore>();
+        await clientStore.InitializeClientAsync();
     }
 
     private NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider service)
@@ -124,7 +146,8 @@ public partial class App : Application
         return new SignUpViewModel
         (
             service.GetRequiredService<ICloseModalNavigationService>(),
-            CreateSignInNavigationService(service)
+            CreateSignInNavigationService(service),
+            service.GetRequiredService<IAuthService>()
         );
     }
 

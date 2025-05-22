@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:KawaiiList.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:viewmodel="clr-namespace:KawaiiList.ViewModels" 
+             d:DataContext="{d:DesignInstance viewmodel:SignUpViewModel}"
              mc:Ignorable="d">
 
     <Border BorderThickness="3"
@@ -57,10 +59,10 @@
                      Text=""
                      FontSize="14"
                      Foreground="{StaticResource TextColor}"/>
-            
+
             <TextBox Grid.Row="3"
                      HorizontalAlignment="Stretch"
-                     Margin="10,0"
+                     Margin="10,10"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:HintAssist.Hint="Пароль"
                      Text=""
