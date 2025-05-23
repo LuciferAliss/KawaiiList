@@ -5,9 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:components="clr-namespace:KawaiiList.Components" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:viewModels="clr-namespace:KawaiiList.ViewModels"
+             xmlns:viewModels="clr-namespace:KawaiiList.ViewModels" 
+             xmlns:converter="clr-namespace:KawaiiList.Converter"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converter:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    
     <StackPanel>
         <Border Grid.Row="1"
                 Background="{StaticResource NavigationBarBackground}"
@@ -16,34 +22,49 @@
             <Grid Margin="10,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
                 <components:SearchComponent DataContext="{Binding SearchAnimeViewModel}"
                                             Grid.Column="0"
-                                            HorizontalAlignment="Stretch"
+                                            HorizontalAlignment="Left"
                                             VerticalAlignment="Center"
-                                            Margin="0,0,15,0">
+                                            Margin="25,0,15,0">
                 </components:SearchComponent>
 
                 <!-- Профиль -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    
                     <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}"
                                Text="LuciferAliss"
                                VerticalAlignment="Center"
                                FontSize="20"
                                FontFamily="Montserrat"
                                Foreground="{StaticResource TextColor}"
-                               Margin="0,0,10,0"/>
+                               Margin="0,0,10,0"
+                               Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    
                     <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
                             Width="40"
                             Height="40"
-                            Command="{Binding NavigateSingUpCommand}">
+                            
+                            Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    
                         <materialDesign:PackIcon Kind="Account"
                                                  Width="25"
                                                  Height="25"/>
+                        
                     </Button>
+                    
                 </StackPanel>
+
+                <Button Grid.Column="1"
+                        Content="Войти"
+                        Visibility="{Binding IsLoggedIn, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                        Command="{Binding NavigateSingUpCommand}"/>
+
             </Grid>
         </Border>
     </StackPanel>

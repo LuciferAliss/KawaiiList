@@ -19,8 +19,10 @@ public partial class App : Application
     {
         IServiceCollection services = new ServiceCollection();
 
+        var basePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
+
         var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
+            .SetBasePath(basePath)
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
         
         _configuration = builder.Build();
@@ -156,7 +158,8 @@ public partial class App : Application
         return new SignInViewModel
         (
             service.GetRequiredService<ICloseModalNavigationService>(),
-            CreateSignUpNavigationService(service)
+            CreateSignUpNavigationService(service),
+            service.GetRequiredService<IAuthService>()
         );
     }
 
@@ -165,6 +168,7 @@ public partial class App : Application
         return new HaderViewModel
         (
             service.GetRequiredService<SearchViewModel>(),
+            service.GetRequiredService<UserStore>(),
             CreateSignInNavigationService(service)
         );
     }

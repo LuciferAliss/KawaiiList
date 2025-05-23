@@ -4,22 +4,24 @@ namespace KawaiiList.Stores
 {
     public class UserStore
     {
-        public event Action CurrentUserAppChanged;
+        public event Action CurrentUserChanged;
 
-        private UserApp _currentUserApp;
-        public UserApp CurrentUserApp
+        public bool IsLoggedIn => CurrentUser != null;
+
+        private User _currentUser;
+        public User CurrentUser
         {
-            get => _currentUserApp;
+            get => _currentUser;
             set
             {
-                _currentUserApp = value;
-                OnUserAppChanged();
+                _currentUser = value;
+                OnUserChanged();
             }
         }
 
-        private void OnUserAppChanged()
+        private void OnUserChanged()
         {
-            CurrentUserAppChanged?.Invoke();
+            CurrentUserChanged?.Invoke();
         }
     }
 }

@@ -7,8 +7,13 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:viewmodel="clr-namespace:KawaiiList.ViewModels" 
+             xmlns:converter="clr-namespace:KawaiiList.Converter"
              d:DataContext="{d:DesignInstance viewmodel:SignUpViewModel}"
              mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </UserControl.Resources>
 
     <Border BorderThickness="3"
             Padding="25"
@@ -33,53 +38,62 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0"
-                       Margin="10,10"
+                       Margin="55,10"
                        Style="{StaticResource BaseTextBlockStyle}"
                        Foreground="{StaticResource TextColor}"
                        FontSize="27"
                        Text="Регистрация"/>
 
             <TextBox Grid.Row="1"
-                     Margin="10,0"
+                     Margin="10,0,10,10"
                      HorizontalAlignment="Stretch"
+                     MaxLength="16"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:HintAssist.Hint="Имя пользователя"
-                     Text=""
+                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                      FontSize="14"
                      Foreground="{StaticResource TextColor}"/>
 
             <TextBox Grid.Row="2"
-                     Margin="10,10"
+                     Margin="10,25,10,10"
                      HorizontalAlignment="Stretch"
+                     MaxLength="36"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:HintAssist.Hint="Email"
-                     Text=""
+                     Text="{Binding Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                      FontSize="14"
                      Foreground="{StaticResource TextColor}"/>
 
-            <TextBox Grid.Row="3"
-                     HorizontalAlignment="Stretch"
-                     Margin="10,10"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     materialDesign:HintAssist.Hint="Пароль"
-                     Text=""
-                     FontSize="14"
-                     Foreground="{StaticResource TextColor}"/>
+            <PasswordBox Grid.Row="3"
+                         Margin="10,25,10,10"
+                         HorizontalAlignment="Stretch"
+                         materialDesign:HintAssist.Hint="Пароль"
+                         materialDesign:TextFieldAssist.DecorationVisibility="Visible"
+                         MaxLength="16"
+                         materialDesign:TextFieldAssist.HasClearButton="False"
+                         materialDesign:PasswordBoxAssist.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                         FontSize="14"
+                         Foreground="{StaticResource TextColor}"
+                         Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}" />
 
-            <TextBox Grid.Row="4"
-                     HorizontalAlignment="Stretch"
-                     Margin="10,10"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     materialDesign:HintAssist.Hint="Потвердите пароль"
-                     Text=""
-                     FontSize="14"
-                     Foreground="{StaticResource TextColor}"/>
+            <PasswordBox Grid.Row="4"
+                         HorizontalAlignment="Stretch"
+                         Margin="10,25,10,10"
+                         materialDesign:HintAssist.Hint="Потвердите пароль"
+                         materialDesign:TextFieldAssist.DecorationVisibility="Visible"
+                         MaxLength="16"
+                         materialDesign:TextFieldAssist.HasClearButton="False"
+                         materialDesign:PasswordBoxAssist.Password="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                         FontSize="14"
+                         Foreground="{StaticResource TextColor}"
+                         Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}" />
 
             <TextBlock Grid.Row="5"
-                       Margin="10,5"
+                       Margin="10,15,10,0"
                        HorizontalAlignment="Center"
                        Cursor="Hand"
                        Style="{StaticResource BaseTextBlockStyle}"
@@ -98,9 +112,21 @@
                     HorizontalAlignment="Center"
                     Margin="10,10"
                     Content="Зарегистрироваться"
+                    IsEnabled="{Binding IsFormValid}"
                     Command="{Binding RegisterCommand}"/>
 
             <TextBlock Grid.Row="7"
+                       Text="{Binding ErrorMessage}"
+                       Foreground="Red"
+                       HorizontalAlignment="Center"
+                       FontStyle="Oblique"
+                       FontSize="12"
+                       MaxWidth="250"
+                       Margin="0,5,0,0"
+                       TextWrapping="Wrap"
+                       Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}" />
+            
+            <TextBlock Grid.Row="8"
                        Margin="10,5"
                        HorizontalAlignment="Center"
                        Cursor="Hand"

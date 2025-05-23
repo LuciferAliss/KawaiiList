@@ -1,8 +1,13 @@
-﻿using KawaiiList.Models;
+﻿using HandyControl.Tools.Extension;
+using KawaiiList.Models;
 using KawaiiList.Stores;
 using Supabase;
+using Supabase.Gotrue;
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace KawaiiList.Services
 {
@@ -10,7 +15,7 @@ namespace KawaiiList.Services
     {
         private const string SessionFilePath = "session.json";
 
-        private readonly Client _client;
+        private readonly Supabase.Client _client;
         private readonly SupabaseClientStore _supabaseClientStore;
         private readonly UserStore _userStore;
 
@@ -25,24 +30,37 @@ namespace KawaiiList.Services
         {
             try
             {
-                var userMetadata = new Supabase.Gotrue.SignUpOptions
-                {
-                    Data = new Dictionary<string, object>
-                    {
-                        { "nickname", nickname },
-                        { "display_name", username }
-                    }
-                };
+                 var existingProfiles = await _client
+                    .From<Profiles>()
+                    .Select("*")
+                    .Filter("username", Supabase.Postgrest.Constants.Operator.Equals, username)
+                    .Get();
 
-                Supabase.Gotrue.Session session = await _client.Auth.SignUp(email: email, password: password, options: userMetadata);
-
-                if (session != null && session.User != null)
+                if (existingProfiles.Models.Count > 0)
                 {
-                    await SaveSessionAsync(session);
-                    return true;
+                    Console.WriteLine("Username уже занят.");
+                    return false;
                 }
 
-                return false;
+                Session session = await _client.Auth.SignUp(email: email, password: password);
+
+                if (session == null)
+                {
+                    return false;
+                }
+
+                Profiles profileData = new Profiles
+                {
+                    Id = session.User.Id,
+                    Username = username,
+                    Nickname = nickname,
+                    Email = email,
+                };
+                
+                var insertResponse = await _client.From<Profiles>().Insert(profileData);
+
+                await SaveSessionAsync(session);
+                return true;
             }
             catch (Exception ex)
             {
@@ -51,27 +69,39 @@ namespace KawaiiList.Services
             }
         }
 
-        public async Task<bool> SignInAsync(string email, string password)
+        public async Task<bool> SignInAsync(string username, string password)
         {
             try
-            {   
-                var session = await _client.Auth.SignIn(email, password);
+            {
+                var profileResult = await _client
+                    .From<Profiles>()
+                    .Select("*")
+                    .Filter("username", Supabase.Postgrest.Constants.Operator.Equals, username)
+                    .Get();
+
+                var profile = profileResult.Models[0];
+                if (profile == null)
+                    return false; // пользователь не найден
+
+                var session = await _client.Auth.SignIn(profile.Email, password);
                 if (session != null)
                 {
                     var user = session.User;
-                    
-                    UserApp userApp = new UserApp()
+
+                    Models.User userApp = new Models.User()
                     {
                         Id = user.Id,
-                        Nickname = user.UserMetadata["nickname"].ToString(),
-                        Username = user.UserMetadata["display_name"].ToString(),
+                        Nickname = profile.Nickname,
+                        Username = profile.Username,
                         Email = user.Email,
-                        Images = new UserImages()
-                        {
-                            AvatarUrl = user.UserMetadata["avatar_url"].ToString(),
-                            BannerUrl = user.UserMetadata["banner_url"].ToString()
-                        }
+                        //    Images = new UserImages()
+                        //    {
+                        //        AvatarUrl = user.UserMetadata["avatar_url"].ToString(),
+                        //        BannerUrl = user.UserMetadata["banner_url"].ToString()
+                        //    }
                     };
+
+                    _userStore.CurrentUser = userApp;
 
                     await SaveSessionAsync(session);
                     return true;
@@ -104,20 +134,20 @@ namespace KawaiiList.Services
                 {
                     var user = _client.Auth.CurrentUser;
 
-                    UserApp userApp = new UserApp()
-                    {
-                        Id = user.Id,
-                        Nickname = user.UserMetadata["nickname"].ToString(),
-                        Username = user.UserMetadata["display_name"].ToString(),
-                        Email = user.Email,
-                        Images = new UserImages()
-                        {
-                            AvatarUrl = user.UserMetadata["avatar_url"].ToString(),
-                            BannerUrl = user.UserMetadata["banner_url"].ToString()
-                        }
-                    };
+                    //UserApp userApp = new UserApp()
+                    //{
+                    //    Id = user.Id,
+                    //    Nickname = user.UserMetadata["nickname"].ToString(),
+                    //    Username = user.UserMetadata["display_name"].ToString(),
+                    //    Email = user.Email,
+                    //    Images = new UserImages()
+                    //    {
+                    //        AvatarUrl = user.UserMetadata["avatar_url"].ToString(),
+                    //        BannerUrl = user.UserMetadata["banner_url"].ToString()
+                    //    }
+                    //};
 
-                    _userStore.CurrentUserApp = userApp;
+                    //_userStore.CurrentUserApp = userApp;
 
                     return true;
                 }

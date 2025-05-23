@@ -6,7 +6,12 @@
              xmlns:local="clr-namespace:KawaiiList.Views"
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:converter="clr-namespace:KawaiiList.Converter">
+
+    <UserControl.Resources>
+        <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </UserControl.Resources>
 
     <Border BorderThickness="3"
             Padding="25"
@@ -29,36 +34,39 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0"
                        HorizontalAlignment="Center"
-                       Margin="10,10"
+                       Margin="85,10"
                        Style="{StaticResource BaseTextBlockStyle}"
                        Foreground="{StaticResource TextColor}"
                        FontSize="27"
                        Text="Вход"/>
 
             <TextBox Grid.Row="1"
-                     Margin="10,0"
+                     Margin="10,0,10,10"
                      HorizontalAlignment="Stretch"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:HintAssist.Hint="Имя пользователя"
-                     Text=""
+                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                      FontSize="14"
                      Foreground="{StaticResource TextColor}"/>
 
-            <TextBox Grid.Row="2"
-                     HorizontalAlignment="Stretch"
-                     Margin="10,10"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     materialDesign:HintAssist.Hint="Пароль"
-                     Text=""
-                     FontSize="14"
-                     Foreground="{StaticResource TextColor}"/>
+            <PasswordBox Grid.Row="2"
+                         Margin="10,5,10,10"
+                         HorizontalAlignment="Stretch"
+                         materialDesign:HintAssist.Hint="Пароль"
+                         materialDesign:TextFieldAssist.DecorationVisibility="Visible"
+                         materialDesign:TextFieldAssist.HasClearButton="True"
+                         materialDesign:PasswordBoxAssist.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                         FontSize="14"
+                         Foreground="{StaticResource TextColor}"
+                         Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}" />
 
             <TextBlock Grid.Row="3"
-                       Margin="10,5"
+                       Margin="10,25,10,0"
                        HorizontalAlignment="Center"
                        Cursor="Hand"
                        Style="{StaticResource BaseTextBlockStyle}"
@@ -77,9 +85,22 @@
                     HorizontalAlignment="Center"
                     Margin="10,10"
                     Content="Войти"
+                    IsEnabled="{Binding IsFormValid}"
                     Command="{Binding LoginCommand}"/>
 
             <TextBlock Grid.Row="5"
+                       Text="{Binding ErrorMessage}"
+                       Foreground="Red"
+                       HorizontalAlignment="Center"
+                       FontStyle="Oblique"
+                       FontSize="12"
+                       MaxWidth="250"
+                       Margin="0,5,0,0"
+                       TextWrapping="Wrap"
+                       Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}" />
+
+
+            <TextBlock Grid.Row="6"
                        Margin="10,5"
                        HorizontalAlignment="Center"
                        Cursor="Hand"
