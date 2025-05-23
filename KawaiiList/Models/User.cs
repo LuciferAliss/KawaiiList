@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KawaiiList.Models
+﻿namespace KawaiiList.Models
 {
     public class User
     {
@@ -12,5 +6,11 @@ namespace KawaiiList.Models
         public string Username { get; set; }
         public string Nickname { get; set; }
         public string Email { get; set; }
+    }
+
+    public class UserImages
+    {
+        public string AvatarUrl { get; set; }
+        public string BannerUrl { get; set; }
     }
 }

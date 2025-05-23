@@ -18,10 +18,4 @@ namespace KawaiiList.Models
         [Column("email")]
         public string Email { get; set; }
     }
-
-    public class UserImages
-    {
-        public string AvatarUrl { get; set; }
-        public string BannerUrl { get; set; }
-    }
 }

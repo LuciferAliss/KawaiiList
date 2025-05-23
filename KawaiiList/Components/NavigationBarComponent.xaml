@@ -112,12 +112,14 @@
                     <TextBlock Text="Мой аккаунт"
                                Margin="42,30,0,2"
                                Foreground="{StaticResource SecondaryTextColor}"
-                               FontSize="22"/>
+                               FontSize="22"
+                               Visibility="Collapsed"/>
 
                     <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
                                  HorizontalContentAlignment="Left"
                                  FontSize="20"
-                                 Margin="0,5,0,5">
+                                 Margin="0,5,0,5"
+                                 Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Clock"
                                              Foreground="White"
@@ -134,7 +136,8 @@
                     <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
                                  HorizontalContentAlignment="Left"
                                  FontSize="20"
-                                 Margin="0,5,0,5">
+                                 Margin="0,5,0,5"
+                                 Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Heart"
                                                      Foreground="White"
@@ -151,7 +154,8 @@
                     <RadioButton Style="{DynamicResource MaterialDesignTabRadioButtonLeft}"
                                  HorizontalContentAlignment="Left"
                                  FontSize="20"
-                                 Margin="0,5,0,5">
+                                 Margin="0,5,0,5"
+                                 Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Settings"
                                                      Foreground="White"

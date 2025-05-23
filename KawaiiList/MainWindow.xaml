@@ -41,6 +41,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:SignUpViewModel}">
                     <views:SignUpView/>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ProfileViewModel}">
+                    <views:ProfileView/>
+                </DataTemplate>
                 <DataTemplate DataType="{x:Type viewmodels:SignInViewModel}">
                     <views:SignInView/>
                 </DataTemplate>

@@ -46,6 +46,7 @@ public partial class App : Application
         services.AddTransient<IAuthService, AuthService>();
 
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
+        services.AddTransient<ProfileViewModel>();
         services.AddTransient<StatisticsAnimeViewModel>();
         services.AddTransient<SignUpViewModel>(CreateSignUpViewModel);
         services.AddTransient<SignInViewModel>(CreateSignInViewModel);
