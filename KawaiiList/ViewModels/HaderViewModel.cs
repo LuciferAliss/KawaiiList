@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Commands;
 using KawaiiList.Services;
 using KawaiiList.Stores;
@@ -12,6 +13,7 @@ namespace KawaiiList.ViewModels
         public ICommand NavigateSingUpCommand { get; }
 
         private readonly UserStore _userStore;
+        private readonly IAuthService _authService;
 
         [ObservableProperty]
         private SearchViewModel _searchAnimeViewModel;
@@ -19,13 +21,17 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private string _nickname = "";
 
+        [ObservableProperty]
+        private bool _isOpenPopup = false;
+
         public bool IsLoggedIn => _userStore.IsLoggedIn;
 
-        public HaderViewModel(SearchViewModel search, UserStore userStore, INavigationService singUpnavigationService)
+        public HaderViewModel(SearchViewModel search, UserStore userStore, INavigationService singUpnavigationService, IAuthService authService)
         {
             NavigateSingUpCommand = new NavigateCommand(singUpnavigationService);
             SearchAnimeViewModel = search;
             _userStore = userStore;
+            _authService = authService;
 
             _userStore.CurrentUserChanged += UserChanged;
 
@@ -37,13 +43,23 @@ namespace KawaiiList.ViewModels
             if (_userStore.CurrentUser != null)
             {
                 Nickname = _userStore.CurrentUser.Nickname;
-                OnPropertyChanged(nameof(IsLoggedIn));
             }
+            OnPropertyChanged(nameof(IsLoggedIn));
         }
 
         private void UserChanged()
         {
+            IsOpenPopup = false;
             LoadUser();
         }
+
+        [RelayCommand]
+        private async Task SignOut()
+        {
+            await _authService.SignOutAsync();
+        }
+
+        [RelayCommand]
+        private void ToglePopup() => IsOpenPopup = !IsOpenPopup;
     }
 }

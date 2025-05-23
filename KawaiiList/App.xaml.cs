@@ -69,21 +69,23 @@ public partial class App : Application
         _serviceProvider = services.BuildServiceProvider();
     }
 
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
         _serviceProvider.GetRequiredService<INavigationService>().Navigate();
+
+        await InitializeSupabase();
 
         MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
         MainWindow.Show();
 
-        InitializeSupabase();
         base.OnStartup(e);
     }
 
-    private async void InitializeSupabase()
+    private async Task InitializeSupabase()
     {
         var clientStore = _serviceProvider.GetRequiredService<SupabaseClientStore>();
         await clientStore.InitializeClientAsync();
+        await _serviceProvider.GetRequiredService<IAuthService>().TryRestoreSessionAsync();
     }
 
     private NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider service)
@@ -169,7 +171,8 @@ public partial class App : Application
         (
             service.GetRequiredService<SearchViewModel>(),
             service.GetRequiredService<UserStore>(),
-            CreateSignInNavigationService(service)
+            CreateSignInNavigationService(service),
+            service.GetRequiredService<IAuthService>()
         );
     }
 

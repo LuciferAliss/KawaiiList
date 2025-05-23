@@ -1,13 +1,8 @@
-﻿using HandyControl.Tools.Extension;
-using KawaiiList.Models;
+﻿using KawaiiList.Models;
 using KawaiiList.Stores;
-using Supabase;
 using Supabase.Gotrue;
-using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace KawaiiList.Services
 {
@@ -81,9 +76,12 @@ namespace KawaiiList.Services
 
                 var profile = profileResult.Models[0];
                 if (profile == null)
-                    return false; // пользователь не найден
+                {
+                    return false;
+                }
 
                 var session = await _client.Auth.SignIn(profile.Email, password);
+
                 if (session != null)
                 {
                     var user = session.User;
@@ -115,6 +113,23 @@ namespace KawaiiList.Services
             }
         }
 
+        public async Task<bool> SignOutAsync()
+        {
+            try
+            {
+                await _client.Auth.SignOut();
+                _userStore.CurrentUser = null;
+                DelateSeesion();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"SignOut Error: {ex.Message}");
+                return false;
+            }
+        }
+
         public async Task<bool> TryRestoreSessionAsync()
         {
             if (!File.Exists(SessionFilePath))
@@ -126,28 +141,43 @@ namespace KawaiiList.Services
                 var saved = JsonSerializer.Deserialize<SavedSession>(json);
 
                 if (saved == null)
+                {
                     return false;
+                }
 
                 await _client.Auth.SetSession(saved.AccessToken, saved.RefreshToken);
 
+                var profileResult = await _client
+                    .From<Profiles>()
+                    .Select("*")
+                    .Filter("id", Supabase.Postgrest.Constants.Operator.Equals, _client.Auth.CurrentUser.Id)
+                    .Get();
+
+                var profile = profileResult.Models[0];
+
+                if (profile == null)
+                {
+                    return false;
+                }
+                    
                 if (_client.Auth.CurrentSession != null)
                 {
                     var user = _client.Auth.CurrentUser;
 
-                    //UserApp userApp = new UserApp()
-                    //{
-                    //    Id = user.Id,
-                    //    Nickname = user.UserMetadata["nickname"].ToString(),
-                    //    Username = user.UserMetadata["display_name"].ToString(),
-                    //    Email = user.Email,
-                    //    Images = new UserImages()
-                    //    {
-                    //        AvatarUrl = user.UserMetadata["avatar_url"].ToString(),
-                    //        BannerUrl = user.UserMetadata["banner_url"].ToString()
-                    //    }
-                    //};
+                    Models.User userApp = new Models.User()
+                    {
+                        Id = user.Id,
+                        Nickname = profile.Nickname,
+                        Username = profile.Username,
+                        Email = user.Email,
+                        //    Images = new UserImages()
+                        //    {
+                        //        AvatarUrl = user.UserMetadata["avatar_url"].ToString(),
+                        //        BannerUrl = user.UserMetadata["banner_url"].ToString()
+                        //    }
+                    };
 
-                    //_userStore.CurrentUserApp = userApp;
+                    _userStore.CurrentUser = userApp;
 
                     return true;
                 }
@@ -168,8 +198,13 @@ namespace KawaiiList.Services
                 RefreshToken = session.RefreshToken
             };
 
-            var json = JsonSerializer.Serialize(session);
+            var json = JsonSerializer.Serialize(sessionState);
             await File.WriteAllTextAsync(SessionFilePath, json);
+        }
+
+        private void DelateSeesion()
+        {
+            File.Delete(SessionFilePath);
         }
     }
 }
