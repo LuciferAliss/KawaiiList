@@ -3,6 +3,7 @@ using KawaiiList.Stores;
 using Supabase.Gotrue;
 using System.IO;
 using System.Text.Json;
+using static Supabase.Postgrest.Constants;
 
 namespace KawaiiList.Services
 {
@@ -13,31 +14,29 @@ namespace KawaiiList.Services
         private readonly Supabase.Client _client;
         private readonly SupabaseClientStore _supabaseClientStore;
         private readonly UserStore _userStore;
+        private readonly ISupaBaseService<Profiles> _profilesService;
 
-        public AuthService(SupabaseClientStore supabaseClientStore, UserStore userStore)
+        public AuthService(SupabaseClientStore supabaseClientStore, UserStore userStore, ISupaBaseService<Profiles> profilesService)
         {
             _supabaseClientStore = supabaseClientStore;
             _userStore = userStore;
             _client = _supabaseClientStore.Client;
+            _profilesService = profilesService;
         }
 
         public async Task<bool> SignUpAsync(string email, string password, string username, string nickname)
         {
             try
             {
-                 var existingProfiles = await _client
-                    .From<Profiles>()
-                    .Select("*")
-                    .Filter("username", Supabase.Postgrest.Constants.Operator.Equals, username)
-                    .Get();
+                var existingProfiles = await _profilesService.GetFilter("*", "username", Operator.Equals, username);
 
-                if (existingProfiles.Models.Count > 0)
+                if (existingProfiles.Count() > 0)
                 {
                     Console.WriteLine("Username уже занят.");
                     return false;
                 }
 
-                Session session = await _client.Auth.SignUp(email: email, password: password);
+                Session? session = await _client.Auth.SignUp(email: email, password: password);
 
                 if (session == null)
                 {
@@ -52,7 +51,10 @@ namespace KawaiiList.Services
                     Email = email,
                 };
                 
-                var insertResponse = await _client.From<Profiles>().Insert(profileData);
+                if (!await _profilesService.Insert(profileData))
+                {
+                    return false;
+                }
 
                 await SaveSessionAsync(session);
                 return true;
@@ -68,13 +70,9 @@ namespace KawaiiList.Services
         {
             try
             {
-                var profileResult = await _client
-                    .From<Profiles>()
-                    .Select("*")
-                    .Filter("username", Supabase.Postgrest.Constants.Operator.Equals, username)
-                    .Get();
+                var profileResult = await _profilesService.GetFilter("*", "username", Operator.Equals, username);
 
-                var profile = profileResult.Models[0];
+                var profile = profileResult.FirstOrDefault();
                 if (profile == null)
                 {
                     return false;
@@ -133,11 +131,19 @@ namespace KawaiiList.Services
         public async Task<bool> TryRestoreSessionAsync()
         {
             if (!File.Exists(SessionFilePath))
+            {
                 return false;
+            }
 
             try
             {
                 var json = await File.ReadAllTextAsync(SessionFilePath);
+
+                if (string.IsNullOrWhiteSpace(json))
+                {
+                    return false;
+                }
+
                 var saved = JsonSerializer.Deserialize<SavedSession>(json);
 
                 if (saved == null)
@@ -145,42 +151,40 @@ namespace KawaiiList.Services
                     return false;
                 }
 
-                await _client.Auth.SetSession(saved.AccessToken, saved.RefreshToken);
+                Session? session = await _client.Auth.SetSession(saved.AccessToken, saved.RefreshToken);
 
-                var profileResult = await _client
-                    .From<Profiles>()
-                    .Select("*")
-                    .Filter("id", Supabase.Postgrest.Constants.Operator.Equals, _client.Auth.CurrentUser.Id)
-                    .Get();
+                if (session == null)
+                {
+                    return false;
+                }
 
-                var profile = profileResult.Models[0];
+                var profileResult = await _profilesService.GetFilter("*", "id", Operator.Equals, _client.Auth.CurrentUser.Id);
+
+                var profile = profileResult.FirstOrDefault();
 
                 if (profile == null)
                 {
                     return false;
                 }
-                    
-                if (_client.Auth.CurrentSession != null)
+
+                var user = _client.Auth.CurrentUser;
+
+                Models.User userApp = new Models.User()
                 {
-                    var user = _client.Auth.CurrentUser;
+                    Id = user.Id,
+                    Nickname = profile.Nickname,
+                    Username = profile.Username,
+                    Email = user.Email,
+                    //    Images = new UserImages()
+                    //    {
+                    //        AvatarUrl = user.UserMetadata["avatar_url"].ToString(),
+                    //        BannerUrl = user.UserMetadata["banner_url"].ToString()
+                    //    }
+                };
 
-                    Models.User userApp = new Models.User()
-                    {
-                        Id = user.Id,
-                        Nickname = profile.Nickname,
-                        Username = profile.Username,
-                        Email = user.Email,
-                        //    Images = new UserImages()
-                        //    {
-                        //        AvatarUrl = user.UserMetadata["avatar_url"].ToString(),
-                        //        BannerUrl = user.UserMetadata["banner_url"].ToString()
-                        //    }
-                    };
+                _userStore.CurrentUser = userApp;
 
-                    _userStore.CurrentUser = userApp;
-
-                    return true;
-                }
+                return true;
             }
             catch (Exception ex)
             {
@@ -190,7 +194,7 @@ namespace KawaiiList.Services
             return false;
         }
 
-        private async Task SaveSessionAsync(Supabase.Gotrue.Session session)
+        private async Task SaveSessionAsync(Session session)
         {
             var sessionState = new SavedSession
             {

@@ -39,6 +39,7 @@ public partial class App : Application
         services.AddHttpClient<IShikimoriService, ShikimoriService>();
 
         services.AddSingleton<IMediaControlService, MediaControlService>();
+        services.AddTransient(typeof(ISupaBaseService<>), typeof(SupaBaseService<>));
         services.AddTransient<IScreenService, ScreenService>();
         services.AddTransient<ICursorPositionService, CursorPositionService>();
         services.AddTransient<INavigationService>(s => CreateHomeNavigationService(s));
@@ -87,7 +88,7 @@ public partial class App : Application
         var clientStore = _serviceProvider.GetRequiredService<SupabaseClientStore>();
         await clientStore.InitializeClientAsync();
         await _serviceProvider.GetRequiredService<IAuthService>().TryRestoreSessionAsync();
-    }
+    }   
 
     private NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider service)
     {
