@@ -1,4 +1,6 @@
-﻿namespace KawaiiList.Models
+﻿using System.Security.Policy;
+
+namespace KawaiiList.Models
 {
     public class User
     {
@@ -11,7 +13,14 @@
 
     public class UserImageProfil
     {
-        public string AvatarUrl { get; set; }
+        public string _avatarUrl;
+
+        public string? AvatarUrl
+        {
+            get => _avatarUrl;
+            set => _avatarUrl = value != null ? "https://uhzentqgqhjoiasledqe.supabase.co/storage/v1/object/public/" + value : "";
+        }
+
         public string BannerUrl { get; set; }
     }
 }

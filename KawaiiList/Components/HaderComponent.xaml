@@ -60,24 +60,33 @@
                                 </LinearGradientBrush>
                             </Border.BorderBrush>
 
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}"
-                                            Text="LuciferAliss"
-                                            VerticalAlignment="Center"
-                                            FontSize="20"
-                                            FontFamily="Montserrat"
-                                            Foreground="{StaticResource TextColor}"
-                                            Margin="0,0,10,0"
-                                            Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <Grid>
 
-                                <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
-                                        Width="25"
-                                        Height="25">
-                                    <materialDesign:PackIcon Kind="Account"
-                                            Width="20"
-                                            Height="20"/>
-                                </Button>
-                            </StackPanel>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}"
+                                           Text="{Binding Nickname}"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"
+                                           FontSize="20"
+                                           FontFamily="Montserrat"
+                                           Foreground="{StaticResource TextColor}"
+                                           Margin="0,3,10,0"
+                                           Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                <Ellipse Effect="{DynamicResource MaterialDesignShadowDepth2}"
+                                         Grid.Column="1"
+                                         MinWidth="25">
+                                    
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{Binding AvatarUrl}" />
+                                    </Ellipse.Fill>
+                                    
+                                 </Ellipse>
+                            </Grid>
                         </Border>
                     </materialDesign:PopupBox.ToggleContent>
 
@@ -116,7 +125,7 @@
                         HorizontalAlignment="Stretch"
                         Content="Войти"
                         Command="{Binding NavigateSingUpCommand}"
-                        Visibility="{Binding IsLoggedIn, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+                        Visibility="Collapsed"/>
 
             </Grid>
         </Border>

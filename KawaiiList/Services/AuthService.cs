@@ -141,7 +141,7 @@ namespace KawaiiList.Services
                         Email = user.Email,
                         Images = new UserImageProfil()
                         {
-                            AvatarUrl = userImage.FileName
+                            AvatarUrl = $"images-{user.Id}/" + userImage.FileName
                         }
                     };
 
@@ -218,17 +218,20 @@ namespace KawaiiList.Services
 
                 var user = _client.Auth.CurrentUser;
 
+                var userImages = await _userImagesService.GetFilter("*", "user_id", Operator.Equals, user.Id, "uploaded_at", Ordering.Descending);
+                var userImage = userImages.FirstOrDefault();
+
                 Models.User userApp = new Models.User()
                 {
                     Id = user.Id,
                     Nickname = profile.Nickname,
                     Username = profile.Username,
                     Email = user.Email,
-                    //    Images = new UserImages()
-                    //    {
-                    //        AvatarUrl = user.UserMetadata["avatar_url"].ToString(),
-                    //        BannerUrl = user.UserMetadata["banner_url"].ToString()
-                    //    }
+                    Images = new UserImageProfil()
+                    {
+                        AvatarUrl = $"images-{user.Id}/" + userImage.FileName
+
+                    }
                 };
 
                 _userStore.CurrentUser = userApp;

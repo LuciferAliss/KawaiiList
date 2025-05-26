@@ -21,7 +21,7 @@ namespace KawaiiList.ViewModels
         private string _nickname = "";
 
         [ObservableProperty]
-        private bool _isOpenPopup = false;
+        private string _avatarUrl = "";
 
         public bool IsLoggedIn => _userStore.IsLoggedIn;
 
@@ -42,13 +42,13 @@ namespace KawaiiList.ViewModels
             if (_userStore.CurrentUser != null)
             {
                 Nickname = _userStore.CurrentUser.Nickname;
+                AvatarUrl = _userStore.CurrentUser.Images.AvatarUrl;
             }
             OnPropertyChanged(nameof(IsLoggedIn));
         }
 
         private void UserChanged()
         {
-            IsOpenPopup = false;
             LoadUser();
         }
 
@@ -57,8 +57,5 @@ namespace KawaiiList.ViewModels
         {
             await _authService.SignOutAsync();
         }
-
-        [RelayCommand]
-        private void ToglePopup() => IsOpenPopup = !IsOpenPopup;
     }
 }
