@@ -8,12 +8,11 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\Images\BGLoginPage.png" />
-    <None Remove="Resources\Images\key-icon.png" />
-    <None Remove="Resources\Images\Logo.png" />
-    <None Remove="Resources\Images\user-icon.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="Resources\Images\Logo.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
   <ItemGroup>
     <Folder Include="Resources\Fonts\" />
@@ -47,10 +46,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <Resource Include="Resources\Images\BGLoginPage.png" />
-    <Resource Include="Resources\Images\key-icon.png" />
     <Resource Include="Resources\Images\Logo.png" />
-    <Resource Include="Resources\Images\user-icon.png" />
   </ItemGroup>
 
 </Project>

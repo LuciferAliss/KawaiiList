@@ -3,8 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Services;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace KawaiiList.ViewModels
 {

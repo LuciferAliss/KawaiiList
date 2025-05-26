@@ -3,7 +3,6 @@ using KawaiiList.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using KawaiiList.Stores;
-using System;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using KawaiiList.Models;
@@ -39,13 +38,14 @@ public partial class App : Application
         services.AddHttpClient<IShikimoriService, ShikimoriService>();
 
         services.AddSingleton<IMediaControlService, MediaControlService>();
+        services.AddSingleton<IAuthService, AuthService>();
         services.AddTransient(typeof(ISupaBaseService<>), typeof(SupaBaseService<>));
+        services.AddTransient<IStorageSupabaseService, StorageSupabaseService>();
         services.AddTransient<IScreenService, ScreenService>();
         services.AddTransient<ICursorPositionService, CursorPositionService>();
         services.AddTransient<INavigationService>(s => CreateHomeNavigationService(s));
         services.AddTransient<ICloseModalNavigationService, CloseModalNavigationService>();
-        services.AddTransient<IAuthService, AuthService>();
-
+        
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<ProfileViewModel>();
         services.AddTransient<StatisticsAnimeViewModel>();

@@ -11,17 +11,25 @@ namespace KawaiiList.Services
     {
         private const string SessionFilePath = "session.json";
 
-        private readonly Supabase.Client _client;
         private readonly SupabaseClientStore _supabaseClientStore;
         private readonly UserStore _userStore;
         private readonly ISupaBaseService<Profiles> _profilesService;
+        private readonly ISupaBaseService<UserImage> _userImagesService;
+        private readonly IStorageSupabaseService _storageSupabaseService;
+        private readonly Supabase.Client _client;
 
-        public AuthService(SupabaseClientStore supabaseClientStore, UserStore userStore, ISupaBaseService<Profiles> profilesService)
+        public AuthService(SupabaseClientStore supabaseClientStore,
+            UserStore userStore,
+            ISupaBaseService<Profiles> profilesService,
+            ISupaBaseService<UserImage> userImagesService, 
+            IStorageSupabaseService storageSupabaseService)
         {
             _supabaseClientStore = supabaseClientStore;
             _userStore = userStore;
             _client = _supabaseClientStore.Client;
             _profilesService = profilesService;
+            _userImagesService = userImagesService;
+            _storageSupabaseService = storageSupabaseService;
         }
 
         public async Task<bool> SignUpAsync(string email, string password, string username, string nickname)
@@ -43,6 +51,26 @@ namespace KawaiiList.Services
                     return false;
                 }
 
+                await _supabaseClientStore.UppdateSession(session);
+
+                if (!await _storageSupabaseService.CreateBucket())
+                {
+                    return false;
+                }
+
+                string path = Path.Combine(AppContext.BaseDirectory, "Resources", "Images", "Logo.png");
+                byte[] fileBytes = await File.ReadAllBytesAsync(path);
+
+
+                bool isLoad;
+                string? filePath;
+                (isLoad, filePath) = await _storageSupabaseService.UploadImage(fileBytes, path, "avatar");
+
+                if (!isLoad)
+                {
+                    return false;
+                }
+
                 Profiles profileData = new Profiles
                 {
                     Id = session.User.Id,
@@ -50,17 +78,35 @@ namespace KawaiiList.Services
                     Nickname = nickname,
                     Email = email,
                 };
-                
+
                 if (!await _profilesService.Insert(profileData))
                 {
                     return false;
                 }
 
-                await SaveSessionAsync(session);
+
+                UserImage userImage = new UserImage
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = session.User.Id,
+                    TypeImage = "avatar",
+                    FileName = filePath,
+                    UploadedAt = DateTime.UtcNow
+                };
+
+                if (!await _userImagesService.Insert(userImage))
+                {
+                    return false;
+                }
+
+                await SignOutAsync();
+
                 return true;
             }
             catch (Exception ex)
             {
+                await SignOutAsync();
+
                 Console.WriteLine($"SignUp Error: {ex.Message}");
                 return false;
             }
@@ -84,20 +130,23 @@ namespace KawaiiList.Services
                 {
                     var user = session.User;
 
+                    var userImages = await _userImagesService.GetFilter("*", "user_id", Operator.Equals, user.Id, "uploaded_at", Ordering.Descending);
+                    var userImage = userImages.FirstOrDefault();
+
                     Models.User userApp = new Models.User()
                     {
                         Id = user.Id,
                         Nickname = profile.Nickname,
                         Username = profile.Username,
                         Email = user.Email,
-                        //    Images = new UserImages()
-                        //    {
-                        //        AvatarUrl = user.UserMetadata["avatar_url"].ToString(),
-                        //        BannerUrl = user.UserMetadata["banner_url"].ToString()
-                        //    }
+                        Images = new UserImageProfil()
+                        {
+                            AvatarUrl = userImage.FileName
+                        }
                     };
 
                     _userStore.CurrentUser = userApp;
+                    await _supabaseClientStore.UppdateSession(session);
 
                     await SaveSessionAsync(session);
                     return true;

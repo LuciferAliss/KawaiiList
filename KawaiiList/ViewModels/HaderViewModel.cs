@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Commands;
 using KawaiiList.Services;
 using KawaiiList.Stores;
-using System.Windows;
 using System.Windows.Input;
 
 namespace KawaiiList.ViewModels

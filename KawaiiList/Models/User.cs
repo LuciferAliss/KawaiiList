@@ -6,9 +6,10 @@
         public string Username { get; set; }
         public string Nickname { get; set; }
         public string Email { get; set; }
+        public UserImageProfil Images { get; set; }
     }
 
-    public class UserImages
+    public class UserImageProfil
     {
         public string AvatarUrl { get; set; }
         public string BannerUrl { get; set; }
