@@ -41,8 +41,8 @@ namespace KawaiiList.ViewModels
             _navigationService = navigationService;
             _animeStore = animeStore;
 
-            InitializeAutoScroll(3, 0);
-            LoadAnime();
+            //InitializeAutoScroll(3, 0);
+            //LoadAnime();
         }
 
         private void InitializeAutoScroll(int interval, int initialDelay)

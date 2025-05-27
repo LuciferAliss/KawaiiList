@@ -4,9 +4,7 @@ using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Windows;
-using static System.Net.WebRequestMethods;
 
 namespace KawaiiList.ViewModels
 {
