@@ -8,7 +8,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\Images\banner.jpg" />
+  </ItemGroup>
+
 	<ItemGroup>
+		<Resource Include="Resources\Images\banner.jpg" />
 		<Content Include="Resources\Images\Logo.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>

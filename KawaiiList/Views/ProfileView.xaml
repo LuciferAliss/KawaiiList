@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KawaiiList.Views"
+             xmlns:local="clr-namespace:KawaiiList.Views" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d">
     
     <Grid>
@@ -21,8 +22,48 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            
-            
+
+            <Grid Grid.Row="0"
+                  MaxHeight="240">
+
+                <materialDesign:Card Padding="0"
+                                     UniformCornerRadius="25">
+
+                    
+                    <Image Source="/Resources/Images/banner.jpg"
+                           Stretch="UniformToFill"
+                           VerticalAlignment="Center"/>
+                </materialDesign:Card>
+
+            </Grid>
+
+            <Border Grid.Row="1"
+                    Padding="15"
+                    Background="Cyan">
+
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Image Grid.Column="0"
+                           MinWidth="55"/>
+
+                    <TextBlock Grid.Column="1"
+                               Text="LuciferAliss"
+                               VerticalAlignment="Center"/>
+
+                    <Button Grid.Column="2"
+                            HorizontalAlignment="Right"/>
+
+
+                </Grid>
+                
+            </Border>
+
         </Grid>
         
         <Grid Grid.Row="1">

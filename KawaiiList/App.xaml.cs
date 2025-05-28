@@ -174,6 +174,7 @@ public partial class App : Application
             service.GetRequiredService<SearchViewModel>(),
             service.GetRequiredService<UserStore>(),
             CreateSignInNavigationService(service),
+            CreateProfileNavigationService(service),
             service.GetRequiredService<IAuthService>()
         );
     }
@@ -206,6 +207,12 @@ public partial class App : Application
     {
         return new NavigationService<ScheduleViewModel>(service.GetRequiredService<NavigationStore>(),
             () => service.GetRequiredService<ScheduleViewModel>());
+    }
+
+    private INavigationService CreateProfileNavigationService(IServiceProvider service)
+    {
+        return new NavigationService<ProfileViewModel>(service.GetRequiredService<NavigationStore>(),
+            () => service.GetRequiredService<ProfileViewModel>());
     }
 
     private INavigationService CreateSignUpNavigationService(IServiceProvider service)

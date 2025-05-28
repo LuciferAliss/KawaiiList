@@ -36,7 +36,6 @@
 
                 <!-- Профиль -->
                 <materialDesign:PopupBox StaysOpen="False"
-                                         materialDesign:ValidationAssist.Background="Red"
                                          materialDesign:RippleAssist.IsDisabled="True"
                                          Grid.Column="1"
                                          HorizontalAlignment="Right"
@@ -112,7 +111,8 @@
                             <StackPanel>
                                 <Button Content="Профиль" 
                                         FontSize="16"
-                                        FontFamily="Montserat"/>
+                                        FontFamily="Montserat"
+                                        Command="{Binding NavigateProfileCommand}"/>
 
                                 <Button Content="Настройки" 
                                         FontSize="16"
