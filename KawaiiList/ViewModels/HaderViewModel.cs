@@ -34,7 +34,7 @@ namespace KawaiiList.ViewModels
             _userStore = userStore;
             _authService = authService;
 
-            _userStore.CurrentUserChanged += UserChanged;
+            _userStore.CurrentUserChanged += LoadUser;
 
             LoadUser();
         }
@@ -47,11 +47,6 @@ namespace KawaiiList.ViewModels
                 AvatarUrl = _userStore.CurrentUser.Images.AvatarUrl;
             }
             OnPropertyChanged(nameof(IsLoggedIn));
-        }
-
-        private void UserChanged()
-        {
-            LoadUser();
         }
 
         [RelayCommand]

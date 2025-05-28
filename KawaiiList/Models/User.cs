@@ -21,6 +21,11 @@ namespace KawaiiList.Models
             set => _avatarUrl = value != null ? "https://uhzentqgqhjoiasledqe.supabase.co/storage/v1/object/public/" + value : "";
         }
 
-        public string BannerUrl { get; set; }
+        public string _bannerUrl;
+        public string BannerUrl
+        {
+            get => _bannerUrl;
+            set => _bannerUrl = value != null ? "https://uhzentqgqhjoiasledqe.supabase.co/storage/v1/object/public/" + value : "";
+        }
     }
 }

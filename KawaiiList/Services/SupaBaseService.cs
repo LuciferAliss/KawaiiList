@@ -1,4 +1,6 @@
-﻿using KawaiiList.Stores;
+﻿using KawaiiList.Models;
+using KawaiiList.Stores;
+using Newtonsoft.Json.Linq;
 using Supabase;
 using Supabase.Postgrest.Models;
 using System.Diagnostics;
@@ -21,15 +23,18 @@ namespace KawaiiList.Services
             _supabaseClientStore.CurrentClientChanged += UpdateSession;
         }
 
-        public async Task<IEnumerable<TTable>> GetFilter(string columns, string columnName, Operator op, object value)
+        public async Task<IEnumerable<TTable>> GetFilter(
+            string columns,
+            FiltersQuery filter)
         {
             try
             {
-                var response = await _client.From<TTable>()
-                    .Select(columns)
-                    .Filter(columnName, op, value)
-                    .Get();
+                var query = _client.From<TTable>().Select(columns);
 
+                var (columnName, operatorFilter, value) = filter;
+                query = query.Filter(columnName, operatorFilter, value);
+
+                var response = await query.Get();
                 return response.Models;
             }
             catch (Exception ex)
@@ -39,21 +44,27 @@ namespace KawaiiList.Services
             }
         }
 
-        public async Task<IEnumerable<TTable>> GetFilter(string columns, string columnName, Operator op, object value, string orderBy, Ordering or)
+        public async Task<IEnumerable<TTable>> GetFilter(
+            string columns,
+            List<FiltersQuery> filters,
+            string orderBy,
+            Ordering or)
         {
             try
             {
-                var response = await _client.From<TTable>()
-                    .Select(columns)
-                    .Filter(columnName, op, value)
-                    .Order(orderBy, or)
-                    .Get();
+                var query = _client.From<TTable>().Select(columns);
 
+                foreach (var (columnName, op, value) in filters)
+                {
+                    query = query.Filter(columnName, op, value);
+                }
+
+                var response = await query.Order(orderBy, or).Get();
                 return response.Models;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Ошибка в GetFilter: {ex.Message}");
+                Debug.WriteLine($"Ошибка в GetFilters: {ex.Message}");
                 return [];
             }
         }

@@ -31,35 +31,6 @@ namespace KawaiiList.Services
                 .GetPublicUrl(fileName);
         }
 
-        public async Task<bool> UploadImageFromUrl(string imageUrl, string username)
-        {
-            try
-            {
-                using var httpClient = new HttpClient();
-                var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
-
-                var Option = new Supabase.Storage.FileOptions()
-                {
-                    CacheControl = "3600",
-                    Upsert = true,
-                    ContentType = "image/png"
-                };
-
-                var filePath = $"{username}-{Guid.NewGuid()}.png";
-
-                var response = await _client.Storage
-                    .From(username)
-                    .Upload(imageBytes, filePath, Option);
-
-                return response != null;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ошибка загрузки: {ex.Message}");
-                return false;
-            }
-        }
-
         public async Task<(bool, string?)> UploadImage(byte[] fileBytes, string originalFileName, string typeImage)
         {
             try
@@ -75,7 +46,7 @@ namespace KawaiiList.Services
                     return (false, null);
                 }
 
-                var filePath = $"{typeImage}/{userId}/{Guid.NewGuid()}.{ext}";
+                var filePath = $"{typeImage}/{Guid.NewGuid()}.{ext}";
 
                 var options = new Supabase.Storage.FileOptions
                 {

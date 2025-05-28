@@ -28,18 +28,23 @@
 
                 <materialDesign:Card Padding="0"
                                      UniformCornerRadius="25">
-
-                    
-                    <Image Source="/Resources/Images/banner.jpg"
+                    <Image Source="{Binding BannerUrl}"
                            Stretch="UniformToFill"
                            VerticalAlignment="Center"/>
                 </materialDesign:Card>
 
+                <Border CornerRadius="50,50,0,0">
+                    <Border.Background>
+                        <ImageBrush ImageSource="{Binding BannerUrl}" 
+                                    Stretch="UniformToFill"/>
+                    </Border.Background>
+                </Border>
+
             </Grid>
 
             <Border Grid.Row="1"
-                    Padding="15"
-                    Background="Cyan">
+                    Padding="10"
+                    Background="#252A36">
 
                 <Grid>
 
@@ -50,13 +55,23 @@
                     </Grid.ColumnDefinitions>
                     
                     <Image Grid.Column="0"
-                           MinWidth="55"/>
+                           MaxWidth="45"
+                           Source="{Binding AvatarUrl}"/>
 
                     <TextBlock Grid.Column="1"
-                               Text="LuciferAliss"
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               FontSize="24"
+                               Foreground="{StaticResource TextColor}"
+                               Margin="15,7,0,0"
+                               Text="{Binding Nickname}"
                                VerticalAlignment="Center"/>
 
                     <Button Grid.Column="2"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            BorderBrush="White"
+                            Foreground="White"
+                            Margin="15,4,0,0"
+                            Content="Редактировать"
                             HorizontalAlignment="Right"/>
 
 

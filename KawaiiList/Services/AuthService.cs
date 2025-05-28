@@ -1,9 +1,11 @@
 ﻿using KawaiiList.Models;
 using KawaiiList.Stores;
+using Microsoft.VisualBasic.ApplicationServices;
 using Supabase.Gotrue;
 using System.IO;
 using System.Text.Json;
 using static Supabase.Postgrest.Constants;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KawaiiList.Services
 {
@@ -36,7 +38,13 @@ namespace KawaiiList.Services
         {
             try
             {
-                var existingProfiles = await _profilesService.GetFilter("*", "username", Operator.Equals, username);
+                var filter = new FiltersQuery()
+                {
+                    ColumnName = "username",
+                    OperatorFilter = Operator.Equals,
+                    Value = username
+                };
+                var existingProfiles = await _profilesService.GetFilter("*", filter);
 
                 if (existingProfiles.Count() > 0)
                 {
@@ -61,12 +69,49 @@ namespace KawaiiList.Services
                 string path = Path.Combine(AppContext.BaseDirectory, "Resources", "Images", "Logo.png");
                 byte[] fileBytes = await File.ReadAllBytesAsync(path);
 
-
                 bool isLoad;
                 string? filePath;
                 (isLoad, filePath) = await _storageSupabaseService.UploadImage(fileBytes, path, "avatar");
 
                 if (!isLoad)
+                {
+                    return false;
+                }
+
+                UserImage userAvatarImage = new UserImage
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = session.User.Id,
+                    TypeImage = "avatar",
+                    FileName = filePath,
+                    UploadedAt = DateTime.UtcNow
+                };
+
+                if (!await _userImagesService.Insert(userAvatarImage))
+                {
+                    return false;
+                }
+
+                path = Path.Combine(AppContext.BaseDirectory, "Resources", "Images", "Banner.jpg");
+                fileBytes = await File.ReadAllBytesAsync(path);
+
+                (isLoad, filePath) = await _storageSupabaseService.UploadImage(fileBytes, path, "banner");
+
+                if (!isLoad)
+                {
+                    return false;
+                }
+
+                UserImage userBannerImage = new UserImage
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = session.User.Id,
+                    TypeImage = "banner",
+                    FileName = filePath,
+                    UploadedAt = DateTime.UtcNow
+                };
+
+                if (!await _userImagesService.Insert(userBannerImage))
                 {
                     return false;
                 }
@@ -80,21 +125,6 @@ namespace KawaiiList.Services
                 };
 
                 if (!await _profilesService.Insert(profileData))
-                {
-                    return false;
-                }
-
-
-                UserImage userImage = new UserImage
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserId = session.User.Id,
-                    TypeImage = "avatar",
-                    FileName = filePath,
-                    UploadedAt = DateTime.UtcNow
-                };
-
-                if (!await _userImagesService.Insert(userImage))
                 {
                     return false;
                 }
@@ -116,7 +146,13 @@ namespace KawaiiList.Services
         {
             try
             {
-                var profileResult = await _profilesService.GetFilter("*", "username", Operator.Equals, username);
+                var filter = new FiltersQuery()
+                {
+                    ColumnName = "username",
+                    OperatorFilter = Operator.Equals,
+                    Value = username
+                };
+                var profileResult = await _profilesService.GetFilter("*", filter);
 
                 var profile = profileResult.FirstOrDefault();
                 if (profile == null)
@@ -128,22 +164,7 @@ namespace KawaiiList.Services
 
                 if (session != null)
                 {
-                    var user = session.User;
-
-                    var userImages = await _userImagesService.GetFilter("*", "user_id", Operator.Equals, user.Id, "uploaded_at", Ordering.Descending);
-                    var userImage = userImages.FirstOrDefault();
-
-                    Models.User userApp = new Models.User()
-                    {
-                        Id = user.Id,
-                        Nickname = profile.Nickname,
-                        Username = profile.Username,
-                        Email = user.Email,
-                        Images = new UserImageProfil()
-                        {
-                            AvatarUrl = $"images-{user.Id}/" + userImage.FileName
-                        }
-                    };
+                    Models.User userApp = await LoadUserData(profile);
 
                     _userStore.CurrentUser = userApp;
                     await _supabaseClientStore.UppdateSession(session);
@@ -207,7 +228,14 @@ namespace KawaiiList.Services
                     return false;
                 }
 
-                var profileResult = await _profilesService.GetFilter("*", "id", Operator.Equals, _client.Auth.CurrentUser.Id);
+                var filter = new FiltersQuery()
+                {
+                    ColumnName = "id",
+                    OperatorFilter = Operator.Equals,
+                    Value = _client.Auth.CurrentUser.Id
+                };
+
+                var profileResult = await _profilesService.GetFilter("*", filter);
 
                 var profile = profileResult.FirstOrDefault();
 
@@ -216,23 +244,7 @@ namespace KawaiiList.Services
                     return false;
                 }
 
-                var user = _client.Auth.CurrentUser;
-
-                var userImages = await _userImagesService.GetFilter("*", "user_id", Operator.Equals, user.Id, "uploaded_at", Ordering.Descending);
-                var userImage = userImages.FirstOrDefault();
-
-                Models.User userApp = new Models.User()
-                {
-                    Id = user.Id,
-                    Nickname = profile.Nickname,
-                    Username = profile.Username,
-                    Email = user.Email,
-                    Images = new UserImageProfil()
-                    {
-                        AvatarUrl = $"images-{user.Id}/" + userImage.FileName
-
-                    }
-                };
+                Models.User userApp = await LoadUserData(profile);
 
                 _userStore.CurrentUser = userApp;
 
@@ -261,6 +273,60 @@ namespace KawaiiList.Services
         private void DelateSeesion()
         {
             File.Delete(SessionFilePath);
+        }
+
+        private async Task<Models.User> LoadUserData(Profiles profile)
+        {
+            List<FiltersQuery> filters = new List<FiltersQuery>()
+            {
+                new FiltersQuery()
+                {
+                    ColumnName = "user_id",
+                    OperatorFilter = Operator.Equals,
+                    Value = profile.Id
+                },
+                new FiltersQuery()
+                {
+                    ColumnName = "type_image",
+                    OperatorFilter = Operator.Equals,
+                    Value = "avatar"
+                }
+            };
+            var userAvatarImages = await _userImagesService.GetFilter("*", filters, "uploaded_at", Ordering.Descending);
+            var userAvatarImage = userAvatarImages.FirstOrDefault();
+
+            filters = new List<FiltersQuery>()
+            {
+                new FiltersQuery()
+                {
+                    ColumnName = "user_id",
+                    OperatorFilter = Operator.Equals,
+                    Value = profile.Id
+                },
+                new FiltersQuery()
+                {
+                    ColumnName = "type_image",
+                    OperatorFilter = Operator.Equals,
+                    Value = "banner"
+                }
+            };
+            var userBannerImages = await _userImagesService.GetFilter("*", filters, "uploaded_at", Ordering.Descending);
+            var userBannerImage = userBannerImages.FirstOrDefault();
+
+            Models.User userApp = new Models.User()
+            {
+                Id = profile.Id,
+                Nickname = profile.Nickname,
+                Username = profile.Username,
+                Email = profile.Email,
+                Images = new UserImageProfil()
+                {
+                    AvatarUrl = $"images-{profile.Id}/" + userAvatarImage.FileName,
+                    BannerUrl = $"images-{profile.Id}/" + userBannerImage.FileName
+                }
+            };
+
+            return userApp;
         }
     }
 }
