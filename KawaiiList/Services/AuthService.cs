@@ -87,7 +87,7 @@ namespace KawaiiList.Services
                     UploadedAt = DateTime.UtcNow
                 };
 
-                if (!await _userImagesService.Insert(userAvatarImage))
+                if (!await _userImagesService.Upsert(userAvatarImage))
                 {
                     return false;
                 }
@@ -111,7 +111,7 @@ namespace KawaiiList.Services
                     UploadedAt = DateTime.UtcNow
                 };
 
-                if (!await _userImagesService.Insert(userBannerImage))
+                if (!await _userImagesService.Upsert(userBannerImage))
                 {
                     return false;
                 }
@@ -124,7 +124,7 @@ namespace KawaiiList.Services
                     Email = email,
                 };
 
-                if (!await _profilesService.Insert(profileData))
+                if (!await _profilesService.Upsert(profileData))
                 {
                     return false;
                 }

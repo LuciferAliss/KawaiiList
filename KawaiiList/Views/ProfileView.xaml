@@ -79,16 +79,229 @@
                 
             </Border>
 
+            <Border Grid.Row="2"
+                    BorderThickness="0,1,0,0"
+                    BorderBrush="White"
+                    Background="#252A36">
+
+                <TabControl Style="{StaticResource MaterialDesignTabControl}"
+                            SelectedIndex="{Binding SelectedDayIndex, Mode=TwoWay}">
+
+                    <TabItem Header="Тайтлы"
+                             Height="30"
+                             Padding="0"/>
+                    <TabItem Header="Избранные"
+                             Height="30"
+                             Padding="0"/>
+                    <TabItem Header="Отслеживаемые"
+                             Height="30"
+                             Padding="0"/>
+                    
+                </TabControl>
+
+            </Border>
+
         </Grid>
         
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              Margin="0,15,0,0">
             
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
-            
+
+            <Border Grid.Column="0"
+                    Padding="10"
+                    BorderThickness="6"
+                    Background="{StaticResource NavigationBarBackground}"
+                    BorderBrush="#252A36"
+                    CornerRadius="7">
+
+                <StackPanel>
+
+                    <TextBlock Text="Списки"
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Foreground="{StaticResource TextColor}"
+                               FontSize="17"
+                               Margin="0,0,0,10"/>
+
+                    <ListBox HorizontalContentAlignment="Stretch">
+                        <ListBoxItem MinWidth="150">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Все" Grid.Column="0" HorizontalAlignment="Left" />
+                                <TextBlock Text="0" Grid.Column="1" HorizontalAlignment="Right" />
+                            </Grid>
+                        </ListBoxItem>
+
+                        <ListBoxItem MinWidth="150">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Запланировано" Grid.Column="0" HorizontalAlignment="Left" />
+                                <TextBlock Text="0" Grid.Column="1" HorizontalAlignment="Right" />
+                            </Grid>
+                        </ListBoxItem>
+
+                        <ListBoxItem MinWidth="150">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Смотрю" Grid.Column="0" HorizontalAlignment="Left" />
+                                <TextBlock Text="0" Grid.Column="1" HorizontalAlignment="Right" />
+                            </Grid>
+                        </ListBoxItem>
+
+                        <ListBoxItem MinWidth="150">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Пересматриваю" Grid.Column="0" HorizontalAlignment="Left" />
+                                <TextBlock Text="0" Grid.Column="1" HorizontalAlignment="Right" />
+                            </Grid>
+                        </ListBoxItem>
+
+                        <ListBoxItem MinWidth="150">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Отложенно" Grid.Column="0" HorizontalAlignment="Left" />
+                                <TextBlock Text="0" Grid.Column="1" HorizontalAlignment="Right" />
+                            </Grid>
+                        </ListBoxItem>
+                        
+                        <ListBoxItem MinWidth="150">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Брошено" Grid.Column="0" HorizontalAlignment="Left" />
+                                <TextBlock Text="0" Grid.Column="1" HorizontalAlignment="Right" />
+                            </Grid>
+                        </ListBoxItem>
+                        
+                        <ListBoxItem MinWidth="150">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Любимое" Grid.Column="0" HorizontalAlignment="Left" />
+                                <TextBlock Text="0" Grid.Column="1" HorizontalAlignment="Right" />
+                            </Grid>
+                        </ListBoxItem>
+                    </ListBox>
+                </StackPanel>
+                
+
+            </Border>
+
+            <Grid Grid.Column="1"
+                    Margin="20,0,0,0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBox Grid.Row="0"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Top"
+                         materialDesign:HintAssist.Hint="Поиск"
+                         materialDesign:TextFieldAssist.HasClearButton="True"
+                         Foreground="{StaticResource TextColor}"
+                         FontSize="17"
+                         Style="{StaticResource MaterialDesignFilledTextBox}" />
+
+                <ItemsControl Grid.Row="1"
+                              Margin="0,20,0,0"
+                              ItemsSource="{Binding AnimeTitle}"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                              ScrollViewer.CanContentScroll="False">
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="5"
+                                    Padding="10"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Width="750">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Постер аниме -->
+                                    <Image Grid.Column="0"
+                                           Width="100"
+                                           Height="150"
+                                           Stretch="UniformToFill"
+                                           Source="{Binding Posters.Original.Url}"/>
+
+                                    <!-- Информация об аниме -->
+                                    <StackPanel Grid.Column="1"
+                                                Margin="10,0,0,0">
+                                        <TextBlock Text="{Binding Names.Ru}"
+                                                   Foreground="{StaticResource TextColor}"
+                                                   FontWeight="Bold"
+                                                   FontSize="26"
+                                                   TextWrapping="Wrap"/>
+
+                                        <TextBlock FontSize="16"
+                                                   Foreground="LightGray"
+                                                   Margin="0,5,0,0">
+
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} эп. - {1} {2}">
+                                                    <Binding Path="Player.Episodes.Last" />
+                                                    <Binding Path="Season.String" />
+                                                    <Binding Path="Season.Year" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+
+                                        </TextBlock>
+
+                                        <TextBlock Text="{Binding GenresText}"
+                                                    FontSize="14"
+                                                    Margin="0,10,0,0"
+                                                    TextWrapping="Wrap"
+                                                    Foreground="LightSlateGray"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
             
         </Grid>
 

@@ -47,6 +47,7 @@
                         <Border x:Name="AccountBorder"
                                 Background="{StaticResource DarkBackground}"
                                 CornerRadius="12"
+                                MinWidth="140"
                                 BorderThickness="2"
                                 Padding="10"
                                 Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -59,10 +60,10 @@
                                 </LinearGradientBrush>
                             </Border.BorderBrush>
 
-                            <Grid>
+                            <Grid HorizontalAlignment="Center">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 
@@ -70,6 +71,7 @@
                                            Text="{Binding Nickname}"
                                            Grid.Column="0"
                                            VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
                                            FontSize="20"
                                            FontFamily="Montserrat"
                                            Foreground="{StaticResource TextColor}"

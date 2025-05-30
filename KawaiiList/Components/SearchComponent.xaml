@@ -307,16 +307,6 @@
                         </StackPanel>
                     </Grid>
                 </Border>
-
-                <!--<hc:CircleProgressBar Width="60"
-                                      Height="60"
-                                      IsIndeterminate="True"
-                                      Foreground="LightBlue"
-                                      Visibility="Visible"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Top"
-                                      Margin="0,10,0,0"/>-->
-
             </DataTemplate>
         </hc:AutoCompleteTextBox.ItemTemplate>
 

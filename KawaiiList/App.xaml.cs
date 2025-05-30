@@ -131,8 +131,10 @@ public partial class App : Application
         return new AnimeInfoViewModel
         (
             service.GetRequiredService<AnimeStore>(),
+            service.GetRequiredService<UserStore>(),
             service.GetRequiredService<StatisticsAnimeViewModel>(),
-            CreateWatchAnimeNavigationService(service)
+            CreateWatchAnimeNavigationService(service),
+            service.GetRequiredService<ISupaBaseService<UserAnimeStatus>>()
         );
     }
 

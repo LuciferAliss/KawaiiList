@@ -9,6 +9,7 @@ namespace KawaiiList.ViewModels
     {
         private readonly IAnilibriaService _anilibriaService;
         private readonly UserStore _userStore;
+        private readonly INavigationService _navigationHomeService;
 
         public User CurrentUser => _userStore.CurrentUser;
 
@@ -21,10 +22,11 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private string _bannerUrl = "";
 
-        public ProfileViewModel(IAnilibriaService anilibriaService, UserStore userStore)
+        public ProfileViewModel(IAnilibriaService anilibriaService, UserStore userStore, INavigationService navigationHomeService)
         {
             _anilibriaService = anilibriaService;
             _userStore = userStore;
+            _navigationHomeService = navigationHomeService;
 
             _userStore.CurrentUserChanged += LoadUser;
 
@@ -38,6 +40,10 @@ namespace KawaiiList.ViewModels
                 Nickname = _userStore.CurrentUser.Nickname;
                 AvatarUrl = _userStore.CurrentUser.Images.AvatarUrl;
                 BannerUrl = _userStore.CurrentUser.Images.BannerUrl;
+            }
+            else
+            {
+                _navigationHomeService.Navigate();
             }
         }
     }
