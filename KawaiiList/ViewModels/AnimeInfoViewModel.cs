@@ -91,27 +91,30 @@ namespace KawaiiList.ViewModels
         {
             CheckAndMarkIfNotEmpty();
 
-            List<FiltersQuery> filters = new List<FiltersQuery>()
+            if (_userStore.CurrentUser != null)
             {
-                new FiltersQuery()
+                List<FiltersQuery> filters = new List<FiltersQuery>()
                 {
-                    ColumnName = "user_id",
-                    OperatorFilter = Operator.Equals,
-                    Value = _userStore.CurrentUser.Id
-                },
-                new FiltersQuery()
+                    new FiltersQuery()
+                    {
+                        ColumnName = "user_id",
+                        OperatorFilter = Operator.Equals,
+                        Value = _userStore.CurrentUser.Id
+                    },
+                    new FiltersQuery()
+                    {
+                        ColumnName = "anime_id",
+                        OperatorFilter = Operator.Equals,
+                        Value = Anime.Id
+                    }
+                };
+
+                var userAnimeStatusResult = await _userAnimeStatusService.GetFilter("*", filters);
+
+                if (userAnimeStatusResult.Count() > 0)
                 {
-                    ColumnName = "anime_id",
-                    OperatorFilter = Operator.Equals,
-                    Value = Anime.Id
+                    StatusString = userAnimeStatusResult.FirstOrDefault().Status ?? null;
                 }
-            };
-
-            var userAnimeStatusResult = await _userAnimeStatusService.GetFilter("*", filters);
-
-            if (userAnimeStatusResult.Count() > 0)
-            {
-                StatusString = userAnimeStatusResult.FirstOrDefault().Status ?? null;
             }
         }
 
