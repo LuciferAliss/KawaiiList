@@ -1,6 +1,5 @@
 ﻿using KawaiiList.Models;
 using KawaiiList.Stores;
-using Newtonsoft.Json.Linq;
 using Supabase;
 using Supabase.Postgrest.Models;
 using System.Diagnostics;

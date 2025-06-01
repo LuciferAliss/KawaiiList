@@ -1,0 +1,131 @@
+﻿<UserControl x:Class="KawaiiList.Components.EditingAnimeStatusTitleComponent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KawaiiList.Components"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             xmlns:viewmodels="clr-namespace:KawaiiList.ViewModels"
+             d:DataContext="{d:DesignInstance viewmodels:EditingAnimeStatusTitleViewModel}">
+
+    <Border BorderThickness="3"
+            Padding="25"
+            Background="{StaticResource DarkBackground}">
+
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="{StaticResource BorderWindowBlueColor}" Offset="0"/>
+                <GradientStop Color="{StaticResource BorderPurplWindowPinkColor}" Offset="0.75"/>
+                <GradientStop Color="{StaticResource BorderWindowPurpleColor}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+
+        <Grid>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"
+                  Margin="0,15,0,25">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0"
+                           Style="{StaticResource BaseTextBlockStyle}"
+                           Foreground="{StaticResource TextColor}"
+                           FontSize="27"
+                           HorizontalAlignment="Left"
+                           Text="Редактирование тайтла"/>
+
+                <Button Margin="45,0,0,0"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Grid.Column="1"
+                        Command="{Binding CloseModalWindowCommand}">
+
+                    <materialDesign:PackIcon Kind="close"/>
+
+                </Button>
+
+            </Grid>
+
+            <StackPanel Grid.Row="1">
+
+                <TextBlock Style="{StaticResource BaseTextBlockStyle}"
+                           Foreground="{StaticResource SecondaryTextColor}"
+                           FontSize="17"
+                           HorizontalAlignment="Left"
+                           Text="Моя оценка:"/>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row="2"
+                        Margin="0,35">
+
+                <TextBlock Style="{StaticResource BaseTextBlockStyle}"
+                           Foreground="{StaticResource SecondaryTextColor}"
+                           FontSize="17"
+                           HorizontalAlignment="Left"
+                           Text="Список"/>
+
+                <ComboBox Margin="0,6,0,0"
+                          Padding="5,5"
+                          Foreground="{StaticResource TextColor}"
+                          ItemsSource="{Binding AnimeStatus}"
+                          SelectedItem="{Binding SelectedAnimeStatus}"
+                          Style="{StaticResource MaterialDesignFilledComboBox}"/>
+
+            </StackPanel>
+
+            <DockPanel Grid.Row="3">
+
+                <Button DockPanel.Dock="Right"
+                        Command="{Binding UpdateAnimeDataCommand}"
+                        Background="Green"
+                        BorderBrush="Green">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <materialDesign:PackIcon Kind="ContentSave"
+                                                 VerticalAlignment="Center"
+                                                 Margin="0,0,10,0"/>
+
+                        <TextBlock Text="Сохранить"/>
+
+                    </StackPanel>
+                    
+                </Button>
+
+                <Button HorizontalAlignment="Right"
+                        Margin="25,0"
+                        Command="{Binding RemoveAnimeFromListCommand}"
+                        Background="DarkRed"
+                        BorderBrush="DarkRed">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <materialDesign:PackIcon Kind="Trash"
+                                                 Margin="0,0,10,0"
+                                                 VerticalAlignment="Center"/>
+
+                        <TextBlock Text="Удалить"/>
+
+                    </StackPanel>
+                    
+                </Button>
+
+            </DockPanel>
+
+        </Grid>
+        
+    </Border>
+
+</UserControl>

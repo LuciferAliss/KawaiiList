@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
-using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 

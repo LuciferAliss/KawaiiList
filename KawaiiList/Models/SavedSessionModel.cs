@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace KawaiiList.Models
+﻿namespace KawaiiList.Models
 {
     public class SavedSession
     {

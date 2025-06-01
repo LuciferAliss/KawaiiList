@@ -172,7 +172,9 @@
                                                 Style="{StaticResource MaterialDesignFlatLightButton}"
                                                 Grid.Column="2"
                                                 Foreground="White"
-                                                Padding="10,4,10,0">
+                                                Padding="10,4,10,0"
+                                                Command="{Binding DataContext.OpenSetingsTitleCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}">
 
                                             <materialDesign:PackIcon Kind="DotsHorizontal"/>
 

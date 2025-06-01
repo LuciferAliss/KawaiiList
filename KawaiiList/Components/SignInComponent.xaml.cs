@@ -2,9 +2,9 @@
 
 namespace KawaiiList.Components
 {
-    public partial class TitleAnimeListComponent : UserControl
+    public partial class SignInComponent : UserControl
     {
-        public TitleAnimeListComponent()
+        public SignInComponent()
         {
             InitializeComponent();
         }

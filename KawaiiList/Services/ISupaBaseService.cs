@@ -1,5 +1,4 @@
 ﻿using KawaiiList.Models;
-using Supabase.Postgrest;
 using Supabase.Postgrest.Models;
 using System.Linq.Expressions;
 using static Supabase.Postgrest.Constants;

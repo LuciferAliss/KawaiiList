@@ -3,12 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
-using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Navigation;
 
 namespace KawaiiList.ViewModels
 {
@@ -18,6 +15,7 @@ namespace KawaiiList.ViewModels
         private readonly IAnilibriaService _anilibriaService;
         private readonly IShikimoriService _shikimoriService;
         private readonly INavigationService _navigationAnimeInfoService;
+        private readonly INavigationService _navigationEditingAnimeStatusTitleService;
         private readonly UserStore _userStore;
         private readonly AnimeStore _animeStore;
 
@@ -46,7 +44,8 @@ namespace KawaiiList.ViewModels
             AnimeStore animeStore,
             IAnilibriaService anilibriaService,
             IShikimoriService shikimoriService,
-            INavigationService navigationAnimeInfoService)
+            INavigationService navigationAnimeInfoService,
+            INavigationService navigationEditingAnimeStatusTitleService)
         {
             _userAnimeStatusService = userAnimeStatusService;
             _userStore = userStore;
@@ -54,7 +53,19 @@ namespace KawaiiList.ViewModels
             _anilibriaService = anilibriaService;
             _shikimoriService = shikimoriService;
             _navigationAnimeInfoService = navigationAnimeInfoService;
+            _navigationEditingAnimeStatusTitleService = navigationEditingAnimeStatusTitleService;
 
+            LoadData();
+        }
+
+        private void UpdateAnime()
+        {
+            LoadAnimeData = false;
+            _animeTitle.Clear();
+            AnimeTypeStatuses.Clear();
+            FilteredAnimeTitle.Clear();
+            _filteredUserAnimeStatuses.Clear();
+            _userAnimeStatuses.Clear();
             LoadData();
         }
 
@@ -95,6 +106,8 @@ namespace KawaiiList.ViewModels
             }
 
             await LoadAnime();
+
+            _animeStore.CurrentAnimeChanged -= UpdateAnime;
 
             if (AnimeTypeStatuses.Any())
             {
@@ -189,6 +202,14 @@ namespace KawaiiList.ViewModels
                 SelectedTypeStatus = AnimeTypeStatuses[0];
             }
             FilterAnimeName(value);
+        }
+
+        [RelayCommand]
+        private void OpenSetingsTitle(AnilibriaTitle anilibriaTitle)
+        {
+            _animeStore.CurrentAnime = anilibriaTitle;
+            _navigationEditingAnimeStatusTitleService.Navigate();
+            _animeStore.CurrentAnimeChanged += UpdateAnime;
         }
 
         [RelayCommand]

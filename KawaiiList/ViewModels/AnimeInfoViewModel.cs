@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using HandyControl.Tools.Extension;
 using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
@@ -11,8 +10,6 @@ using static Supabase.Postgrest.Constants;
 
 namespace KawaiiList.ViewModels
 {
-    
-
     public partial class AnimeInfoViewModel : BaseViewModel
     {
         private readonly INavigationService _navigationService;
@@ -144,7 +141,7 @@ namespace KawaiiList.ViewModels
                     Id = Guid.NewGuid().ToString(),
                     UserId = _userStore.CurrentUser.Id,
                     AnimeId = Anime.Id,
-                    Status = value.Value<string>(),
+                    Status = value,
                     Score = null,
                     Progress = null
                 };

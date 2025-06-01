@@ -50,6 +50,7 @@ public partial class App : Application
         services.AddTransient<ProfileViewModel>();
         services.AddTransient<TitleAnimeListViewModel>(CreateTitleAnimeListViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
+        services.AddTransient<EditingAnimeStatusTitleViewModel>();
         services.AddTransient<SignUpViewModel>(CreateSignUpViewModel);
         services.AddTransient<SignInViewModel>(CreateSignInViewModel);
         services.AddTransient<CatalogViewModel>(CreateCatalogViewModel);
@@ -191,7 +192,8 @@ public partial class App : Application
             service.GetRequiredService<AnimeStore>(),
             service.GetRequiredService<IAnilibriaService>(),
             service.GetRequiredService<IShikimoriService>(),
-            CreateAnimeInfoNavigationService(service)
+            CreateAnimeInfoNavigationService(service),
+            CreateEditingAnimeStatusTitleNavigationService(service)
         );
     }
 
@@ -241,5 +243,11 @@ public partial class App : Application
     {
         return new ModalNavigationService<SignInViewModel>(service.GetRequiredService<ModalNavigationStore>(),
             () => service.GetRequiredService<SignInViewModel>());
+    }
+    
+    private INavigationService CreateEditingAnimeStatusTitleNavigationService(IServiceProvider service)
+    {
+        return new ModalNavigationService<EditingAnimeStatusTitleViewModel>(service.GetRequiredService<ModalNavigationStore>(),
+            () => service.GetRequiredService<EditingAnimeStatusTitleViewModel>());
     }
 }

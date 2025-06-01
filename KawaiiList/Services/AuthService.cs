@@ -1,11 +1,9 @@
 ﻿using KawaiiList.Models;
 using KawaiiList.Stores;
-using Microsoft.VisualBasic.ApplicationServices;
 using Supabase.Gotrue;
 using System.IO;
 using System.Text.Json;
 using static Supabase.Postgrest.Constants;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KawaiiList.Services
 {

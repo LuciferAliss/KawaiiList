@@ -4,7 +4,6 @@ using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using LibVLCSharp.Shared;
-using System.Diagnostics;
 using System.Windows;
 
 namespace KawaiiList.ViewModels

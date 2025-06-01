@@ -1,6 +1,4 @@
-﻿using System.Security.Policy;
-
-namespace KawaiiList.Models
+﻿namespace KawaiiList.Models
 {
     public class User
     {
