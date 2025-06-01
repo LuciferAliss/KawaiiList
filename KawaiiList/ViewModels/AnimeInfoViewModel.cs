@@ -54,7 +54,7 @@ namespace KawaiiList.ViewModels
 
         public ObservableCollection<string> AnimeStatus { get; } = new ObservableCollection<string>()
         {
-            "Смотрю", "Пересматриваю", "Запланировано", "Отложенно", "Брошено", "Просмотренно", "Любимое"
+            "Смотрю","Запланировано", "Отложенно", "Брошено", "Просмотренно", "Любимое"
         };
 
         public AnimeInfoViewModel(

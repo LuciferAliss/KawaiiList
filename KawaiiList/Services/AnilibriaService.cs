@@ -1,4 +1,5 @@
 ﻿using KawaiiList.Models;
+using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -137,6 +138,8 @@ namespace KawaiiList.Services
             {
                 try
                 {
+                    await Task.Delay(1000);
+
                     var response = await httpClient.GetAsync(uri, cancellationToken: token);
 
                     response.EnsureSuccessStatusCode();
@@ -149,6 +152,36 @@ namespace KawaiiList.Services
                     }
 
                     return (result?.List ?? [], true);
+                }
+                catch (OperationCanceledException)
+                {
+                }
+                catch (HttpRequestException httpEx)
+                {
+                    Debug.WriteLine($"HTTP request error: {httpEx.Message}");
+                }
+                catch (JsonException jsonEx)
+                {
+                    Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
+                }
+            }
+        }
+
+        public async Task<AnilibriaTitle> GetTitleIdAsync(int id, CancellationToken token)
+        {
+            while (true)
+            {
+                try
+                {
+                    await Task.Delay(1000);
+
+                    var response = await httpClient.GetAsync($"title?id={id}", cancellationToken: token);
+
+                    response.EnsureSuccessStatusCode();
+
+                    var result = await response.Content.ReadFromJsonAsync<AnilibriaTitle>(cancellationToken: token);
+
+                    return result;
                 }
                 catch (OperationCanceledException)
                 {

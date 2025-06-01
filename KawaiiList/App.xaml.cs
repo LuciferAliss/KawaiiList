@@ -48,7 +48,7 @@ public partial class App : Application
         
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
         services.AddTransient<ProfileViewModel>();
-        services.AddTransient<TitleAnimeListViewModel>();
+        services.AddTransient<TitleAnimeListViewModel>(CreateTitleAnimeListViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
         services.AddTransient<SignUpViewModel>(CreateSignUpViewModel);
         services.AddTransient<SignInViewModel>(CreateSignInViewModel);
@@ -179,6 +179,19 @@ public partial class App : Application
             CreateSignInNavigationService(service),
             CreateProfileNavigationService(service),
             service.GetRequiredService<IAuthService>()
+        );
+    }
+
+    private TitleAnimeListViewModel CreateTitleAnimeListViewModel(IServiceProvider service)
+    {
+        return new TitleAnimeListViewModel
+        (
+            service.GetRequiredService<ISupaBaseService<UserAnimeStatus>>(),
+            service.GetRequiredService<UserStore>(),
+            service.GetRequiredService<AnimeStore>(),
+            service.GetRequiredService<IAnilibriaService>(),
+            service.GetRequiredService<IShikimoriService>(),
+            CreateAnimeInfoNavigationService(service)
         );
     }
 

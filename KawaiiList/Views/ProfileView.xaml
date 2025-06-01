@@ -99,9 +99,7 @@
                     <TabItem Header="Тайтлы"
                              Height="30"
                              Padding="0"/>
-                    <TabItem Header="Избранные"
-                             Height="30"
-                             Padding="0"/>
+
                     <TabItem Header="Отслеживаемые"
                              Height="30"
                              Padding="0"/>
