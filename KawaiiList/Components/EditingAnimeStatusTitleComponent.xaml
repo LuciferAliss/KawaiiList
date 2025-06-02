@@ -65,6 +65,28 @@
                            HorizontalAlignment="Left"
                            Text="Моя оценка:"/>
 
+                <materialDesign:RatingBar x:Name="CustomRatingBar"
+                                          Max="10"
+                                          Orientation="Horizontal"
+                                          Value="{Binding UserRating, Mode=TwoWay}">
+                    <materialDesign:RatingBar.ValueItemTemplate>
+                        <DataTemplate DataType="system:Int32">
+                            <DockPanel>
+                                <Grid>
+                                    <materialDesign:PackIcon Width="36"
+                                             Height="36"
+                                             Kind="Heart" />
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="9"
+                                               Foreground="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"
+                                               Text="{Binding}" />
+                                </Grid>
+                            </DockPanel>
+                        </DataTemplate>
+                    </materialDesign:RatingBar.ValueItemTemplate>
+                </materialDesign:RatingBar>
+
             </StackPanel>
 
             <StackPanel Grid.Row="2"

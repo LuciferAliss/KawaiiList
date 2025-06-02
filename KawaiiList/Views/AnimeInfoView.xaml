@@ -24,6 +24,7 @@
         <StackPanel Grid.Column="0">
             <Border Height="308"
                     BorderThickness="3"
+                    x:Name="ImageAnime"
                     BorderBrush="LightGray"
                     CornerRadius="4">
                 <Image Source="{Binding Anime.Posters.Original.Url}"/>
@@ -42,7 +43,9 @@
             </Button>
 
             <Border Background="#FF673AB7"
+                    Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}}"
                     CornerRadius="3,3,14,14"
+                    Margin="0,0,0,15"
                     Padding="10,4,10,0">
                 <ComboBox materialDesign:HintAssist.Hint="Выберите сезон"
                           Style="{StaticResource MaterialDesignComboBox}"
@@ -53,8 +56,34 @@
                           Padding="6"/>
             </Border>
 
+            <materialDesign:RatingBar x:Name="CustomRatingBar"
+                                      MaxWidth="{Binding ActualWidth, ElementName=ImageAnime}"
+                                      Max="10"
+                                      Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                      HorizontalAlignment="Center"
+                                      Orientation="Horizontal"
+                                      Value="{Binding UserRating, Mode=TwoWay}">
+                <materialDesign:RatingBar.ValueItemTemplate>
+                    <DataTemplate DataType="system:Int32">
+                        <DockPanel>
+                            <Grid>
+                                <materialDesign:PackIcon Width="22"
+                                                         Height="22"
+                                                         Kind="Heart" />
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="7"
+                                           Foreground="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"
+                                           Text="{Binding}" />
+                            </Grid>
+                        </DockPanel>
+                    </DataTemplate>
+                </materialDesign:RatingBar.ValueItemTemplate>
+            </materialDesign:RatingBar>
+
             <Border Margin="0,15"
                     Padding="5"
+                    MaxWidth="{Binding ActualWidth, ElementName=ImageAnime}"
                     BorderThickness="6"
                     Background="{StaticResource NavigationBarBackground}"
                     BorderBrush="#252A36"
@@ -200,7 +229,7 @@
 
                             </Path>
 
-                            <TextBlock Text="{Binding AnimeInfo.Score}"
+                            <TextBlock Text="{Binding Rating, StringFormat=F2}"
                                        Margin="10,0,0,0"
                                        VerticalAlignment="Center"
                                        FontSize="20"

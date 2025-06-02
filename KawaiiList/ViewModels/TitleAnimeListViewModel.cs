@@ -71,11 +71,21 @@ namespace KawaiiList.ViewModels
 
         private async void LoadData()
         {
-            FiltersQuery filtersQuery = new FiltersQuery()
+
+            List<FiltersQuery> filtersQuery = new List<FiltersQuery>()
             {
-                ColumnName = "user_id",
-                OperatorFilter = Supabase.Postgrest.Constants.Operator.Equals,
-                Value = _userStore.CurrentUser.Id
+                new FiltersQuery()
+                {
+                    ColumnName = "user_id",
+                    OperatorFilter = Supabase.Postgrest.Constants.Operator.Equals,
+                    Value = _userStore.CurrentUser.Id
+                },
+                new FiltersQuery()
+                {
+                    ColumnName = "status",
+                    OperatorFilter = Supabase.Postgrest.Constants.Operator.NotEqual,
+                    Value = null
+                }
             };
 
             var result = await _userAnimeStatusService.GetFilter("*", filtersQuery);
@@ -248,6 +258,14 @@ namespace KawaiiList.ViewModels
                 {
                 }
             });
+        }
+
+        public override void Dispose()
+        {
+            _cts?.Cancel();
+            _animeStore.CurrentAnimeChanged -= UpdateAnime;
+
+            base.Dispose();
         }
     }
 }

@@ -6,9 +6,9 @@ namespace KawaiiList.Models
     {
         public string ColumnName { get; set; }
         public Operator OperatorFilter { get; set; }
-        public object Value { get; set; }
+        public object? Value { get; set; }
 
-        internal void Deconstruct(out string columnName, out Operator operatorFilter, out object value)
+        internal void Deconstruct(out string columnName, out Operator operatorFilter, out object? value)
         {
             columnName = ColumnName;
             operatorFilter = OperatorFilter;

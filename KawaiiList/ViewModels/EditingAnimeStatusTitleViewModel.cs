@@ -20,6 +20,9 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private string _selectedAnimeStatus = "";
 
+        [ObservableProperty]
+        private int? _userRating;
+
         public ObservableCollection<string> AnimeStatus { get; } = new ObservableCollection<string>()
         {
             "Смотрю","Запланировано", "Отложенно", "Брошено", "Просмотренно", "Любимое", "Удалить"
@@ -63,6 +66,7 @@ namespace KawaiiList.ViewModels
             {
                 SelectedAnimeStatus = userAnimeStatusResult.FirstOrDefault().Status;
                 _originalStatus = SelectedAnimeStatus;
+                UserRating = userAnimeStatusResult.FirstOrDefault().Score;
             }
         }
 
@@ -70,6 +74,7 @@ namespace KawaiiList.ViewModels
         private void CloseModalWindow()
         {
             _closeNavigationService.Navigate();
+            _animeStore.CurrentAnime = _animeStore.CurrentAnime;
         }
 
         [RelayCommand]
@@ -83,35 +88,38 @@ namespace KawaiiList.ViewModels
         [RelayCommand]
         private async void UpdateAnimeData()
         {
-            if (_originalStatus != SelectedAnimeStatus)
+            if (SelectedAnimeStatus != "Удалить")
             {
-                if (SelectedAnimeStatus != "Удалить")
+                var anime = new UserAnimeStatus()
                 {
-                    var anime = new UserAnimeStatus()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        UserId = _userStore.CurrentUser.Id,
-                        AnimeId = _animeStore.CurrentAnime.Id,
-                        Status = SelectedAnimeStatus,
-                        Score = null,
-                        Progress = null
-                    };
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = _userStore.CurrentUser.Id,
+                    AnimeId = _animeStore.CurrentAnime.Id,
+                    Status = SelectedAnimeStatus,
+                    Score = UserRating,
+                    Progress = null
+                };
 
-                    bool r = await _userAnimeStatusService.Upsert(anime, "user_id,anime_id");
+                bool r = await _userAnimeStatusService.Upsert(anime, "user_id,anime_id");
 
-                    if (!AnimeStatus.Contains("Удалить"))
-                    {
-                        AnimeStatus.Add("Удалить");
-                    }
-                }
-                else if (SelectedAnimeStatus == "Удалить")
+                if (!AnimeStatus.Contains("Удалить"))
                 {
-                    await _userAnimeStatusService.Delete(x => x.AnimeId == _animeStore.CurrentAnime.Id);
-                    AnimeStatus.Remove("Удалить");
+                    AnimeStatus.Add("Удалить");
                 }
-                _animeStore.CurrentAnime = _animeStore.CurrentAnime;
             }
+            else if (SelectedAnimeStatus == "Удалить")
+            {
+                await _userAnimeStatusService.Delete(x => x.AnimeId == _animeStore.CurrentAnime.Id);
+                AnimeStatus.Remove("Удалить");
+            }
+
+            _animeStore.CurrentAnime = _animeStore.CurrentAnime;
             _closeNavigationService.Navigate();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
         }
     }
 }
