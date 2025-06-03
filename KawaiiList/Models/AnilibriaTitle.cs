@@ -111,6 +111,8 @@ namespace KawaiiList.Models
 
         public string GenresText => string.Join(" ", Genres ?? Enumerable.Empty<string>());
 
+        public DateTime? UploadedAt { get; set; }
+
         public override string ToString()
         {
             return "";

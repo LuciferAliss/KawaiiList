@@ -21,7 +21,7 @@ namespace KawaiiList.Models
         [Column("score")]
         public int? Score { get; set; }
 
-        [Column("progress")]
-        public int? Progress { get; set; }
+        [Column("uploaded_at")]
+        public DateTime UploadedAt { get; set; }
     }
 }

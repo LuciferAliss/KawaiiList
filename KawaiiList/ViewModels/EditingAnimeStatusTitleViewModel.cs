@@ -97,7 +97,7 @@ namespace KawaiiList.ViewModels
                     AnimeId = _animeStore.CurrentAnime.Id,
                     Status = SelectedAnimeStatus,
                     Score = UserRating,
-                    Progress = null
+                    UploadedAt = DateTime.Now
                 };
 
                 bool r = await _userAnimeStatusService.Upsert(anime, "user_id,anime_id");

@@ -118,6 +118,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
                                         <!-- Постер аниме -->
@@ -167,10 +168,16 @@
                                                        Foreground="LightSlateGray"/>
                                         </StackPanel>
 
-
+                                        <TextBlock Grid.Column="2"
+                                                   Text="{Binding UploadedAt, StringFormat='{}{0:dd.MM.yyyy}'}"
+                                                   FontSize="12"
+                                                   Margin="0,2,0,0"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="LightSlateGray"/>
+                                        
                                         <Button VerticalAlignment="Center"
                                                 Style="{StaticResource MaterialDesignFlatLightButton}"
-                                                Grid.Column="2"
+                                                Grid.Column="3"
                                                 Foreground="White"
                                                 Padding="10,4,10,0"
                                                 Command="{Binding DataContext.OpenSetingsTitleCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"

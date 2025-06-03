@@ -175,6 +175,7 @@ namespace KawaiiList.ViewModels
                         if (token.IsCancellationRequested)
                             return;
 
+                        result.UploadedAt = item.UploadedAt;
                         _animeTitle.Add(result);
                     }
                     catch (OperationCanceledException)

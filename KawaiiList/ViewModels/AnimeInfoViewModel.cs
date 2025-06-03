@@ -150,7 +150,7 @@ namespace KawaiiList.ViewModels
                 AnimeId = Anime.Id,
                 Status = StatusString,
                 Score = value,
-                Progress = null
+                UploadedAt = DateTime.Now 
             };
 
             await _userAnimeStatusService.Upsert(anime, "user_id,anime_id");
@@ -195,7 +195,7 @@ namespace KawaiiList.ViewModels
                     AnimeId = Anime.Id,
                     Status = value,
                     Score = UserRating == 0 ? null : UserRating,
-                    Progress = null
+                    UploadedAt = DateTime.Now
                 };
 
                 await _userAnimeStatusService.Upsert(anime, "user_id,anime_id");

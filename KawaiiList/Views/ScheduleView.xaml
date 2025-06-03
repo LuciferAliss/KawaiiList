@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KawaiiList.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:viewmodels="clr-namespace:KawaiiList.ViewModels" 
              d:DataContext="{d:DesignInstance Type=viewmodels:ScheduleViewModel}"
              mc:Ignorable="d">
@@ -65,27 +66,84 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <materialDesign:Card Cursor="Hand"
-                                         Margin="4"
+                    <materialDesign:Card Margin="4"
                                          Background="{StaticResource NavigationBarBackground}">
 
-                        <StackPanel VerticalAlignment="Top">
-                            <!-- Изображение (постер) -->
-                            <Image Source="{Binding Posters.Original.Url}"
-                                   Height="208"
-                                   Stretch="UniformToFill"
-                                   VerticalAlignment="Top"
-                                   HorizontalAlignment="Stretch"/>
+                        <materialDesign:Card.Style>
+                            <Style TargetType="materialDesign:Card" BasedOn="{StaticResource MaterialDesignElevatedCard}">
+                                <Setter Property="BorderBrush">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="{StaticResource BorderWindowBlueColor}" Offset="0"/>
+                                            <GradientStop Color="{StaticResource BorderPurplWindowPinkColor}" Offset="0.75"/>
+                                            <GradientStop Color="{StaticResource BorderWindowPurpleColor}" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <!-- Плавное появление бордера -->
+                                                    <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"
+                                                From="0" To="4" 
+                                                Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <!-- Плавное исчезновение бордера -->
+                                                    <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"
+                                                From="4" To="0" 
+                                                Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </materialDesign:Card.Style>
 
-                            <!-- Текстовая информация -->
-                            <StackPanel Margin="10,15">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="208"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+
+                                <Image Source="{Binding Posters.Original.Url}"
+                                       Height="208"
+                                       Stretch="UniformToFill"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Stretch"/>
+
+                            </Grid>
+
+                            <StackPanel Margin="10,15"
+                                        Grid.Row="1">
                                 <TextBlock Text="{Binding Names.Ru}"
                                            FontWeight="Bold"
+                                           Cursor="Hand"
                                            Foreground="{StaticResource TextColor}"
                                            TextWrapping="Wrap"
                                            TextTrimming="CharacterEllipsis"
                                            MaxHeight="20"
-                                           FontSize="14"/>
+                                           FontSize="14">
+                                    
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown">
+                                            <i:InvokeCommandAction Command="{Binding DataContext.ItemSelectedCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                   CommandParameter="{Binding}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
+                                </TextBlock>
 
                                 <TextBlock Foreground="{StaticResource SecondaryTextColor}"
                                            FontSize="13"
@@ -99,7 +157,8 @@
                                     </TextBlock.Text>
                                 </TextBlock>
                             </StackPanel>
-                        </StackPanel>
+
+                        </Grid>
 
                     </materialDesign:Card>
                 </DataTemplate>

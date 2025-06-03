@@ -26,6 +26,9 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private BaseViewModel _currentViewModel;
 
+        [ObservableProperty]
+        private int _selectViewModel = 0;
+
         public ProfileViewModel(
             IAnilibriaService anilibriaService,
             UserStore userStore,
@@ -54,6 +57,24 @@ namespace KawaiiList.ViewModels
             else
             {
                 _navigationHomeService.Navigate();
+            }
+        }
+
+        partial void OnSelectViewModelChanged(int value)
+        {
+            switch (value)
+            {
+                case 0:
+                {
+                    CurrentViewModel = _titleAnimeListViewModel;
+                    break;
+                }
+
+                case 1:
+                {
+                    CurrentViewModel = _titleAnimeListViewModel;
+                    break;
+                }
             }
         }
     }

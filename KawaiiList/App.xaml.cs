@@ -54,7 +54,7 @@ public partial class App : Application
         services.AddTransient<SignUpViewModel>(CreateSignUpViewModel);
         services.AddTransient<SignInViewModel>(CreateSignInViewModel);
         services.AddTransient<CatalogViewModel>(CreateCatalogViewModel);
-        services.AddTransient<ScheduleViewModel>();
+        services.AddTransient<ScheduleViewModel>(CreateScheduleViewModel);
         services.AddTransient<SearchViewModel>(CreateSearchViewModel);
         services.AddSingleton<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddTransient<HaderViewModel>(CreateHaderViewModel);
@@ -194,6 +194,17 @@ public partial class App : Application
             service.GetRequiredService<IShikimoriService>(),
             CreateAnimeInfoNavigationService(service),
             CreateEditingAnimeStatusTitleNavigationService(service)
+        );
+    }
+
+    private ScheduleViewModel CreateScheduleViewModel(IServiceProvider service)
+    {
+        return new ScheduleViewModel
+        (
+            service.GetRequiredService<IAnilibriaService>(),
+            service.GetRequiredService<IShikimoriService>(),
+            CreateAnimeInfoNavigationService(service),
+            service.GetRequiredService<AnimeStore>()
         );
     }
 

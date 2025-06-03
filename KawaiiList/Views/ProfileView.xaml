@@ -94,7 +94,7 @@
                     Background="#252A36">
 
                 <TabControl Style="{StaticResource MaterialDesignTabControl}"
-                            SelectedIndex="{Binding SelectedDayIndex, Mode=TwoWay}">
+                            SelectedIndex="{Binding SelectViewModel, Mode=TwoWay}">
 
                     <TabItem Header="Тайтлы"
                              Height="30"
