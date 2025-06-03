@@ -28,7 +28,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
 
@@ -88,31 +87,11 @@
                 
             </Border>
 
-            <Border Grid.Row="2"
-                    BorderThickness="0,1,0,0"
-                    BorderBrush="White"
-                    Background="#252A36">
-
-                <TabControl Style="{StaticResource MaterialDesignTabControl}"
-                            SelectedIndex="{Binding SelectViewModel, Mode=TwoWay}">
-
-                    <TabItem Header="Тайтлы"
-                             Height="30"
-                             Padding="0"/>
-
-                    <TabItem Header="Отслеживаемые"
-                             Height="30"
-                             Padding="0"/>
-                    
-                </TabControl>
-
-            </Border>
-
         </Grid>
 
         <ContentControl Grid.Row="1"
                         Margin="0,15,0,0"
-                        Content="{Binding CurrentViewModel}"/>
+                        Content="{Binding TitleAnimeListViewModel}"/>
 
     </Grid>
     

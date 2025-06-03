@@ -169,11 +169,20 @@
                                         </StackPanel>
 
                                         <TextBlock Grid.Column="2"
-                                                   Text="{Binding UploadedAt, StringFormat='{}{0:dd.MM.yyyy}'}"
-                                                   FontSize="12"
-                                                   Margin="0,2,0,0"
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,3,30,0"
                                                    TextWrapping="Wrap"
-                                                   Foreground="LightSlateGray"/>
+                                                   Foreground="LightSlateGray">
+
+
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}Добавлено: {0}">
+                                                    <Binding Path="UploadedAt" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                            
+                                        </TextBlock>
                                         
                                         <Button VerticalAlignment="Center"
                                                 Style="{StaticResource MaterialDesignFlatLightButton}"
