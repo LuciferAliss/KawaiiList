@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
@@ -10,6 +11,7 @@ namespace KawaiiList.ViewModels
         private readonly IAnilibriaService _anilibriaService;
         private readonly UserStore _userStore;
         private readonly INavigationService _navigationHomeService;
+        private readonly INavigationService _navigationEditingProfileService;
        
         public User CurrentUser => _userStore.CurrentUser;
 
@@ -32,11 +34,13 @@ namespace KawaiiList.ViewModels
             IAnilibriaService anilibriaService,
             UserStore userStore,
             INavigationService navigationHomeService,
+            INavigationService navigationEditingProfileService,
             TitleAnimeListViewModel titleAnimeListViewModel)
         {
             _anilibriaService = anilibriaService;
             _userStore = userStore;
             _navigationHomeService = navigationHomeService;
+            _navigationEditingProfileService = navigationEditingProfileService;
 
             TitleAnimeListViewModel = titleAnimeListViewModel;
 
@@ -57,6 +61,20 @@ namespace KawaiiList.ViewModels
             {
                 _navigationHomeService.Navigate();
             }
+        }
+
+        [RelayCommand]
+        private void OpenWindowEditingProfile()
+        {
+            _navigationEditingProfileService.Navigate();
+        }
+
+        public override void Dispose()
+        {
+            _userStore.CurrentUserChanged -= LoadUser;
+            _titleAnimeListViewModel.Dispose();
+            
+            base.Dispose();
         }
     }
 }

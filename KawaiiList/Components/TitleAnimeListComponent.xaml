@@ -175,7 +175,6 @@
                                                    TextWrapping="Wrap"
                                                    Foreground="LightSlateGray">
 
-
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}Добавлено: {0}">
                                                     <Binding Path="UploadedAt" />

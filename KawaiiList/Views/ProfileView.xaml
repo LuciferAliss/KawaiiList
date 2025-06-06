@@ -80,6 +80,7 @@
                             Foreground="White"
                             Margin="15,4,0,0"
                             Content="Редактировать"
+                            Command="{Binding OpenWindowEditingProfileCommand}"
                             HorizontalAlignment="Right"/>
 
 

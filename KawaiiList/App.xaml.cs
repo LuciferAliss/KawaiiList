@@ -47,18 +47,18 @@ public partial class App : Application
         services.AddTransient<ICloseModalNavigationService, CloseModalNavigationService>();
         
         services.AddTransient<AnimeCarouselViewModel>(CreateAnimeCarouselViewModel);
-        services.AddTransient<ProfileViewModel>();
+        services.AddTransient<ProfileViewModel>(CreateProfileViewModel);
         services.AddTransient<TitleAnimeListViewModel>(CreateTitleAnimeListViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
         services.AddTransient<EditingAnimeStatusTitleViewModel>();
+        services.AddTransient<EditingProfileViewModel>();
         services.AddTransient<SignUpViewModel>(CreateSignUpViewModel);
         services.AddTransient<SignInViewModel>(CreateSignInViewModel);
         services.AddTransient<CatalogViewModel>(CreateCatalogViewModel);
         services.AddTransient<ScheduleViewModel>(CreateScheduleViewModel);
         services.AddTransient<SearchViewModel>(CreateSearchViewModel);
-        services.AddSingleton<NavigationBarViewModel>(CreateNavigationBarViewModel);
+        services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddTransient<HaderViewModel>(CreateHaderViewModel);
-
         services.AddTransient<HomeViewModel>();
         services.AddTransient<AnimeInfoViewModel>(CreateWatchAnimeViewModel);
         services.AddTransient<WatchAnimeViewModel>();
@@ -208,6 +208,18 @@ public partial class App : Application
         );
     }
 
+    private ProfileViewModel CreateProfileViewModel(IServiceProvider service)
+    {
+        return new ProfileViewModel
+        (
+            service.GetRequiredService<IAnilibriaService>(),
+            service.GetRequiredService<UserStore>(),
+            CreateAnimeInfoNavigationService(service),
+            CreateEditingProfileNavigationService(service),
+            service.GetRequiredService<TitleAnimeListViewModel>()
+        );
+    }
+
     private INavigationService CreateAnimeInfoNavigationService(IServiceProvider service)
     {
         return new NavigationService<AnimeInfoViewModel>(service.GetRequiredService<NavigationStore>(),
@@ -260,5 +272,11 @@ public partial class App : Application
     {
         return new ModalNavigationService<EditingAnimeStatusTitleViewModel>(service.GetRequiredService<ModalNavigationStore>(),
             () => service.GetRequiredService<EditingAnimeStatusTitleViewModel>());
+    }
+
+    private INavigationService CreateEditingProfileNavigationService(IServiceProvider service)
+    {
+        return new ModalNavigationService<EditingProfileViewModel>(service.GetRequiredService<ModalNavigationStore>(),
+            () => service.GetRequiredService<EditingProfileViewModel>());
     }
 }
