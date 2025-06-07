@@ -214,7 +214,7 @@ public partial class App : Application
         (
             service.GetRequiredService<IAnilibriaService>(),
             service.GetRequiredService<UserStore>(),
-            CreateAnimeInfoNavigationService(service),
+            CreateHomeNavigationService(service),
             CreateEditingProfileNavigationService(service),
             service.GetRequiredService<TitleAnimeListViewModel>()
         );
@@ -228,7 +228,8 @@ public partial class App : Application
             service.GetRequiredService<ISupaBaseService<Profiles>>(),
             service.GetRequiredService<ISupaBaseService<UserImage>>(),
             service.GetRequiredService<IStorageSupabaseService>(),
-            service.GetRequiredService<UserStore>()
+            service.GetRequiredService<UserStore>(),
+            service.GetRequiredService<SupabaseClientStore>()
         );
     }
 

@@ -74,6 +74,16 @@
                          FontSize="15"
                          Foreground="{StaticResource TextColor}"/>
 
+                <PasswordBox Margin="0,25,0,0"
+                             materialDesign:HintAssist.Hint="Пароль"
+                             materialDesign:TextFieldAssist.DecorationVisibility="Visible"
+                             materialDesign:TextFieldAssist.HasClearButton="True"
+                             materialDesign:PasswordBoxAssist.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                             FontSize="15"
+                             MaxLength="16"
+                             Foreground="{StaticResource TextColor}"
+                             Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}" />
+
             </StackPanel>
             
             <StackPanel Grid.Row="2"

@@ -11,6 +11,7 @@ using KawaiiList.Models;
 using KawaiiList.Services;
 using KawaiiList.Stores;
 using Microsoft.Win32;
+using Supabase.Gotrue;
 using Syroot.Windows.IO;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Supabase.Postgrest.Constants;
@@ -27,11 +28,13 @@ namespace KawaiiList.ViewModels
         private readonly ISupaBaseService<UserImage> _userImageService;
         private readonly IStorageSupabaseService _storageService;
         private readonly UserStore _userStore;
+        private readonly SupabaseClientStore _supabaseClientStore;
 
         private int _indexChanged = 0;
         private List<FileModel?> _images = [null, null]; // 0 - avatar, 1 - banner
         private bool _nicknameTouched;
-        
+        private bool _passwordTouched;
+
         [ObservableProperty]        
         private int _maxWidthImage = 1000;
 
@@ -43,6 +46,9 @@ namespace KawaiiList.ViewModels
 
         [ObservableProperty]
         private string _errorSave = string.Empty;
+
+        [ObservableProperty]
+        private string _password = "";
 
         [ObservableProperty]
         private string _nickname = string.Empty;
@@ -64,6 +70,20 @@ namespace KawaiiList.ViewModels
                         if (Nickname.Length < 3)
                             return "Имя пользователя слишком короткое";
                         break;
+
+                    case nameof(Password):
+                        if (!_passwordTouched) return null;
+                        if (string.IsNullOrWhiteSpace(Password))
+                            return string.Empty;
+                        if (Regex.IsMatch(Password, @"[а-яА-Я]"))
+                            return "Пароль не должен содержать русских символов";
+                        if (Password.Length < 6)
+                            return "Пароль должен быть не короче 6 символов";
+                        if (!Regex.IsMatch(Password, @"[A-Z]"))
+                            return "Пароль должен содержать хотя бы одну заглавную букву";
+                        if (!Regex.IsMatch(Password, @"[0-9]"))
+                            return "Пароль должен содержать хотя бы одну цифру";
+                        break;
                 }
 
                 return string.Empty;
@@ -71,7 +91,8 @@ namespace KawaiiList.ViewModels
         }
 
         public bool IsFormValid =>
-           string.IsNullOrEmpty(this[nameof(Nickname)]);
+           string.IsNullOrEmpty(this[nameof(Nickname)]) &&
+           string.IsNullOrEmpty(this[nameof(Password)]);
 
         public string Error => string.Empty;
 
@@ -80,13 +101,15 @@ namespace KawaiiList.ViewModels
             ISupaBaseService<Profiles> supaBaseService,
             ISupaBaseService<UserImage> userImageService,
             IStorageSupabaseService storageService,
-            UserStore userStore) 
+            UserStore userStore,
+            SupabaseClientStore supabaseClientStore) 
         {
             _closeNavigationService = closeNavigationService;
             _profilesService = supaBaseService;
             _userImageService = userImageService;
             _storageService = storageService;
             _userStore = userStore;
+            _supabaseClientStore = supabaseClientStore;
 
             LoadFilesCommand = new RelayCommand(LoadFiles);
         }
@@ -183,6 +206,13 @@ namespace KawaiiList.ViewModels
             OnPropertyChanged("Item[]");
         }
 
+        partial void OnPasswordChanged(string value)
+        {
+            _passwordTouched = true;
+            OnPropertyChanged(nameof(IsFormValid));
+            OnPropertyChanged("Item[]");
+        }
+
         [RelayCommand]
         private void CloseModalWindow()
         {
@@ -267,6 +297,23 @@ namespace KawaiiList.ViewModels
                 else
                 {
                     ErrorSave = "Пользователь с таким\nникнеймом уже существует";
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Password))
+            {
+                var respond = await _supabaseClientStore.Client.Auth.Update(new UserAttributes
+                {
+                    Password = Password
+                });
+
+                if (respond != null)
+                {
+                    ErrorSave = "Данные успешно сохранены!";
+                }
+                else
+                {
+                    ErrorSave = "Данные не сохранены!";
                 }
             }
 

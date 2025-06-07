@@ -112,14 +112,11 @@
                             </Border.BorderBrush>
 
                             <StackPanel>
+                                
                                 <Button Content="Профиль" 
                                         FontSize="16"
                                         FontFamily="Montserat"
                                         Command="{Binding NavigateProfileCommand}"/>
-
-                                <Button Content="Настройки" 
-                                        FontSize="16"
-                                        FontFamily="Montserat"/>
 
                                 <Button Content="Выйти" 
                                         FontSize="16"

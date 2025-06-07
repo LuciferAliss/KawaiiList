@@ -47,6 +47,7 @@
 
             <TextBox Grid.Row="1"
                      Margin="10,0,10,10"
+                     MaxLength="16"
                      HorizontalAlignment="Stretch"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:HintAssist.Hint="Имя пользователя"
@@ -62,6 +63,7 @@
                          materialDesign:TextFieldAssist.HasClearButton="True"
                          materialDesign:PasswordBoxAssist.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                          FontSize="14"
+                         MaxLength="16"
                          Foreground="{StaticResource TextColor}"
                          Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}" />
 
