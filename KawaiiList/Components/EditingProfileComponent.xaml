@@ -34,6 +34,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0"
@@ -63,18 +64,20 @@
 
             </Grid>
 
-            <StackPanel Grid.Row="1">
+            <StackPanel Grid.Row="1"
+                        Margin="0,0,0,25">
 
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          materialDesign:HintAssist.Hint="Никнейм"
                          MaxLength="16"
-                         Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                         Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                          FontSize="15"
                          Foreground="{StaticResource TextColor}"/>
 
             </StackPanel>
             
-            <StackPanel Grid.Row="2">
+            <StackPanel Grid.Row="2"
+                        Margin="0,0,0,25">
                 
                 <TextBlock Style="{StaticResource BaseTextBlockStyle}"
                            Foreground="{StaticResource SecondaryTextColor}"
@@ -151,9 +154,9 @@
                 <Grid Margin="0,25,0,0">
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     
                     <Button Content="Изменить аватар"
@@ -190,6 +193,31 @@
                 </Grid>
                 
             </StackPanel>
+
+            <Button Grid.Row="3"
+                    IsEnabled="{Binding IsFormValid}"
+                    Command="{Binding SaveChangesCommand}"
+                    Margin="0,0,0,25">
+
+                <StackPanel Orientation="Horizontal">
+                    
+                    <materialDesign:PackIcon Kind="ContentSave"
+                                             VerticalAlignment="Center"
+                                             Margin="0,0,10,0"/>
+
+                    <TextBlock Text="Сохранить"
+                               Margin="0,0,0,2"/>
+
+                </StackPanel>
+                
+            </Button>
+
+            <TextBlock Grid.Row="4"
+                       Style="{StaticResource BaseTextBlockStyle}"
+                       Foreground="{StaticResource TextColor}"
+                       TextAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Text="{Binding ErrorSave}"/>
 
         </Grid>
 

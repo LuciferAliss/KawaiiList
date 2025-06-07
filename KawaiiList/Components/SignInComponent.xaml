@@ -50,7 +50,7 @@
                      HorizontalAlignment="Stretch"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:HintAssist.Hint="Имя пользователя"
-                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                      FontSize="14"
                      Foreground="{StaticResource TextColor}"/>
 
@@ -60,7 +60,7 @@
                          materialDesign:HintAssist.Hint="Пароль"
                          materialDesign:TextFieldAssist.DecorationVisibility="Visible"
                          materialDesign:TextFieldAssist.HasClearButton="True"
-                         materialDesign:PasswordBoxAssist.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                         materialDesign:PasswordBoxAssist.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                          FontSize="14"
                          Foreground="{StaticResource TextColor}"
                          Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}" />

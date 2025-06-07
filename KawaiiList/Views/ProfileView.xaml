@@ -61,11 +61,13 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <Image Grid.Column="0"
-                           MaxWidth="45"
-                           Source="{Binding AvatarUrl}"/>
 
+                    <Grid Width="45" Height="45">
+                        <Image Source="{Binding AvatarUrl}"
+                               Stretch="UniformToFill"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+                    </Grid>
                     <TextBlock Grid.Column="1"
                                Style="{StaticResource BaseTextBlockStyle}"
                                FontSize="24"

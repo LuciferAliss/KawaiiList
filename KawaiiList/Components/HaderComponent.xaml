@@ -83,7 +83,8 @@
                                          MinWidth="25">
                                     
                                     <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding AvatarUrl}" />
+                                        <ImageBrush ImageSource="{Binding AvatarUrl}"
+                                                    Stretch="UniformToFill"/>
                                     </Ellipse.Fill>
                                     
                                  </Ellipse>

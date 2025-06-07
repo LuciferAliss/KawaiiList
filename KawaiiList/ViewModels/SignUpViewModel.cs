@@ -12,6 +12,11 @@ namespace KawaiiList.ViewModels
         private readonly INavigationService _signInNavigationService;
         private readonly IAuthService _authService;
 
+        private bool _usernameTouched;
+        private bool _passwordTouched;
+        private bool _emailTouched;
+        private bool _confirmPasswordTouched;
+
         [ObservableProperty]
         private string _username = "";
 
@@ -34,17 +39,23 @@ namespace KawaiiList.ViewModels
                 switch (columnName)
                 {
                     case nameof(Username):
+                        if (!_usernameTouched) return null;
                         if (string.IsNullOrWhiteSpace(Username))
                             return "Имя пользователя не может быть пустым";
+                        if (Regex.IsMatch(Username, @"[а-яА-Я]"))
+                            return "Пароль не должен содержать русских символов";
                         if (Username.Length < 3)
                             return "Имя пользователя слишком короткое";
                         break;
 
                     case nameof(Password):
+                        if (!_passwordTouched) return null;
                         if (string.IsNullOrWhiteSpace(Password))
                             return "Пароль не может быть пустым";
                         if (Password.Length < 6)
                             return "Пароль должен быть не короче 6 символов";
+                        if (Regex.IsMatch(Password, @"[а-яА-Я]"))
+                            return "Пароль не должен содержать русских символов";
                         if (!Regex.IsMatch(Password, @"[A-Z]"))
                             return "Пароль должен содержать хотя бы одну заглавную букву";
                         if (!Regex.IsMatch(Password, @"[0-9]"))
@@ -52,13 +63,17 @@ namespace KawaiiList.ViewModels
                         break;
 
                     case nameof(Email):
+                        if (!_emailTouched) return null;
                         if (string.IsNullOrWhiteSpace(Email))
                                 return "Email не может быть пустым";
+                        if (Regex.IsMatch(Email, @"[а-яА-Я]"))
+                            return "Пароль не должен содержать русских символов";
                         if (!Regex.IsMatch(Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
                             return "Неверный формат email";
                         break;
 
                     case nameof(ConfirmPassword):
+                        if (!_confirmPasswordTouched) return null;
                         if (ConfirmPassword != Password)
                             return "Пароли не совпадают";
                         break;
@@ -83,18 +98,33 @@ namespace KawaiiList.ViewModels
             _authService = authService;
         }
 
-
-        partial void OnUsernameChanged(string value) =>
+        partial void OnUsernameChanged(string value)
+        {
+            _usernameTouched = true;
             OnPropertyChanged(nameof(IsFormValid));
+            OnPropertyChanged("Item[]");
+        }
 
-        partial void OnPasswordChanged(string value) =>
+        partial void OnPasswordChanged(string value)
+        {
+            _passwordTouched = true;
             OnPropertyChanged(nameof(IsFormValid));
+            OnPropertyChanged("Item[]");
+        }
 
-        partial void OnConfirmPasswordChanged(string value) =>
+        partial void OnConfirmPasswordChanged(string value)
+        {
+            _confirmPasswordTouched = true;
             OnPropertyChanged(nameof(IsFormValid));
+            OnPropertyChanged("Item[]");
+        }
 
-        partial void OnEmailChanged(string value) =>
+        partial void OnEmailChanged(string value)
+        {
+            _emailTouched = true;
             OnPropertyChanged(nameof(IsFormValid));
+            OnPropertyChanged("Item[]");
+        }
 
         [RelayCommand]
         private async Task Register()

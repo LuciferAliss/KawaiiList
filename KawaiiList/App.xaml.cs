@@ -50,8 +50,8 @@ public partial class App : Application
         services.AddTransient<ProfileViewModel>(CreateProfileViewModel);
         services.AddTransient<TitleAnimeListViewModel>(CreateTitleAnimeListViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
-        services.AddTransient<EditingAnimeStatusTitleViewModel>();
-        services.AddTransient<EditingProfileViewModel>();
+        services.AddTransient<EditingAnimeStatusTitleViewModel>(CreateEditingAnimeStatusTitleViewModel);
+        services.AddTransient<EditingProfileViewModel>(CreateEditingProfileViewModel);
         services.AddTransient<SignUpViewModel>(CreateSignUpViewModel);
         services.AddTransient<SignInViewModel>(CreateSignInViewModel);
         services.AddTransient<CatalogViewModel>(CreateCatalogViewModel);
@@ -217,6 +217,29 @@ public partial class App : Application
             CreateAnimeInfoNavigationService(service),
             CreateEditingProfileNavigationService(service),
             service.GetRequiredService<TitleAnimeListViewModel>()
+        );
+    }
+
+    private EditingProfileViewModel CreateEditingProfileViewModel(IServiceProvider service)
+    {
+        return new EditingProfileViewModel
+        (
+            service.GetRequiredService<ICloseModalNavigationService>(),
+            service.GetRequiredService<ISupaBaseService<Profiles>>(),
+            service.GetRequiredService<ISupaBaseService<UserImage>>(),
+            service.GetRequiredService<IStorageSupabaseService>(),
+            service.GetRequiredService<UserStore>()
+        );
+    }
+
+    private EditingAnimeStatusTitleViewModel CreateEditingAnimeStatusTitleViewModel(IServiceProvider service)
+    {
+        return new EditingAnimeStatusTitleViewModel
+        (
+            service.GetRequiredService<AnimeStore>(),
+            service.GetRequiredService<UserStore>(),
+            service.GetRequiredService<ICloseModalNavigationService>(),
+            service.GetRequiredService<ISupaBaseService<UserAnimeStatus>>()
         );
     }
 

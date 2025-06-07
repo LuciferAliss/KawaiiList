@@ -12,6 +12,9 @@ namespace KawaiiList.ViewModels
         private readonly INavigationService _signpUpNavigationService;
         private readonly IAuthService _authService;
 
+        private bool _usernameTouched;
+        private bool _passwordTouched;
+
         [ObservableProperty]
         private string _username = "";
 
@@ -28,15 +31,21 @@ namespace KawaiiList.ViewModels
                 switch (columnName)
                 {
                     case nameof(Username):
+                        if (!_usernameTouched) return null;
                         if (string.IsNullOrWhiteSpace(Username))
                             return "Имя пользователя не может быть пустым";
+                        if (Regex.IsMatch(Username, @"[а-яА-Я]"))
+                            return "Пароль не должен содержать русских символов";
                         if (Username.Length < 3)
                             return "Имя пользователя слишком короткое";
                         break;
 
                     case nameof(Password):
+                        if (!_passwordTouched) return null;
                         if (string.IsNullOrWhiteSpace(Password))
                             return "Пароль не может быть пустым";
+                        if (Regex.IsMatch(Password, @"[а-яА-Я]"))
+                            return "Пароль не должен содержать русских символов";
                         if (Password.Length < 6)
                             return "Пароль должен быть не короче 6 символов";
                         if (!Regex.IsMatch(Password, @"[A-Z]"))
@@ -46,11 +55,11 @@ namespace KawaiiList.ViewModels
                         break;
                 }
 
-                return null;
+                return string.Empty;
             }
         }
 
-        public string Error => null;
+        public string Error => string.Empty;
 
         public bool IsFormValid =>
             string.IsNullOrEmpty(this[nameof(Username)]) &&
@@ -63,11 +72,19 @@ namespace KawaiiList.ViewModels
             _authService = authService;
         }
 
-        partial void OnUsernameChanged(string value) =>
+        partial void OnUsernameChanged(string value)
+        {
+            _usernameTouched = true;
             OnPropertyChanged(nameof(IsFormValid));
+            OnPropertyChanged("Item[]");
+        }
 
-        partial void OnPasswordChanged(string value) =>
+        partial void OnPasswordChanged(string value)
+        {
+            _passwordTouched = true;
             OnPropertyChanged(nameof(IsFormValid));
+            OnPropertyChanged("Item[]");
+        }
 
         [RelayCommand]
         private async Task Login()
