@@ -335,8 +335,6 @@
                         
                     </ItemsControl>
 
-                    <!-- Сделать меню с выбором статистики, связыными аниме, персонажи, авторы -->
-
                     <TextBlock Text="Информация"
                                Foreground="{StaticResource TextColor}"
                                Style="{StaticResource BaseTextBlockStyle}"
@@ -350,7 +348,6 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Вкладки меню -->
                         <Border Background="#252A36"
                                 Grid.Row="0">
                             <TabControl Grid.Row="0"
@@ -383,6 +380,9 @@
                                 </DataTemplate>
                                 <DataTemplate DataType="{x:Type viewmodel:RelatedAnimeViewModel}">
                                     <components:RelatedAnimeComponent/>
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type viewmodel:AnimeCharactersViewModel}">
+                                    <components:AnimeCharactersComponent/>
                                 </DataTemplate>
                             </ContentControl.Resources>
 

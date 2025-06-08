@@ -83,34 +83,13 @@ namespace KawaiiList.Models
             }
         }
 
-        public AnimeRole? AuthorInfo { get; set; }
+        public List<AnimeCharacterAndPersonRole>? AuthorAndCharacterInfo { get; set; }
     }
 
     public class Studios
     {
         [JsonPropertyName("name")]
         public string? Name { get; set; }
-    }
-
-    public class AnimeRole
-    {
-        [JsonPropertyName("roles")]
-        public List<string> Roles { get; set; }
-
-        [JsonPropertyName("person")]
-        public Person Person { get; set; }
-    }
-
-    public class Person
-    {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
-
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
-
-        [JsonPropertyName("russian")]
-        public string RussianName { get; set; }
     }
 
     public class RateScoreStat

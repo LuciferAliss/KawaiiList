@@ -64,17 +64,9 @@ namespace KawaiiList.Services
 
                 response = await httpClient.GetAsync($"animes/{resultInfo.Id}/roles", token);
 
-                List<AnimeRole>? roles = await response.Content.ReadFromJsonAsync<List<AnimeRole>>(cancellationToken: token);
+                List<AnimeCharacterAndPersonRole>? roles = await response.Content.ReadFromJsonAsync<List<AnimeCharacterAndPersonRole>>(cancellationToken: token);
 
-                List<AnimeRole>? originalAuthors = roles?
-                    .Where(r => r.Roles.Any(role =>
-                        role.Contains("Original Creator") ||
-                        role.Contains("Автор оригинала") ||
-                        role.Contains("Оригинальный автор")
-                    ))
-                    .ToList();
-
-                resultInfo.AuthorInfo = originalAuthors?.FirstOrDefault();
+                resultInfo.AuthorAndCharacterInfo = roles;
 
                 return resultInfo ?? new ShikimoriTitle { Id = -1 };
             }
