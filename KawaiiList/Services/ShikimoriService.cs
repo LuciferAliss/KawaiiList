@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Net.Http.Json;
 using KawaiiList.Models;
+using System.Diagnostics;
 
 namespace KawaiiList.Services
 {
@@ -17,6 +18,34 @@ namespace KawaiiList.Services
             this.httpClient = httpClient;
             this.httpClient.BaseAddress = new Uri(BaseUrl);
             this.httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        public async Task<List<ShikimoriTopic>> GetNewsAsync(CancellationToken token)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"topics?forum=news&limit=3", token);
+
+                response.EnsureSuccessStatusCode();
+
+                var result = await response.Content.ReadFromJsonAsync<List<ShikimoriTopic>>(cancellationToken: token);
+
+                return result ?? [];
+            }
+            catch (OperationCanceledException)
+            {
+                return [];
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Debug.WriteLine($"HTTP request error: {httpEx.Message}");
+                return [];
+            }
+            catch (JsonException jsonEx)
+            {
+                Debug.WriteLine($"JSON processing error: {jsonEx.Message}");
+                return [];
+            }
         }
 
         public async Task<ShikimoriTitle> GetInfoAsync(string query, CancellationToken token)
