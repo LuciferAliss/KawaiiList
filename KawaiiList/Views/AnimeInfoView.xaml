@@ -354,6 +354,7 @@
                         <Border Background="#252A36"
                                 Grid.Row="0">
                             <TabControl Grid.Row="0"
+                                        SelectedIndex="{Binding SelectedComponentIndex, Mode=TwoWay}"
                                         Style="{StaticResource MaterialDesignTabControl}">
 
                                 <TabItem Header="Статистика"
@@ -379,6 +380,9 @@
                             <ContentControl.Resources>
                                 <DataTemplate DataType="{x:Type viewmodel:StatisticsAnimeViewModel}">
                                     <components:StatisticsAnimeComponent/>
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type viewmodel:RelatedAnimeViewModel}">
+                                    <components:RelatedAnimeComponent/>
                                 </DataTemplate>
                             </ContentControl.Resources>
 

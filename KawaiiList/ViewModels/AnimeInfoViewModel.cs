@@ -15,6 +15,7 @@ namespace KawaiiList.ViewModels
         private readonly INavigationService _navigationService;
         private readonly ISupaBaseService<UserAnimeStatus> _userAnimeStatusService;
         private readonly UserStore _userStore;
+        private readonly List<BaseViewModel> _component;
 
         [ObservableProperty]
         private BaseViewModel _currentComponent;
@@ -55,6 +56,9 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private double? _rating = 0f;
 
+        [ObservableProperty]
+        private int _selectedComponentIndex = 0;
+
         public bool IsLoggedIn => _userStore.IsLoggedIn;
 
         public ObservableCollection<string> AnimeStatus { get; } = new ObservableCollection<string>()
@@ -66,15 +70,19 @@ namespace KawaiiList.ViewModels
             AnimeStore animeStore,
             UserStore userStore,
             StatisticsAnimeViewModel statisticsAnimeViewModel,
+            RelatedAnimeViewModel relatedAnimeViewModel,
             INavigationService navigation,
             ISupaBaseService<UserAnimeStatus> userAnimeStatusService)
         {
             Anime = animeStore.CurrentAnime;
             AnimeInfo = animeStore.CurrentAnimeInfo;
-            CurrentComponent = statisticsAnimeViewModel;
+
+            _component = [statisticsAnimeViewModel, relatedAnimeViewModel];
             _navigationService = navigation;
             _userAnimeStatusService = userAnimeStatusService;
             _userStore = userStore;
+
+            CurrentComponent = statisticsAnimeViewModel;
 
             _userStore.CurrentUserChanged += ClearenUserData;
 
@@ -221,6 +229,11 @@ namespace KawaiiList.ViewModels
         partial void OnUserRatingChanged(int value)
         {
             _ = HandleUserRatingChanged(value);
+        }
+
+        partial void OnSelectedComponentIndexChanged(int value)
+        {
+            CurrentComponent = _component[value];
         }
 
         [RelayCommand]

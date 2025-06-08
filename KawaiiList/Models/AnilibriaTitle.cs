@@ -78,10 +78,18 @@ namespace KawaiiList.Models
         public string? String { get; set; }
     }
 
+    public class ReleasesAnime
+    {
+        public int Id { get; set; }
+        public int Ordinal { get; set; }
+        public AnimeNames Names { get; set; }
+    }
+
     public class FranchiseInfo
     {
         public int Id { get; set; }
         public AnimeNames? Names { get; set; }
+        public List<ReleasesAnime> Releases { get; set; }
     }
 
     public class PaginationInfo
