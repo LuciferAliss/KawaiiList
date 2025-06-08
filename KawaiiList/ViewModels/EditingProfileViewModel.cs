@@ -13,7 +13,6 @@ using KawaiiList.Stores;
 using Microsoft.Win32;
 using Supabase.Gotrue;
 using Syroot.Windows.IO;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Supabase.Postgrest.Constants;
 using Path = System.IO.Path;
 

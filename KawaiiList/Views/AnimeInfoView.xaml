@@ -171,9 +171,6 @@
                                Visibility="{Binding IsStudioNameVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                                TextTrimming="CharacterEllipsis"/>
 
-
-                    
-
                 </StackPanel>
                 
             </Border>

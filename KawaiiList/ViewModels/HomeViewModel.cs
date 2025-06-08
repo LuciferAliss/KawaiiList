@@ -1,15 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KawaiiList.Models;
 using KawaiiList.Services;
-using KawaiiList.Stores;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Reactive.Joins;
 using System.Text.RegularExpressions;
-using System.Windows.Input;
-using System.Windows.Navigation;
 
 namespace KawaiiList.ViewModels
 {
@@ -82,7 +76,6 @@ namespace KawaiiList.ViewModels
 
             matches = matches.Select(url => url.StartsWith("//") ? "https:" + url : url).ToList();
 
-            // Видео
             var videoLinks = matches.Where(x => x.Contains("youtu.be")).Distinct();
             foreach (var videoLink in videoLinks)
             {
@@ -95,7 +88,6 @@ namespace KawaiiList.ViewModels
                 });
             }
 
-            // Изображения
             var imageLinks = matches.Where(x => x.EndsWith(".jpg") && x.Contains("shikimori.one")).Distinct();
             foreach (var image in imageLinks)
             {
@@ -115,6 +107,12 @@ namespace KawaiiList.ViewModels
         {
             if (!string.IsNullOrEmpty(url))
                 Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
+
+        [RelayCommand]
+        private void OpenNews(ShikimoriTopic anime)
+        {
+            Process.Start(new ProcessStartInfo("https://shikimori.one/forum/news/" + anime.Id) { UseShellExecute = true });
         }
 
         public override void Dispose() 

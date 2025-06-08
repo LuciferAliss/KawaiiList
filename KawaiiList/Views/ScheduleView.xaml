@@ -85,20 +85,18 @@
                                         <Trigger.EnterActions>
                                             <BeginStoryboard>
                                                 <Storyboard>
-                                                    <!-- Плавное появление бордера -->
                                                     <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"
-                                                From="0" To="4" 
-                                                Duration="0:0:0.2"/>
+                                                                        From="0" To="4" 
+                                                                        Duration="0:0:0.2"/>
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </Trigger.EnterActions>
                                         <Trigger.ExitActions>
                                             <BeginStoryboard>
                                                 <Storyboard>
-                                                    <!-- Плавное исчезновение бордера -->
                                                     <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"
-                                                From="4" To="0" 
-                                                Duration="0:0:0.2"/>
+                                                                        From="4" To="0" 
+                                                                        Duration="0:0:0.2"/>
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </Trigger.ExitActions>
