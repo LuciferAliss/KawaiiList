@@ -72,13 +72,14 @@ namespace KawaiiList.ViewModels
             StatisticsAnimeViewModel statisticsAnimeViewModel,
             RelatedAnimeViewModel relatedAnimeViewModel,
             AnimeCharactersViewModel animeCharactersViewModel,
+            AnimeAuthorViewModel animeAuthorViewModel,
             INavigationService navigation,
             ISupaBaseService<UserAnimeStatus> userAnimeStatusService)
         {
             Anime = animeStore.CurrentAnime;
             AnimeInfo = animeStore.CurrentAnimeInfo;
 
-            _component = [statisticsAnimeViewModel, relatedAnimeViewModel, animeCharactersViewModel];
+            _component = [statisticsAnimeViewModel, relatedAnimeViewModel, animeCharactersViewModel, animeAuthorViewModel];
             _navigationService = navigation;
             _userAnimeStatusService = userAnimeStatusService;
             _userStore = userStore;

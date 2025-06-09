@@ -51,6 +51,7 @@ public partial class App : Application
         services.AddTransient<TitleAnimeListViewModel>(CreateTitleAnimeListViewModel);
         services.AddTransient<StatisticsAnimeViewModel>();
         services.AddTransient<AnimeCharactersViewModel>();
+        services.AddTransient<AnimeAuthorViewModel>();
         services.AddTransient<RelatedAnimeViewModel>(CreateRelatedAnimeViewModel);
         services.AddTransient<EditingAnimeStatusTitleViewModel>(CreateEditingAnimeStatusTitleViewModel);
         services.AddTransient<EditingProfileViewModel>(CreateEditingProfileViewModel);
@@ -139,6 +140,7 @@ public partial class App : Application
             service.GetRequiredService<StatisticsAnimeViewModel>(),
             service.GetRequiredService<RelatedAnimeViewModel>(),
             service.GetRequiredService<AnimeCharactersViewModel>(),
+            service.GetRequiredService<AnimeAuthorViewModel>(),
             CreateWatchAnimeNavigationService(service),
             service.GetRequiredService<ISupaBaseService<UserAnimeStatus>>()
         );

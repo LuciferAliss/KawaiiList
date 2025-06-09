@@ -3,10 +3,107 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KawaiiList.Components"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:local="clr-namespace:KawaiiList.Components" 
+             xmlns:hc="https://handyorg.github.io/handycontrol" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:conveter="clr-namespace:KawaiiList.Converter"
+             xmlns:viewmodels="clr-namespace:KawaiiList.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:AnimeAuthorViewModel}"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
+                <hc:Theme />
+            </ResourceDictionary.MergedDictionaries>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <conveter:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
-            
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Авторы"
+                   Style="{StaticResource BaseTextBlockStyle}"
+                   Foreground="{StaticResource TextColor}"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Visibility="{Binding LoadingAnimeData, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                   Margin="0,15,0,15"
+                   Grid.Row="0"/>
+
+        <ItemsControl Grid.Row="1"
+                      ItemsSource="{Binding Author}"
+                      Visibility="{Binding LoadingAnimeData, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      ScrollViewer.CanContentScroll="False">
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <materialDesign:Card Cursor="Hand"
+                                         BorderThickness="3"
+                                         Width="97"
+                                         Margin="8,0,8,8"
+                                         Background="{StaticResource MaterialDesign.Brush.Chip.Background}">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown">
+                                <i:InvokeCommandAction Command="{Binding DataContext.ItemSelectedCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                       CommandParameter="{Binding}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <StackPanel VerticalAlignment="Top">
+                            <!-- Изображение (постер) -->
+                            <Image Source="{Binding Person.Image.Original}"
+                                   Stretch="UniformToFill"
+                                   Width="97"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Stretch"/>
+
+                            <!-- Текстовая информация -->
+                            <StackPanel Margin="10,15">
+                                <TextBlock Text="{Binding Person.Russian}"
+                                           Foreground="{StaticResource TextColor}"
+                                           TextWrapping="Wrap"
+                                           MaxWidth="97"
+                                           TextTrimming="CharacterEllipsis"
+                                           FontSize="12"/>
+
+                            </StackPanel>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <hc:CircleProgressBar Grid.Row="2"
+                              Width="60"
+                              Height="60"
+                              Margin="0,15,0,15"
+                              IsIndeterminate="True"
+                              Foreground="LightBlue"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Visibility="{Binding LoadingAnimeData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
     </Grid>
+
 </UserControl>

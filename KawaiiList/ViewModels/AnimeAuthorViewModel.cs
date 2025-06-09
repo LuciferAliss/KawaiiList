@@ -8,43 +8,39 @@ using System.Diagnostics;
 
 namespace KawaiiList.ViewModels
 {
-    public partial class AnimeCharactersViewModel : BaseViewModel
+    public partial class AnimeAuthorViewModel : BaseViewModel
     {
         private readonly AnimeStore _animeStore;
 
         [ObservableProperty]
-        private ObservableCollection<AnimeCharacterAndPersonRole> _firstRoles = [];
-
-        [ObservableProperty]
-        private ObservableCollection<AnimeCharacterAndPersonRole> _secondRoles = [];
+        private ObservableCollection<AnimeCharacterAndPersonRole> _author = [];
 
         [ObservableProperty]
         private bool _loadingAnimeData = true;
 
-        public AnimeCharactersViewModel(AnimeStore animeStore) 
+        public AnimeAuthorViewModel(AnimeStore animeStore)
         {
             _animeStore = animeStore;
 
-            LoadCharacters();
+            LoadAuthor();
         }
 
-        private async void LoadCharacters()
+        private async void LoadAuthor()
         {
-            var character = _animeStore.CurrentAnimeInfo.AuthorAndCharacterInfo.Where(x => x.Character != null);
+            var author = _animeStore.CurrentAnimeInfo.AuthorAndCharacterInfo.Where(x => x.Person != null);
 
-            foreach (var item in _animeStore.CurrentAnimeInfo.AuthorAndCharacterInfo.Where(x => x.Character != null))
+            foreach (var item in author)
             {
-                item.Character.Image.Original =  await GetCharacterMainImageUrlAsync(item.Character.Id);
+                item.Person.Image.Original = await GetCharacterMainImageUrlAsync(item.Person.Id);
             }
 
-            FirstRoles = new ObservableCollection<AnimeCharacterAndPersonRole>(character.Where(x => x.Roles[0] == "Main"));
-            SecondRoles = new ObservableCollection<AnimeCharacterAndPersonRole>(character.Where(x => x.Roles[0] == "Supporting"));
+            Author = new ObservableCollection<AnimeCharacterAndPersonRole>(author);
             LoadingAnimeData = false;
         }
 
         public async Task<string> GetCharacterMainImageUrlAsync(int characterId)
         {
-            var url = $"https://shikimori.one/characters/{characterId}";
+            var url = $"https://shikimori.one/people/{characterId}";
 
             var config = Configuration.Default.WithDefaultLoader();
             var context = BrowsingContext.New(config);
@@ -58,12 +54,13 @@ namespace KawaiiList.ViewModels
             }
 
             return "https://shikimori.one/assets/globals/missing/main.png";
-        }
         
+        }
+
         [RelayCommand]
         private void ItemSelected(AnimeCharacterAndPersonRole anime)
         {
-            Process.Start(new ProcessStartInfo($"https://shikimori.one/characters/{anime.Character.Id}") { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo($"https://shikimori.one/people/{anime.Person.Id}") { UseShellExecute = true });
         }
     }
 }

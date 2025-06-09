@@ -384,6 +384,9 @@
                                 <DataTemplate DataType="{x:Type viewmodel:AnimeCharactersViewModel}">
                                     <components:AnimeCharactersComponent/>
                                 </DataTemplate>
+                                <DataTemplate DataType="{x:Type viewmodel:AnimeAuthorViewModel}">
+                                    <components:AnimeAuthorComponent/>
+                                </DataTemplate>
                             </ContentControl.Resources>
 
                         </ContentControl>
