@@ -15,6 +15,8 @@ namespace KawaiiList.Models
 
         [JsonPropertyName("person")]
         public ShikimoriPerson Person { get; set; }
+    
+        public string? Role => string.Join(", ", Roles);
     }
 
     public class Character
@@ -67,7 +69,14 @@ namespace KawaiiList.Models
 
     public class ImageInfo
     {
+        
         [JsonPropertyName("original")]
-        public string Original { get; set; }
+        private string? _original;
+
+        public string? Original
+        {
+            get => _original;
+            set => _original = value != null ? "https://shikimori.one" + value : null;
+        }
     }
 }

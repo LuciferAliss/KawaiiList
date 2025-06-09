@@ -76,6 +76,7 @@
                             <Image Source="{Binding Character.Image.Original}"
                                    Stretch="UniformToFill"
                                    Width="97"
+                                   Height="150"
                                    VerticalAlignment="Top"
                                    HorizontalAlignment="Stretch"/>
 
@@ -136,8 +137,9 @@
                         <StackPanel VerticalAlignment="Top">
                             <!-- Изображение (постер) -->
                             <Image Source="{Binding Character.Image.Original}"
-                                   Stretch="UniformToFill"
+                                   Stretch="Fill"
                                    Width="97"
+                                   Height="150"
                                    VerticalAlignment="Top"
                                    HorizontalAlignment="Stretch"/>
 
