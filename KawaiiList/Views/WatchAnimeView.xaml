@@ -18,6 +18,35 @@
 
     <Grid VerticalAlignment="Stretch">
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+            <Button HorizontalAlignment="Left"
+                    Margin="0,0,0,5"
+                    Command="{Binding BackAnimeInfoCommand}"
+                    Visibility="{Binding AnimeInfoVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+
+                    <materialdesign:PackIcon Kind="ArrowLeft"
+                                             VerticalAlignment="Center"/>
+
+                    <TextBlock Text="Назад"
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Foreground="{StaticResource TextColor}"
+                               Margin="5,0,0,0"
+                               FontSize="17"/>
+
+
+                </StackPanel>
+                
+            </Button>
+
+        
         <vlc:VideoView MediaPlayer="{Binding AnimeMediaPlayer}"
                        Grid.Row="1"
                        Focusable="True"

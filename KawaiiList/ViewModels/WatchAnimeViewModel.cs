@@ -5,6 +5,7 @@ using KawaiiList.Services;
 using KawaiiList.Stores;
 using LibVLCSharp.Shared;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace KawaiiList.ViewModels
 {
@@ -13,6 +14,7 @@ namespace KawaiiList.ViewModels
         private readonly IMediaControlService _mediaService;
         private readonly IScreenService _screenService;
         private readonly ICursorPositionService _cursorService;
+        private readonly INavigationService _navigationService;
 
         private CancellationTokenSource? _hideControlsCts;
         private HlsLinks _videoResolution = new();
@@ -78,12 +80,18 @@ namespace KawaiiList.ViewModels
         [ObservableProperty]
         private bool _isCheckedOpenPopue = false;
 
-        public WatchAnimeViewModel(AnimeStore animeStore, IMediaControlService mediaService, IScreenService screenService, ICursorPositionService cursorPositionService)
+        public WatchAnimeViewModel(
+            AnimeStore animeStore,
+            IMediaControlService mediaService,
+            IScreenService screenService,
+            ICursorPositionService cursorPositionService,
+            INavigationService navigationService)
         {
             Anime = animeStore.CurrentAnime;
             _cursorService = cursorPositionService;
             _mediaService = mediaService;
             _screenService = screenService;
+            _navigationService = navigationService;
 
             ScreenHeight = 540;
             ScreenWidth = 960;
@@ -255,6 +263,12 @@ namespace KawaiiList.ViewModels
         {
             var time = TimeSpan.FromMilliseconds(milliseconds);
             return time.ToString(@"mm\:ss");
+        }
+
+        [RelayCommand]
+        private void BackAnimeInfo()
+        {
+            _navigationService.Navigate();
         }
 
         override public void Dispose()

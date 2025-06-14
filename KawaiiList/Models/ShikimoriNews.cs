@@ -26,8 +26,11 @@ public class ShikimoriTopic
     [JsonPropertyName("type")]
     public string Type { get; set; }
 
+    [JsonPropertyName("user")]
+    public UserNews User { get; set; }
+
     [JsonPropertyName("linked_id")]
-    public int LinkedId { get; set; }
+    public int? LinkedId { get; set; }
 
     [JsonPropertyName("linked_type")]
     public string LinkedType { get; set; }
@@ -50,6 +53,15 @@ public class ShikimoriTopic
     public List<MediaDisplay> ImageUrls = [];
 
     public MediaDisplay MainMedia => ImageUrls?.FirstOrDefault();
+}
+
+public class UserNews
+{
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
+
+    [JsonPropertyName("nickname")]
+    public string Name { get; set; }
 }
 
 public class MediaDisplay

@@ -63,8 +63,8 @@ public partial class App : Application
         services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddTransient<HaderViewModel>(CreateHaderViewModel);
         services.AddTransient<HomeViewModel>();
-        services.AddTransient<AnimeInfoViewModel>(CreateWatchAnimeViewModel);
-        services.AddTransient<WatchAnimeViewModel>();
+        services.AddTransient<AnimeInfoViewModel>(CreateAnimeInfoViewModel);
+        services.AddTransient<WatchAnimeViewModel>(CreateWatchAnimeViewModel);
 
         services.AddSingleton<MainViewModel>();
 
@@ -131,7 +131,7 @@ public partial class App : Application
         );
     }
 
-    private AnimeInfoViewModel CreateWatchAnimeViewModel (IServiceProvider service)
+    private AnimeInfoViewModel CreateAnimeInfoViewModel(IServiceProvider service)
     {
         return new AnimeInfoViewModel
         (
@@ -143,6 +143,18 @@ public partial class App : Application
             service.GetRequiredService<AnimeAuthorViewModel>(),
             CreateWatchAnimeNavigationService(service),
             service.GetRequiredService<ISupaBaseService<UserAnimeStatus>>()
+        );
+    }
+
+    private WatchAnimeViewModel CreateWatchAnimeViewModel(IServiceProvider service)
+    {
+        return new WatchAnimeViewModel
+        (
+            service.GetRequiredService<AnimeStore>(),
+            service.GetRequiredService<IMediaControlService>(),
+            service.GetRequiredService<IScreenService>(),
+            service.GetRequiredService<ICursorPositionService>(),
+            CreateAnimeInfoNavigationService(service)
         );
     }
 
