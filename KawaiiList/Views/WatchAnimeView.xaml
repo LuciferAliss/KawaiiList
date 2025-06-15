@@ -24,29 +24,33 @@
         </Grid.RowDefinitions>
 
 
-            <Button HorizontalAlignment="Left"
-                    Margin="0,0,0,5"
-                    Command="{Binding BackAnimeInfoCommand}"
-                    Visibility="{Binding AnimeInfoVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Button HorizontalAlignment="Left"
+                Height="17"
+                Margin="0,0,0,5"
+                Padding="1"
+                Command="{Binding BackAnimeInfoCommand}"
+                Visibility="{Binding AnimeInfoVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left">
 
-                    <materialdesign:PackIcon Kind="ArrowLeft"
-                                             VerticalAlignment="Center"/>
+                <materialdesign:PackIcon Kind="ArrowLeft"
+                                 FontSize="12"
+                                 VerticalAlignment="Center"/>
 
-                    <TextBlock Text="Назад"
-                               Style="{StaticResource BaseTextBlockStyle}"
-                               Foreground="{StaticResource TextColor}"
-                               Margin="5,0,0,0"
-                               FontSize="17"/>
+                <TextBlock Text="Назад"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource BaseTextBlockStyle}"
+                           Foreground="{StaticResource TextColor}"
+                           Margin="3,0,3,0"
+                           FontSize="10"/>
 
 
-                </StackPanel>
-                
-            </Button>
+            </StackPanel>
 
-        
+        </Button>
+
+
         <vlc:VideoView MediaPlayer="{Binding AnimeMediaPlayer}"
                        Grid.Row="1"
                        Focusable="True"
