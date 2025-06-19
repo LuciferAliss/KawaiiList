@@ -98,10 +98,9 @@ namespace KawaiiList.ViewModels
                     {
                         AnimeTitle = data;
                         PageIndex = -1;
+                        _autoScrollObservable?.Connect();
                         ContentVisibility = Visibility.Visible;
                     });
-
-                    _autoScrollObservable?.Connect();
                 }
                 catch (OperationCanceledException)
                 {

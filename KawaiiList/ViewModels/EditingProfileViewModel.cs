@@ -113,6 +113,15 @@ namespace KawaiiList.ViewModels
             LoadFilesCommand = new RelayCommand(LoadFiles);
         }
 
+        private void ClearData()
+        {
+            Nickname = string.Empty;
+            Password = string.Empty;
+            _nicknameTouched = false;
+            _passwordTouched = false;
+            ClearFile();
+        }
+
         private void LoadFiles()
         {
             var dlg = new OpenFileDialog
@@ -425,6 +434,8 @@ namespace KawaiiList.ViewModels
 
                 ErrorSave = "Данные успешно сохранены!";
             }
+
+            ClearData();
 
             _userStore.CurrentUser = _userStore.CurrentUser;
         }
