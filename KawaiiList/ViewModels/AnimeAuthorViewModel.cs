@@ -24,9 +24,9 @@ namespace KawaiiList.ViewModels
             LoadAuthor();
         }
 
-        private async void LoadAuthor()
+        private void LoadAuthor()
         {
-            var author = _animeStore.CurrentAnimeInfo.AuthorAndCharacterInfo.Where(x => x.Person != null);
+            var author = _animeStore.CurrentAnimeInfo?.AuthorAndCharacterInfo?.Where(x => x.Person != null);
 
             Author = new ObservableCollection<AnimeCharacterAndPersonRole>(author);
             LoadingAnimeData = false;

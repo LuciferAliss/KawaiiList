@@ -83,7 +83,7 @@
             <PasswordBox Grid.Row="4"
                          HorizontalAlignment="Stretch"
                          Margin="10,25,10,10"
-                         materialDesign:HintAssist.Hint="Потвердите пароль"
+                         materialDesign:HintAssist.Hint="Подтвердить пароль"
                          materialDesign:TextFieldAssist.DecorationVisibility="Visible"
                          MaxLength="16"
                          materialDesign:TextFieldAssist.HasClearButton="False"

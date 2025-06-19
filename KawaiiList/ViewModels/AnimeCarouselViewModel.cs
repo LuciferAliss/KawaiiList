@@ -55,7 +55,6 @@ namespace KawaiiList.ViewModels
             _autoScrollSubscription = _autoScrollObservable.Subscribe(_ =>
             {
                 PageIndex = (AnimeTitle?.Count - 4 > PageIndex) ? ++PageIndex : 0;
-                Debug.WriteLine($"Auto-scroll: {PageIndex}");
             });
         }
 
@@ -113,15 +112,13 @@ namespace KawaiiList.ViewModels
         [RelayCommand]
         private void PageNext()
         {
-            PageIndex = AnimeTitle.Count - 4 > PageIndex ? ++PageIndex : 0;
-            Debug.WriteLine(PageIndex);
+            PageIndex = AnimeTitle.Count - 4 > PageIndex ? ++PageIndex : 0;;
         }
 
         [RelayCommand]
         private void PagePrev()
         {
             PageIndex = PageIndex > 0 ? --PageIndex : PageIndex = AnimeTitle.Count - 4;
-            Debug.WriteLine(PageIndex);
         }
 
         [RelayCommand]
@@ -168,8 +165,6 @@ namespace KawaiiList.ViewModels
                         string cleanedText = Regex.Replace(result.Description, @"\[character=\d+\]|\[\/character\]", "");
                         cleanedText = Regex.Replace(cleanedText, @"\[anime=\d+\]|\[\/anime\]", "");
                         selectedAnime.Description = cleanedText;
-                        Debug.WriteLine(result.Description);
-                        Debug.WriteLine(result.DescriptionSource);
                     }
 
                     ShikimoriTitle AnimeInfo = result ?? new ShikimoriTitle();

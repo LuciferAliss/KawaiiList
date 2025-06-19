@@ -89,13 +89,17 @@ namespace KawaiiList.ViewModels
         [RelayCommand]
         private async Task Login()
         {
-            if (await _authService.SignInAsync(Username, Password))
+            bool isLogin;
+            string message;
+            (isLogin, message) = await _authService.SignInAsync(Username, Password);
+
+            if (isLogin)
             {
                 _closeNavigationService.Navigate();
             }
             else
             {
-                ErrorMessage = "Не удалось зарегистрироваться. Проверьте данные и попробуйте снова.";
+                ErrorMessage = message;
             }
         }
 

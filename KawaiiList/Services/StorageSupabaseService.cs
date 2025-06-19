@@ -18,18 +18,6 @@ namespace KawaiiList.Services
             _supabaseClientStore.CurrentClientChanged += UpdateSession;
         }
 
-        public string GetPublicUrl(string imagesName)
-        {
-            var userId = _client.Auth.CurrentUser?.Id;
-            string bucketName = $"images-{userId}";
-            string fileName = $"{userId}-{imagesName}";
-
-            // Вернёт прямую ссылку, если файл публичный
-            return _client.Storage
-                .From(bucketName)
-                .GetPublicUrl(fileName);
-        }
-
         public async Task<(bool, string?)> UploadImage(byte[] fileBytes, string originalFileName, string typeImage)
         {
             try

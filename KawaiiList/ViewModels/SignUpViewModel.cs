@@ -129,13 +129,17 @@ namespace KawaiiList.ViewModels
         [RelayCommand]
         private async Task Register()
         {
-            if (await _authService.SignUpAsync(Email, Password, Username, Username))
+            bool isRegister;
+            string message;
+            (isRegister, message) = await _authService.SignUpAsync(Email, Password, Username, Username);
+
+            if (isRegister)
             {
                 _signInNavigationService.Navigate();
             }
             else
             {
-                ErrorMessage = "Не удалось зарегистрироваться. Проверьте данные и попробуйте снова.";
+                ErrorMessage = message;
             }
         }
 

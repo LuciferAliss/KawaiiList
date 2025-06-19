@@ -57,7 +57,6 @@ namespace KawaiiList.ViewModels
                     {
                         item.ImageUrls = ParseHtmlFooter(item.HtmlFooter);
                     }
-
                 }
                 catch (OperationCanceledException)
                 {
@@ -65,7 +64,7 @@ namespace KawaiiList.ViewModels
             });
         }
 
-        public static List<MediaDisplay> ParseHtmlFooter(string html)
+        private List<MediaDisplay> ParseHtmlFooter(string html)
         {
             var mediaList = new List<MediaDisplay>();
             if (string.IsNullOrEmpty(html))
@@ -100,13 +99,6 @@ namespace KawaiiList.ViewModels
             }
 
             return mediaList;
-        }
-
-        [RelayCommand]
-        private void OpenMedia(string url)
-        {
-            if (!string.IsNullOrEmpty(url))
-                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
 
         [RelayCommand]

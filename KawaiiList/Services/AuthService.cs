@@ -32,7 +32,7 @@ namespace KawaiiList.Services
             _storageSupabaseService = storageSupabaseService;
         }
 
-        public async Task<bool> SignUpAsync(string email, string password, string username, string nickname)
+        public async Task<(bool, string)> SignUpAsync(string email, string password, string username, string nickname)
         {
             try
             {
@@ -46,22 +46,21 @@ namespace KawaiiList.Services
 
                 if (existingProfiles.Count() > 0)
                 {
-                    Console.WriteLine("Username уже занят.");
-                    return false;
+                    return (false, "Имя пользователя уже занято");
                 }
 
                 Session? session = await _client.Auth.SignUp(email: email, password: password);
 
                 if (session == null)
                 {
-                    return false;
+                    return (false, "Электронная почта уже зарегистрирована");
                 }
 
                 await _supabaseClientStore.UppdateSession(session);
 
                 if (!await _storageSupabaseService.CreateBucket())
                 {
-                    return false;
+                    return (false, "Ошибка регистрации, попробуйте позже");
                 }
 
                 string path = Path.Combine(AppContext.BaseDirectory, "Resources", "Images", "Logo.png");
@@ -73,7 +72,7 @@ namespace KawaiiList.Services
 
                 if (!isLoad)
                 {
-                    return false;
+                    return (false, "Ошибка регистрации, попробуйте позже");
                 }
 
                 UserImage userAvatarImage = new UserImage
@@ -87,7 +86,7 @@ namespace KawaiiList.Services
 
                 if (!await _userImagesService.Upsert(userAvatarImage))
                 {
-                    return false;
+                    return (false, "Ошибка регистрации, попробуйте позже");
                 }
 
                 path = Path.Combine(AppContext.BaseDirectory, "Resources", "Images", "Banner.jpg");
@@ -97,7 +96,7 @@ namespace KawaiiList.Services
 
                 if (!isLoad)
                 {
-                    return false;
+                    return (false, "Ошибка регистрации, попробуйте позже");
                 }
 
                 UserImage userBannerImage = new UserImage
@@ -111,7 +110,7 @@ namespace KawaiiList.Services
 
                 if (!await _userImagesService.Upsert(userBannerImage))
                 {
-                    return false;
+                    return (false, "Ошибка регистрации, попробуйте позже");
                 }
 
                 Profiles profileData = new Profiles
@@ -124,23 +123,23 @@ namespace KawaiiList.Services
 
                 if (!await _profilesService.Upsert(profileData))
                 {
-                    return false;
+                    return (false, "Ошибка регистрации, попробуйте позже");
                 }
 
                 await SignOutAsync();
 
-                return true;
+                return (true, "");
             }
             catch (Exception ex)
             {
                 await SignOutAsync();
 
                 Console.WriteLine($"SignUp Error: {ex.Message}");
-                return false;
+                return (false, "Ошибка регистрации, попробуйте позже");
             }
         }
 
-        public async Task<bool> SignInAsync(string username, string password)
+        public async Task<(bool, string)> SignInAsync(string username, string password)
         {
             try
             {
@@ -155,7 +154,7 @@ namespace KawaiiList.Services
                 var profile = profileResult.FirstOrDefault();
                 if (profile == null)
                 {
-                    return false;
+                    return (false, "Неверно введено имя пользователя или пароль");
                 }
 
                 var session = await _client.Auth.SignIn(profile.Email, password);
@@ -168,14 +167,15 @@ namespace KawaiiList.Services
                     await _supabaseClientStore.UppdateSession(session);
 
                     await SaveSessionAsync(session);
-                    return true;
+                    return (true, "");
                 }
-                return false;
+
+                return (false, "Неверно введено имя пользователя или пароль");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"SignIn Error: {ex.Message}");
-                return false;
+                return (false, "Неверно введено имя пользователя или пароль");
             }
         }
 
