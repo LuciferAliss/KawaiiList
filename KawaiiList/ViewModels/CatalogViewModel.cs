@@ -76,11 +76,6 @@ namespace KawaiiList.ViewModels
 
         partial void OnSelectedYearChanged(int? value)
         {
-            if (LoadingAnimeData)
-            {
-                return;
-            }
-
             _animeData = [];
             AnimeTitle = [];
             Page = 1;
@@ -88,11 +83,6 @@ namespace KawaiiList.ViewModels
 
         partial void OnSelectedGenresChanged(string value)
         {
-            if (LoadingAnimeData)
-            {
-                return;
-            }
-
             _animeData = [];
             AnimeTitle = [];
             Page = 1;            

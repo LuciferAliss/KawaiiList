@@ -6,7 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewmodels="clr-namespace:KawaiiList.ViewModels" 
-             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:converter="clr-namespace:KawaiiList.Converter"
              d:DataContext="{d:DesignInstance Type=viewmodels:CatalogViewModel}"
              mc:Ignorable="d">
 
@@ -18,12 +18,14 @@
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converter:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -185,6 +187,28 @@
                 Command="{Binding NextPageCommand}"
                 Style="{StaticResource MaterialDesignFlatMidBgButton}"
                 Visibility="{Binding IsNext, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+        <TextBlock Text="Ничего не найдено"
+                   Grid.Row="5"
+                   Foreground="Gray"
+                   FontSize="16"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding AnimeTitle.Count}" Value="0"/>
+                                <Condition Binding="{Binding LoadingAnimeData}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
 
     </Grid>
     

@@ -29,7 +29,7 @@
                 Margin="0,0,0,5"
                 Padding="1"
                 Command="{Binding BackAnimeInfoCommand}"
-                Visibility="{Binding AnimeInfoVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                Visibility="{Binding IsFullscreen, Converter={StaticResource BooleanToVisibilityConverter}}">
 
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Left">

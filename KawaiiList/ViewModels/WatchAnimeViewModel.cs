@@ -20,6 +20,8 @@ namespace KawaiiList.ViewModels
         private HlsLinks _videoResolution = new();
         private bool _isDraggingSlider = false;
 
+        public bool IsFullscreen => _mediaService.IsFullscreen;
+
         [ObservableProperty]
         private bool isControlsVisible = true;
 
@@ -232,8 +234,10 @@ namespace KawaiiList.ViewModels
         {
             _mediaService.IsFullscreen = !_mediaService.IsFullscreen;
 
-            ScreenHeight = _mediaService.IsFullscreen ? 540 : _screenService.GetScreenHeight() ;
-            ScreenWidth = _mediaService.IsFullscreen ? 960 : _screenService.GetScreenWidth() ;
+            ScreenHeight = _mediaService.IsFullscreen ? 540 : _screenService.GetScreenHeight();
+            ScreenWidth = _mediaService.IsFullscreen ? 960 : _screenService.GetScreenWidth();
+
+            OnPropertyChanged(nameof(IsFullscreen));
         }
 
         private void OnTimeChanged(long time)

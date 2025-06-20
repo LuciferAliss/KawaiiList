@@ -73,7 +73,7 @@
                        Cursor="Hand"
                        Style="{StaticResource BaseTextBlockStyle}"
                        Foreground="{StaticResource SecondaryTextColor}"
-                       Text="У меня ещё нет аккаунт">
+                       Text="У меня ещё нет аккаунта">
                 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseDown">
